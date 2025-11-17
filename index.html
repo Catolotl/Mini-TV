@@ -811,8 +811,8 @@ function getDemoVideos(category) {
     });
 
 
-    // Set your code here
-const correctCode = "1234"; // change this to whatever you want
+// List of valid codes
+const validCodes = ["1234", "5678", "0000"]; // add as many as you want
 
 const codeLock = document.getElementById('code-lock');
 const inputs = document.querySelectorAll('.code-input');
@@ -838,7 +838,7 @@ submitBtn.addEventListener('click', () => {
   let enteredCode = "";
   inputs.forEach(input => enteredCode += input.value);
   
-  if (enteredCode === correctCode) {
+  if (validCodes.includes(enteredCode)) {
     codeLock.style.display = 'none';
   } else {
     errorMsg.style.display = 'block';
@@ -849,6 +849,7 @@ submitBtn.addEventListener('click', () => {
 
 // Auto-focus first input on page load
 inputs[0].focus();
+
 
 
     // Initialize
