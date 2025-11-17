@@ -527,52 +527,70 @@
 function getDemoVideos(category) {
   const pool = {
     trending: [
-      { id: "dQw4w9WgXcQ", title: "Rick Astley - Never Gonna Give You Up" },
-      { id: "fJ9rUzIMcZQ", title: "Queen - Bohemian Rhapsody" },
-      { id: "kXYiU_JCYtU", title: "Linkin Park - Numb" },
-      { id: "9bZkp7q19f0", title: "PSY - Gangnam Style" },
-      { id: "RgKAFK5djSk", title: "Wiz Khalifa - See You Again" },
-      { id: "3tmd-ClpJxA", title: "Maroon 5 - Girls Like You" },
-      { id: "60ItHLz5WEA", title: "Alan Walker - Faded" },
-      { id: "CevxZvSJLk8", title: "Katy Perry - Roar" },
-      { id: "eVTXPUF4Oz4", title: "Linkin Park - In The End" },
-      { id: "LsoLEjrDogU", title: "Top Trending Viral Compilation" },
+      { id: "dQw4w9WgXcQ", title: "Rick Astley – Never Gonna Give You Up" },
+      { id: "fJ9rUzIMcZQ", title: "Queen – Bohemian Rhapsody" },
+      { id: "kXYiU_JCYtU", title: "Linkin Park – Numb" },
+      { id: "9bZkp7q19f0", title: "PSY – Gangnam Style" },
+      { id: "RgKAFK5djSk", title: "Wiz Khalifa – See You Again" },
+      { id: "3tmd-ClpJxA", title: "Maroon 5 – Girls Like You" },
+      { id: "60ItHLz5WEA", title: "Alan Walker – Faded" },
+      { id: "CevxZvSJLk8", title: "Katy Perry – Roar" },
+      { id: "eVTXPUF4Oz4", title: "Linkin Park – In The End" },
+      { id: "LsoLEjrDogU", title: "The Chainsmokers – Something Just Like This" }
     ],
+
     docs: [
-      { id: "cvCjyWp3rEk", title: "Planet Earth HD" },
-      { id: "3W5D6u7w0xo", title: "Deep Ocean Documentary" },
-      { id: "qrlH-kE4XFI", title: "History of The World in 2 Hours" },
-      { id: "A2cmlhfdxuY", title: "History of The Roman Empire" },
+      { id: "cvCjyWp3rEk", title: "Planet Earth II • Full Episode" },
+      { id: "3W5D6u7w0xo", title: "The Secret Life of the Ocean" },
+      { id: "qrlH-kE4XFI", title: "History of The World in Two Hours" },
+      { id: "A2cmlhfdxuY", title: "The Roman Empire – Documentary" },
       { id: "fo6ok8y1JmQ", title: "Space: The Solar System" },
-      { id: "6n_xCI-peq0", title: "Wildlife Documentary" },
+      { id: "6n_xCI-peq0", title: "Wildlife Documentary – Jungle Episode" },
       { id: "0nq0LTi7A44", title: "Inside NASA" },
+      { id: "e2AdjE1BjbQ", title: "Blue Planet – Episode 1" },
+      { id: "u0kkRPA5Nk4", title: "Great Migrations – Full Documentary" },
+      { id: "hRl3Hq6cKcQ", title: "Extreme Earth – Documentary" }
     ],
+
     tech: [
-      { id: "Xc7dUF6NUqY", title: "MKBHD Tech Review" },
-      { id: "aircAruvnKk", title: "Kurzgesagt - The Fermi Paradox" },
+      { id: "Xc7dUF6NUqY", title: "MKBHD – iPhone 15 Review" },
+      { id: "aircAruvnKk", title: "Kurzgesagt – The Fermi Paradox" },
       { id: "S_xnXgf1k0U", title: "How CPUs Are Made" },
       { id: "QYIfxIPJcZw", title: "Quantum Computers Explained" },
       { id: "pPKR9_2z6ZQ", title: "AI Explained Simply" },
       { id: "JhHMJCUmq28", title: "How Does WiFi Actually Work?" },
-      { id: "o1eLKdqP_9U", title: "iPhone Evolution" },
-    ],
-    nature: [
-      { id: "weRHyjj34ZE", title: "African Wildlife" },
-      { id: "NU29LbqLV3Y", title: "Relaxing Nature Film" },
-      { id: "xdo4duo6N4c", title: "Animals of the Rainforest" },
-      { id: "nVJxkYQ8j0I", title: "Deep Jungle Life" },
-      { id: "d9A3Wa9x1a8", title: "World’s Most Beautiful Places" },
-      { id: "2W6JclMbhS0", title: "Amazon Rainforest 4K" },
-    ],
-    classic: [
-      { id: "OqIvp0zzxHY", title: "Classic Movie Trailer" },
-      { id: "kXYiU_JCYtU", title: "Vintage Documentary" },
-      { id: "M7FIvfx5J10", title: "Charlie Chaplin – Classic Clip" },
-      { id: "26VPxxHpFWg", title: "Old Hollywood Compilation" },
-      { id: "tOzhNRtn5iM", title: "Film Noir Scenes" },
+      { id: "o1eLKdqP_9U", title: "The Evolution of the iPhone" },
+      { id: "WhAWYN-VflI", title: "Electric Cars Explained" },
+      { id: "BHEcee4Brbw", title: "5G Explained" },
+      { id: "NZ20D8d9eR0", title: "Blockchain Technology Explained" }
     ],
 
-    // NEW CATEGORIES
+    nature: [
+      { id: "weRHyjj34ZE", title: "African Wildlife Safari – 4K" },
+      { id: "NU29LbqLV3Y", title: "Relaxing Nature Film – 4K UHD" },
+      { id: "xdo4duo6N4c", title: "Animals of the Rainforest – BBC" },
+      { id: "nVJxkYQ8j0I", title: "Deep Jungle Life – Wildlife Documentary" },
+      { id: "d9A3Wa9x1a8", title: "World’s Most Beautiful Places – 4K" },
+      { id: "2W6JclMbhS0", title: "Amazon Rainforest 4K" },
+      { id: "xzjAiX1YNh4", title: "Coral Reefs & Underwater Life" },
+      { id: "MJ7k2reHzKY", title: "Polar Landscapes – Nature Documentary" },
+      { id: "5FVG8vPAuy0", title: "Wildlife of Africa – Full Episode" },
+      { id: "Z1k7CmmTVM4", title: "Earth from Space – Nature Documentary" }
+    ],
+
+    classic: [
+      { id: "OqIvp0zzxHY", title: "Gone with the Wind – Trailer" },
+      { id: "kXYiU_JCYtU", title: "Vintage Documentary" },
+      { id: "M7FIvfx5J10", title: "Charlie Chaplin – The Gold Rush Clip" },
+      { id: "26VPxxHpFWg", title: "Old Hollywood Compilation" },
+      { id: "tOzhNRtn5iM", title: "Film Noir Scenes" },
+      { id: "JrYhCgFW_JM", title: "Casablanca Trailer" },
+      { id: "zTUBjpK7vEA", title: "The Godfather – Trailer" },
+      { id: "qrQ9Q9zDMy0", title: "Lawrence of Arabia – Clip" },
+      { id: "BaY_we1I2t8", title: "Sunset Boulevard Trailer" },
+      { id: "vG1YlXYQx4M", title: "Metropolis (1927) – Restored Version" }
+    ],
+
     movies: [
       { id: "Uu9Ml4d0E9A", title: "Avengers Trailer" },
       { id: "c2OGPeFJ9qA", title: "Inception Trailer" },
@@ -583,7 +601,7 @@ function getDemoVideos(category) {
       { id: "YoHD9XEInc0", title: "Titanic Clip" },
       { id: "N8Iu4X1sK50", title: "The Lion King Clip" },
       { id: "zSWdZVtXT7E", title: "Star Wars Trailer" },
-      { id: "gK0AE4CfjA0", title: "The Matrix Clip" },
+      { id: "gK0AE4CfjA0", title: "The Matrix Clip" }
     ],
 
     anime: [
@@ -595,16 +613,21 @@ function getDemoVideos(category) {
       { id: "EJkq-1yQQxI", title: "Attack on Titan Scene" },
       { id: "2e49b1j1oE0", title: "Pokémon Clip" },
       { id: "9sGqj9xV_1Y", title: "Studio Ghibli Clip" },
+      { id: "F5vBXztCSt4", title: "Fullmetal Alchemist Clip" },
+      { id: "C8N9H1yf4Ag", title: "One Punch Man Clip" }
     ],
 
     music: [
-      { id: "kJQP7kiw5Fk", title: "Luis Fonsi - Despacito" },
-      { id: "RgKAFK5djSk", title: "Wiz Khalifa - See You Again" },
-      { id: "YykjpeuMNEk", title: "Shawn Mendes - Stitches" },
-      { id: "pRpeEdMmmQ0", title: "Shakira - Waka Waka" },
-      { id: "fLexgOxsZu0", title: "Mark Ronson - Uptown Funk" },
-      { id: "OPf0YbXqDm0", title: "Bruno Mars - 24K Magic" },
-      { id: "09R8_2nJtjg", title: "Ed Sheeran - Shape of You" },
+      { id: "kJQP7kiw5Fk", title: "Luis Fonsi – Despacito" },
+      { id: "RgKAFK5djSk", title: "Wiz Khalifa – See You Again" },
+      { id: "YykjpeuMNEk", title: "Shawn Mendes – Stitches" },
+      { id: "pRpeEdMmmQ0", title: "Shakira – Waka Waka" },
+      { id: "fLexgOxsZu0", title: "Mark Ronson – Uptown Funk" },
+      { id: "OPf0YbXqDm0", title: "Bruno Mars – 24K Magic" },
+      { id: "09R8_2nJtjg", title: "Ed Sheeran – Shape of You" },
+      { id: "hT_nvWreIhg", title: "Imagine Dragons – Believer" },
+      { id: "kOkQ4T5WO9E", title: "Adele – Hello" },
+      { id: "60nZcImufyM", title: "Coldplay – Paradise" }
     ],
 
     gaming: [
@@ -614,49 +637,47 @@ function getDemoVideos(category) {
       { id: "eZfq4TVLP4E", title: "Top Gaming Clips Compilation" },
       { id: "g3I0wWg2hLc", title: "Roblox Adventures" },
       { id: "h9N0M9k9J7s", title: "Call of Duty Montage" },
+      { id: "yQJkJ0T8H3U", title: "GTA V Funny Moments" },
+      { id: "3tL0ZAbTJ_0", title: "Pokemon Go Adventures" },
+      { id: "dD9hyKEK1yo", title: "Among Us Comedy Compilation" },
+      { id: "9bOdf-2i8Lc", title: "Minecraft Epic Builds" }
     ],
 
     education: [
-      { id: "aircAruvnKk", title: "Kurzgesagt - Science Explained" },
+      { id: "aircAruvnKk", title: "Kurzgesagt – Science Explained" },
       { id: "pPKR9_2z6ZQ", title: "AI Explained Simply" },
       { id: "JhHMJCUmq28", title: "How Does WiFi Work?" },
       { id: "QYIfxIPJcZw", title: "Quantum Computers Explained" },
       { id: "Xc7dUF6NUqY", title: "MKBHD Tech Review" },
       { id: "YQeP9f3oL6M", title: "School Math Tricks" },
-      { id: "aircAruvnKk", title: "The Fermi Paradox" },
-{ id: "bP6D4qOtJ9s", title: "What Is Life?" },
-{ id: "p92fG1sVfE8", title: "The Immune System Explained" },
-{ id: "PzKk7o6cF8g", title: "The History of Our Universe" },
-{ id: "h-KX-xM6v0I", title: "The Coronavirus Explained & What You Should Do" },
-{ id: "m1s0VQ2N_0o", title: "Black Holes Explained" },
-{ id: "7QXjzM0A5iU", title: "The Most Dangerous Stuff in the Universe" },
-{ id: "W7ECRr6bpo8", title: "The Egg – A Short Story" },
-{ id: "n6gK1hOa8Wk", title: "The Coronavirus Explained" },
-{ id: "T1JmD9XzQOQ", title: "How Space Travel Works" },
-{ id: "w5CGq6l3rNQ", title: "The Anthropic Principle" },
-{ id: "a4DRcXm6c6s", title: "The Deadliest Being on Planet Earth" },
-{ id: "2x8wOSM9XxQ", title: "The Big Bang Explained" },
-{ id: "V3XZ-NDR2i8", title: "The Immune System Explained II" },
-{ id: "nq2B9S-7sJo", title: "The Science of Productivity" },
-{ id: "xdo4duo6N4c", title: "The Universe in a Nutshell" },
-{ id: "k9C25q1QlQs", title: "The Most Important Things You Can Do" },
-{ id: "yRfT5Dx8L40", title: "The Science of Sleep" },
-{ id: "Cptw8wDqQ6I", title: "The Incredible Water Cycle" },
-{ id: "gE7ODw39Kj0", title: "The History of the Earth" }
+      { id: "bP6D4qOtJ9s", title: "What Is Life?" },
+      { id: "p92fG1sVfE8", title: "The Immune System Explained" },
+      { id: "PzKk7o6cF8g", title: "The History of Our Universe" },
+      { id: "h-KX-xM6v0I", title: "The Coronavirus Explained" },
+      { id: "m1s0VQ2N_0o", title: "Black Holes Explained" },
+      { id: "7QXjzM0A5iU", title: "The Most Dangerous Stuff in the Universe" },
+      { id: "W7ECRr6bpo8", title: "The Egg – A Short Story" },
+      { id: "T1JmD9XzQOQ", title: "How Space Travel Works" },
+      { id: "w5CGq6l3rNQ", title: "The Anthropic Principle" },
+      { id: "a4DRcXm6c6s", title: "The Deadliest Being on Planet Earth" },
+      { id: "2x8wOSM9XxQ", title: "The Big Bang Explained" },
+      { id: "V3XZ-NDR2i8", title: "The Immune System Explained II" },
+      { id: "nq2B9S-7sJo", title: "The Science of Productivity" },
+      { id: "xdo4duo6N4c", title: "The Universe in a Nutshell" }
     ],
 
     memes: [
       { id: "LsoLEjrDogU", title: "Top Viral Memes Compilation" },
       { id: "XyNlqQId-nk", title: "Funny Cats Compilation" },
       { id: "M7FIvfx5J10", title: "Try Not To Laugh" },
-      { id: "sN01V3jP7aQ", title: "Hilarious TikTok Clips" },
+      { id: "sN01V3jP7aQ", title: "Hilarious TikTok Clips" }
     ],
 
     tryNotToLaugh: [
       { id: "Jk3yYkL_HWg", title: "Clean Try Not To Laugh 1" },
       { id: "U0CGsw6h60k", title: "Funny Fails Compilation" },
-      { id: "E3u5u4xO7vM", title: "Best Pranks Compilation" },
-    ],
+      { id: "E3u5u4xO7vM", title: "Best Pranks Compilation" }
+    ]
   };
 
   return (pool[category] || pool.trending).map(v => ({
@@ -665,6 +686,7 @@ function getDemoVideos(category) {
     type: "youtube"
   }));
 }
+
 
 
 
