@@ -490,6 +490,22 @@
     </div>
   </div>
 
+
+<!-- Code Lock Overlay -->
+<div id="code-lock" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:3000;flex-direction:column;">
+  <h2 style="color:white;margin-bottom:20px;">Enter 4-Digit Code</h2>
+  <div style="display:flex;gap:10px;margin-bottom:20px;">
+    <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
+    <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
+    <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
+    <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
+  </div>
+  <button id="submit-code" style="padding:10px 24px;font-size:16px;border:none;border-radius:8px;cursor:pointer;background:#0a84ff;color:white;">Submit Code</button>
+  <p id="code-error" style="color:red;margin-top:10px;display:none;">Incorrect code. Try again.</p>
+</div>
+
+
+  
   <script>
     let watchHistory = JSON.parse(localStorage.getItem('miniTV_history') || '[]');
     let watchlist = JSON.parse(localStorage.getItem('miniTV_watchlist') || '[]');
@@ -793,6 +809,47 @@ function getDemoVideos(category) {
         }
       }
     });
+
+
+    // Set your code here
+const correctCode = "1234"; // change this to whatever you want
+
+const codeLock = document.getElementById('code-lock');
+const inputs = document.querySelectorAll('.code-input');
+const submitBtn = document.getElementById('submit-code');
+const errorMsg = document.getElementById('code-error');
+
+// Focus next input automatically
+inputs.forEach((input, index) => {
+  input.addEventListener('input', () => {
+    if (input.value.length > 0 && index < inputs.length - 1) {
+      inputs[index + 1].focus();
+    }
+  });
+  
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && input.value === "" && index > 0) {
+      inputs[index - 1].focus();
+    }
+  });
+});
+
+submitBtn.addEventListener('click', () => {
+  let enteredCode = "";
+  inputs.forEach(input => enteredCode += input.value);
+  
+  if (enteredCode === correctCode) {
+    codeLock.style.display = 'none';
+  } else {
+    errorMsg.style.display = 'block';
+    inputs.forEach(input => input.value = "");
+    inputs[0].focus();
+  }
+});
+
+// Auto-focus first input on page load
+inputs[0].focus();
+
 
     // Initialize
 // Existing carousel loaders
