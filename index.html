@@ -426,6 +426,56 @@
     </div>
   </main>
 
+  <div class="category-section">
+  <h2 class="category-title">Movies</h2>
+  <div class="carousel" id="movies-carousel">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<div class="category-section">
+  <h2 class="category-title">Anime</h2>
+  <div class="carousel" id="anime-carousel">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<div class="category-section">
+  <h2 class="category-title">Music</h2>
+  <div class="carousel" id="music-carousel">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<div class="category-section">
+  <h2 class="category-title">Gaming</h2>
+  <div class="carousel" id="gaming-carousel">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<div class="category-section">
+  <h2 class="category-title">Education</h2>
+  <div class="carousel" id="education-carousel">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<div class="category-section">
+  <h2 class="category-title">Memes</h2>
+  <div class="carousel" id="memes-carousel">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<div class="category-section">
+  <h2 class="category-title">Try Not To Laugh</h2>
+  <div class="carousel" id="tryNotToLaugh-carousel">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+
   <!-- Video Player Modal -->
   <div class="modal" id="video-modal">
     <div class="modal-content">
@@ -474,31 +524,149 @@
     }
 
     // Fallback demo content
-    function getDemoVideos(category) {
-      const demos = {
-        trending: [
-          { id: 'dQw4w9WgXcQ', title: 'Popular Music Video', thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg', type: 'youtube' },
-          { id: 'jNQXAC9IVRw', title: 'First Video Ever', thumbnail: 'https://img.youtube.com/vi/jNQXAC9IVRw/hqdefault.jpg', type: 'youtube' },
-          { id: '9bZkp7q19f0', title: 'Gangnam Style', thumbnail: 'https://img.youtube.com/vi/9bZkp7q19f0/hqdefault.jpg', type: 'youtube' },
-        ],
-        docs: [
-          { id: 'cvCjyWp3rEk', title: 'Planet Earth Documentary', thumbnail: 'https://img.youtube.com/vi/cvCjyWp3rEk/hqdefault.jpg', type: 'youtube' },
-          { id: '6n_xCI-peq0', title: 'Documentary Film', thumbnail: 'https://img.youtube.com/vi/6n_xCI-peq0/hqdefault.jpg', type: 'youtube' },
-        ],
-        tech: [
-          { id: 'Xc7dUF6NUqY', title: 'Tech Review', thumbnail: 'https://img.youtube.com/vi/Xc7dUF6NUqY/hqdefault.jpg', type: 'youtube' },
-          { id: 'aircAruvnKk', title: 'Science Explained', thumbnail: 'https://img.youtube.com/vi/aircAruvnKk/hqdefault.jpg', type: 'youtube' },
-        ],
-        nature: [
-          { id: 'NU29LbqLV3Y', title: 'Nature Scenes', thumbnail: 'https://img.youtube.com/vi/NU29LbqLV3Y/hqdefault.jpg', type: 'youtube' },
-          { id: 'weRHyjj34ZE', title: 'Wildlife', thumbnail: 'https://img.youtube.com/vi/weRHyjj34ZE/hqdefault.jpg', type: 'youtube' },
-        ],
-        classic: [
-          { id: 'OqIvp0zzxHY', title: 'Classic Film', thumbnail: 'https://img.youtube.com/vi/OqIvp0zzxHY/hqdefault.jpg', type: 'youtube' },
-        ]
-      };
-      return demos[category] || demos.trending;
-    }
+function getDemoVideos(category) {
+  const pool = {
+    trending: [
+      { id: "dQw4w9WgXcQ", title: "Rick Astley - Never Gonna Give You Up" },
+      { id: "fJ9rUzIMcZQ", title: "Queen - Bohemian Rhapsody" },
+      { id: "kXYiU_JCYtU", title: "Linkin Park - Numb" },
+      { id: "9bZkp7q19f0", title: "PSY - Gangnam Style" },
+      { id: "RgKAFK5djSk", title: "Wiz Khalifa - See You Again" },
+      { id: "3tmd-ClpJxA", title: "Maroon 5 - Girls Like You" },
+      { id: "60ItHLz5WEA", title: "Alan Walker - Faded" },
+      { id: "CevxZvSJLk8", title: "Katy Perry - Roar" },
+      { id: "eVTXPUF4Oz4", title: "Linkin Park - In The End" },
+      { id: "LsoLEjrDogU", title: "Top Trending Viral Compilation" },
+    ],
+    docs: [
+      { id: "cvCjyWp3rEk", title: "Planet Earth HD" },
+      { id: "3W5D6u7w0xo", title: "Deep Ocean Documentary" },
+      { id: "qrlH-kE4XFI", title: "History of The World in 2 Hours" },
+      { id: "A2cmlhfdxuY", title: "History of The Roman Empire" },
+      { id: "fo6ok8y1JmQ", title: "Space: The Solar System" },
+      { id: "6n_xCI-peq0", title: "Wildlife Documentary" },
+      { id: "0nq0LTi7A44", title: "Inside NASA" },
+    ],
+    tech: [
+      { id: "Xc7dUF6NUqY", title: "MKBHD Tech Review" },
+      { id: "aircAruvnKk", title: "Kurzgesagt - The Fermi Paradox" },
+      { id: "S_xnXgf1k0U", title: "How CPUs Are Made" },
+      { id: "QYIfxIPJcZw", title: "Quantum Computers Explained" },
+      { id: "pPKR9_2z6ZQ", title: "AI Explained Simply" },
+      { id: "JhHMJCUmq28", title: "How Does WiFi Actually Work?" },
+      { id: "o1eLKdqP_9U", title: "iPhone Evolution" },
+    ],
+    nature: [
+      { id: "weRHyjj34ZE", title: "African Wildlife" },
+      { id: "NU29LbqLV3Y", title: "Relaxing Nature Film" },
+      { id: "xdo4duo6N4c", title: "Animals of the Rainforest" },
+      { id: "nVJxkYQ8j0I", title: "Deep Jungle Life" },
+      { id: "d9A3Wa9x1a8", title: "World’s Most Beautiful Places" },
+      { id: "2W6JclMbhS0", title: "Amazon Rainforest 4K" },
+    ],
+    classic: [
+      { id: "OqIvp0zzxHY", title: "Classic Movie Trailer" },
+      { id: "kXYiU_JCYtU", title: "Vintage Documentary" },
+      { id: "M7FIvfx5J10", title: "Charlie Chaplin – Classic Clip" },
+      { id: "26VPxxHpFWg", title: "Old Hollywood Compilation" },
+      { id: "tOzhNRtn5iM", title: "Film Noir Scenes" },
+    ],
+
+    // NEW CATEGORIES
+    movies: [
+      { id: "Uu9Ml4d0E9A", title: "Avengers Trailer" },
+      { id: "c2OGPeFJ9qA", title: "Inception Trailer" },
+      { id: "8hP9D6kZseM", title: "Jurassic Park Clip" },
+      { id: "3P7eTy2xwhY", title: "Harry Potter Clip" },
+      { id: "kH58uAeZezg", title: "Spider-Man Trailer" },
+      { id: "JfVOs4VSpmA", title: "Frozen Movie Scene" },
+      { id: "YoHD9XEInc0", title: "Titanic Clip" },
+      { id: "N8Iu4X1sK50", title: "The Lion King Clip" },
+      { id: "zSWdZVtXT7E", title: "Star Wars Trailer" },
+      { id: "gK0AE4CfjA0", title: "The Matrix Clip" },
+    ],
+
+    anime: [
+      { id: "n6D5z7I9t1c", title: "My Hero Academia Clip" },
+      { id: "1g3ef2I-7fA", title: "Naruto Fight Scene" },
+      { id: "T1JmD9XzQOQ", title: "Demon Slayer Scene" },
+      { id: "6z0h-XGEdMI", title: "One Piece Clip" },
+      { id: "pQH0BvVgZxY", title: "Dragon Ball Z Clip" },
+      { id: "EJkq-1yQQxI", title: "Attack on Titan Scene" },
+      { id: "2e49b1j1oE0", title: "Pokémon Clip" },
+      { id: "9sGqj9xV_1Y", title: "Studio Ghibli Clip" },
+    ],
+
+    music: [
+      { id: "kJQP7kiw5Fk", title: "Luis Fonsi - Despacito" },
+      { id: "RgKAFK5djSk", title: "Wiz Khalifa - See You Again" },
+      { id: "YykjpeuMNEk", title: "Shawn Mendes - Stitches" },
+      { id: "pRpeEdMmmQ0", title: "Shakira - Waka Waka" },
+      { id: "fLexgOxsZu0", title: "Mark Ronson - Uptown Funk" },
+      { id: "OPf0YbXqDm0", title: "Bruno Mars - 24K Magic" },
+      { id: "09R8_2nJtjg", title: "Ed Sheeran - Shape of You" },
+    ],
+
+    gaming: [
+      { id: "kA_5h4vpt00", title: "Minecraft Survival Tips" },
+      { id: "P3uJXnYh9r8", title: "Fortnite Funny Moments" },
+      { id: "0V9cwQO0Rvg", title: "Among Us Funny Plays" },
+      { id: "eZfq4TVLP4E", title: "Top Gaming Clips Compilation" },
+      { id: "g3I0wWg2hLc", title: "Roblox Adventures" },
+      { id: "h9N0M9k9J7s", title: "Call of Duty Montage" },
+    ],
+
+    education: [
+      { id: "aircAruvnKk", title: "Kurzgesagt - Science Explained" },
+      { id: "pPKR9_2z6ZQ", title: "AI Explained Simply" },
+      { id: "JhHMJCUmq28", title: "How Does WiFi Work?" },
+      { id: "QYIfxIPJcZw", title: "Quantum Computers Explained" },
+      { id: "Xc7dUF6NUqY", title: "MKBHD Tech Review" },
+      { id: "YQeP9f3oL6M", title: "School Math Tricks" },
+      { id: "aircAruvnKk", title: "The Fermi Paradox" },
+{ id: "bP6D4qOtJ9s", title: "What Is Life?" },
+{ id: "p92fG1sVfE8", title: "The Immune System Explained" },
+{ id: "PzKk7o6cF8g", title: "The History of Our Universe" },
+{ id: "h-KX-xM6v0I", title: "The Coronavirus Explained & What You Should Do" },
+{ id: "m1s0VQ2N_0o", title: "Black Holes Explained" },
+{ id: "7QXjzM0A5iU", title: "The Most Dangerous Stuff in the Universe" },
+{ id: "W7ECRr6bpo8", title: "The Egg – A Short Story" },
+{ id: "n6gK1hOa8Wk", title: "The Coronavirus Explained" },
+{ id: "T1JmD9XzQOQ", title: "How Space Travel Works" },
+{ id: "w5CGq6l3rNQ", title: "The Anthropic Principle" },
+{ id: "a4DRcXm6c6s", title: "The Deadliest Being on Planet Earth" },
+{ id: "2x8wOSM9XxQ", title: "The Big Bang Explained" },
+{ id: "V3XZ-NDR2i8", title: "The Immune System Explained II" },
+{ id: "nq2B9S-7sJo", title: "The Science of Productivity" },
+{ id: "xdo4duo6N4c", title: "The Universe in a Nutshell" },
+{ id: "k9C25q1QlQs", title: "The Most Important Things You Can Do" },
+{ id: "yRfT5Dx8L40", title: "The Science of Sleep" },
+{ id: "Cptw8wDqQ6I", title: "The Incredible Water Cycle" },
+{ id: "gE7ODw39Kj0", title: "The History of the Earth" }
+    ],
+
+    memes: [
+      { id: "LsoLEjrDogU", title: "Top Viral Memes Compilation" },
+      { id: "XyNlqQId-nk", title: "Funny Cats Compilation" },
+      { id: "M7FIvfx5J10", title: "Try Not To Laugh" },
+      { id: "sN01V3jP7aQ", title: "Hilarious TikTok Clips" },
+    ],
+
+    tryNotToLaugh: [
+      { id: "Jk3yYkL_HWg", title: "Clean Try Not To Laugh 1" },
+      { id: "U0CGsw6h60k", title: "Funny Fails Compilation" },
+      { id: "E3u5u4xO7vM", title: "Best Pranks Compilation" },
+    ],
+  };
+
+  return (pool[category] || pool.trending).map(v => ({
+    ...v,
+    thumbnail: `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`,
+    type: "youtube"
+  }));
+}
+
+
 
     // Load content
     async function loadCarousel(carouselId, query) {
@@ -605,11 +773,22 @@
     });
 
     // Initialize
-    loadCarousel('trending-carousel', 'trending');
-    loadCarousel('docs-carousel', 'documentary');
-    loadCarousel('tech-carousel', 'technology');
-    loadCarousel('nature-carousel', 'nature wildlife');
-    loadCarousel('classic-carousel', 'classic movies');
+// Existing carousel loaders
+loadCarousel('trending-carousel', 'trending');
+loadCarousel('docs-carousel', 'documentary');
+loadCarousel('tech-carousel', 'technology');
+loadCarousel('nature-carousel', 'nature wildlife');
+loadCarousel('classic-carousel', 'classic movies');
+
+// NEW
+loadCarousel('movies-carousel', 'movies');
+loadCarousel('anime-carousel', 'anime');
+loadCarousel('music-carousel', 'music');
+loadCarousel('gaming-carousel', 'gaming');
+loadCarousel('education-carousel', 'education');
+loadCarousel('memes-carousel', 'memes');
+loadCarousel('tryNotToLaugh-carousel', 'tryNotToLaugh');
+
     updateContinueWatching();
   </script>
 </body>
