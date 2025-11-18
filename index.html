@@ -22,7 +22,6 @@
       overflow-x: hidden;
     }
     
-    /* Header */
     header {
       position: fixed;
       top: 0;
@@ -100,12 +99,10 @@
       transform: scale(1.1);
     }
 
-    /* Main Content */
     main {
       padding-top: 70px;
     }
     
-    /* Hero Section */
     .hero {
       position: relative;
       height: 65vh;
@@ -164,7 +161,6 @@
       background: rgba(255, 255, 255, 0.3);
     }
 
-    /* Categories */
     .category-section {
       padding: 40px;
       margin-bottom: 40px;
@@ -257,7 +253,6 @@
       font-size: 24px;
     }
 
-    /* Video Player Modal */
     .modal {
       position: fixed;
       top: 0;
@@ -319,7 +314,6 @@
       line-height: 1.6;
     }
 
-    /* Loading Spinner */
     .spinner {
       border: 3px solid rgba(255, 255, 255, 0.1);
       border-top: 3px solid var(--accent);
@@ -331,19 +325,6 @@
     }
     @keyframes spin {
       to { transform: rotate(360deg); }
-    }
-
-    /* Continue Watching */
-    .continue-watching {
-      position: relative;
-    }
-    .progress-bar {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 4px;
-      background: var(--accent);
-      border-radius: 0 0 12px 12px;
     }
   </style>
 </head>
@@ -391,92 +372,13 @@
     </div>
 
     <div class="category-section">
-      <h2 class="category-title">Trending Now</h2>
-      <div class="carousel" id="trending-carousel">
-        <div class="spinner"></div>
-      </div>
-    </div>
-
-    <div class="category-section">
-      <h2 class="category-title">Top Documentaries</h2>
-      <div class="carousel" id="docs-carousel">
-        <div class="spinner"></div>
-      </div>
-    </div>
-
-    <div class="category-section">
-      <h2 class="category-title">Tech & Science</h2>
-      <div class="carousel" id="tech-carousel">
-        <div class="spinner"></div>
-      </div>
-    </div>
-
-    <div class="category-section">
-      <h2 class="category-title">Nature & Wildlife</h2>
-      <div class="carousel" id="nature-carousel">
-        <div class="spinner"></div>
-      </div>
-    </div>
-
-    <div class="category-section">
-      <h2 class="category-title">Classic Movies</h2>
-      <div class="carousel" id="classic-carousel">
+      <h2 class="category-title">All Videos</h2>
+      <div class="carousel" id="all-videos-carousel" style="flex-wrap: wrap; justify-content: flex-start;">
         <div class="spinner"></div>
       </div>
     </div>
   </main>
 
-  <div class="category-section">
-  <h2 class="category-title">Movies</h2>
-  <div class="carousel" id="movies-carousel">
-    <div class="spinner"></div>
-  </div>
-</div>
-
-<div class="category-section">
-  <h2 class="category-title">Anime</h2>
-  <div class="carousel" id="anime-carousel">
-    <div class="spinner"></div>
-  </div>
-</div>
-
-<div class="category-section">
-  <h2 class="category-title">Music</h2>
-  <div class="carousel" id="music-carousel">
-    <div class="spinner"></div>
-  </div>
-</div>
-
-<div class="category-section">
-  <h2 class="category-title">Gaming</h2>
-  <div class="carousel" id="gaming-carousel">
-    <div class="spinner"></div>
-  </div>
-</div>
-
-<div class="category-section">
-  <h2 class="category-title">Education</h2>
-  <div class="carousel" id="education-carousel">
-    <div class="spinner"></div>
-  </div>
-</div>
-
-<div class="category-section">
-  <h2 class="category-title">Memes</h2>
-  <div class="carousel" id="memes-carousel">
-    <div class="spinner"></div>
-  </div>
-</div>
-
-<div class="category-section">
-  <h2 class="category-title">Try Not To Laugh</h2>
-  <div class="carousel" id="tryNotToLaugh-carousel">
-    <div class="spinner"></div>
-  </div>
-</div>
-
-
-  <!-- Video Player Modal -->
   <div class="modal" id="video-modal">
     <div class="modal-content">
       <div class="modal-close" onclick="closePlayer()">
@@ -490,233 +392,67 @@
     </div>
   </div>
 
-
-<!-- Code Lock Overlay -->
-<div id="code-lock" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:3000;flex-direction:column;">
-  <h2 style="color:white;margin-bottom:20px;">Enter 4-Digit Code</h2>
-    <p style="color:white;margin-bottom:20px;">Codes are recieved uppon subscription to Mini Tunes Membership.</p>
-  <div style="display:flex;gap:10px;margin-bottom:20px;">
-    <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
-    <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
-    <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
-    <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
+  <div id="code-lock" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:3000;flex-direction:column;">
+    <h2 style="color:white;margin-bottom:20px;">Enter 4-Digit Code</h2>
+    <p style="color:white;margin-bottom:20px;">Codes are received upon subscription to Mini TV Membership.</p>
+    <div style="display:flex;gap:10px;margin-bottom:20px;">
+      <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
+      <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
+      <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
+      <input type="text" maxlength="1" class="code-input" style="width:50px;height:50px;text-align:center;font-size:24px;border-radius:8px;border:none;">
+    </div>
+    <button id="submit-code" style="padding:10px 24px;font-size:16px;border:none;border-radius:8px;cursor:pointer;background:#0a84ff;color:white;">Submit Code</button>
+    <p id="code-error" style="color:red;margin-top:10px;display:none;">Incorrect code. Try again.</p>
   </div>
-  <button id="submit-code" style="padding:10px 24px;font-size:16px;border:none;border-radius:8px;cursor:pointer;background:#0a84ff;color:white;">Submit Code</button>
-  <p id="code-error" style="color:red;margin-top:10px;display:none;">Incorrect code. Try again.</p>
-</div>
-
-
   
   <script>
     let watchHistory = JSON.parse(localStorage.getItem('miniTV_history') || '[]');
     let watchlist = JSON.parse(localStorage.getItem('miniTV_watchlist') || '[]');
 
-    // YouTube API (using no-cookie embed for better accessibility)
-    async function searchYouTube(query, maxResults = 10) {
+    async function searchYouTube(query, maxResults = 50) {
       try {
-        // Using a CORS proxy to access YouTube data
         const response = await fetch(`https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`);
         const html = await response.text();
         
-        // Parse video IDs from page (simplified approach)
-        const videoIds = [];
-        const regex = /"videoId":"([^"]+)"/g;
-        let match;
-        while ((match = regex.exec(html)) !== null && videoIds.length < maxResults) {
-          if (!videoIds.includes(match[1])) {
-            videoIds.push(match[1]);
-          }
+        const videos = [];
+        const videoRegex = /"videoId":"([^"]{11})"/g;
+        const titleRegex = /"title":{"runs":\[{"text":"([^"]+)"/g;
+        
+        const videoIds = [...html.matchAll(videoRegex)].map(m => m[1]).filter((id, i, arr) => arr.indexOf(id) === i);
+        const titles = [...html.matchAll(titleRegex)].map(m => m[1]);
+        
+        for (let i = 0; i < Math.min(videoIds.length, titles.length, maxResults); i++) {
+          videos.push({
+            id: videoIds[i],
+            title: titles[i] || 'Video',
+            thumbnail: `https://img.youtube.com/vi/${videoIds[i]}/mqdefault.jpg`,
+            type: 'youtube'
+          });
         }
         
-        return videoIds.map(id => ({
-          id,
-          title: 'Video Title',
-          thumbnail: `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
-          type: 'youtube'
-        }));
+        return videos.length > 0 ? videos : getDemoVideos(query);
       } catch (error) {
         console.error('Search error:', error);
         return getDemoVideos(query);
       }
     }
 
-    // Fallback demo content
-function getDemoVideos(category) {
-  const pool = {
-    trending: [
-      { id: "dQw4w9WgXcQ", title: "Rick Astley – Never Gonna Give You Up" },
-      { id: "fJ9rUzIMcZQ", title: "Queen – Bohemian Rhapsody" },
-      { id: "kXYiU_JCYtU", title: "Linkin Park – Numb" },
-      { id: "9bZkp7q19f0", title: "PSY – Gangnam Style" },
-      { id: "RgKAFK5djSk", title: "Wiz Khalifa – See You Again" },
-      { id: "3tmd-ClpJxA", title: "Maroon 5 – Girls Like You" },
-      { id: "60ItHLz5WEA", title: "Alan Walker – Faded" },
-      { id: "CevxZvSJLk8", title: "Katy Perry – Roar" },
-      { id: "eVTXPUF4Oz4", title: "Linkin Park – In The End" },
-      { id: "LsoLEjrDogU", title: "The Chainsmokers – Something Just Like This" }
-    ],
+    function getDemoVideos(category) {
+      const pool = {
+        trending: [
+          { id: "dQw4w9WgXcQ", title: "Rick Astley - Never Gonna Give You Up" },
+          { id: "fJ9rUzIMcZQ", title: "Queen - Bohemian Rhapsody" },
+          { id: "kJQP7kiw5Fk", title: "Luis Fonsi - Despacito" },
+          { id: "9bZkp7q19f0", title: "PSY - Gangnam Style" },
+          { id: "RgKAFK5djSk", title: "Wiz Khalifa - See You Again" }
+        ]
+      };
 
-    docs: [
-      { id: "cvCjyWp3rEk", title: "Planet Earth II • Full Episode" },
-      { id: "3W5D6u7w0xo", title: "The Secret Life of the Ocean" },
-      { id: "qrlH-kE4XFI", title: "History of The World in Two Hours" },
-      { id: "A2cmlhfdxuY", title: "The Roman Empire – Documentary" },
-      { id: "fo6ok8y1JmQ", title: "Space: The Solar System" },
-      { id: "6n_xCI-peq0", title: "Wildlife Documentary – Jungle Episode" },
-      { id: "0nq0LTi7A44", title: "Inside NASA" },
-      { id: "e2AdjE1BjbQ", title: "Blue Planet – Episode 1" },
-      { id: "u0kkRPA5Nk4", title: "Great Migrations – Full Documentary" },
-      { id: "hRl3Hq6cKcQ", title: "Extreme Earth – Documentary" }
-    ],
-
-    tech: [
-      { id: "Xc7dUF6NUqY", title: "MKBHD – iPhone 15 Review" },
-      { id: "aircAruvnKk", title: "Kurzgesagt – The Fermi Paradox" },
-      { id: "S_xnXgf1k0U", title: "How CPUs Are Made" },
-      { id: "QYIfxIPJcZw", title: "Quantum Computers Explained" },
-      { id: "pPKR9_2z6ZQ", title: "AI Explained Simply" },
-      { id: "JhHMJCUmq28", title: "How Does WiFi Actually Work?" },
-      { id: "o1eLKdqP_9U", title: "The Evolution of the iPhone" },
-      { id: "WhAWYN-VflI", title: "Electric Cars Explained" },
-      { id: "BHEcee4Brbw", title: "5G Explained" },
-      { id: "NZ20D8d9eR0", title: "Blockchain Technology Explained" }
-    ],
-
-    nature: [
-      { id: "weRHyjj34ZE", title: "African Wildlife Safari – 4K" },
-      { id: "NU29LbqLV3Y", title: "Relaxing Nature Film – 4K UHD" },
-      { id: "xdo4duo6N4c", title: "Animals of the Rainforest – BBC" },
-      { id: "nVJxkYQ8j0I", title: "Deep Jungle Life – Wildlife Documentary" },
-      { id: "d9A3Wa9x1a8", title: "World’s Most Beautiful Places – 4K" },
-      { id: "2W6JclMbhS0", title: "Amazon Rainforest 4K" },
-      { id: "xzjAiX1YNh4", title: "Coral Reefs & Underwater Life" },
-      { id: "MJ7k2reHzKY", title: "Polar Landscapes – Nature Documentary" },
-      { id: "5FVG8vPAuy0", title: "Wildlife of Africa – Full Episode" },
-      { id: "Z1k7CmmTVM4", title: "Earth from Space – Nature Documentary" }
-    ],
-
-    classic: [
-      { id: "OqIvp0zzxHY", title: "Gone with the Wind – Trailer" },
-      { id: "kXYiU_JCYtU", title: "Vintage Documentary" },
-      { id: "M7FIvfx5J10", title: "Charlie Chaplin – The Gold Rush Clip" },
-      { id: "26VPxxHpFWg", title: "Old Hollywood Compilation" },
-      { id: "tOzhNRtn5iM", title: "Film Noir Scenes" },
-      { id: "JrYhCgFW_JM", title: "Casablanca Trailer" },
-      { id: "zTUBjpK7vEA", title: "The Godfather – Trailer" },
-      { id: "qrQ9Q9zDMy0", title: "Lawrence of Arabia – Clip" },
-      { id: "BaY_we1I2t8", title: "Sunset Boulevard Trailer" },
-      { id: "vG1YlXYQx4M", title: "Metropolis (1927) – Restored Version" }
-    ],
-
-    movies: [
-      { id: "Uu9Ml4d0E9A", title: "Avengers Trailer" },
-      { id: "c2OGPeFJ9qA", title: "Inception Trailer" },
-      { id: "8hP9D6kZseM", title: "Jurassic Park Clip" },
-      { id: "3P7eTy2xwhY", title: "Harry Potter Clip" },
-      { id: "kH58uAeZezg", title: "Spider-Man Trailer" },
-      { id: "JfVOs4VSpmA", title: "Frozen Movie Scene" },
-      { id: "YoHD9XEInc0", title: "Titanic Clip" },
-      { id: "N8Iu4X1sK50", title: "The Lion King Clip" },
-      { id: "zSWdZVtXT7E", title: "Star Wars Trailer" },
-      { id: "gK0AE4CfjA0", title: "The Matrix Clip" }
-    ],
-
-    anime: [
-      { id: "n6D5z7I9t1c", title: "My Hero Academia Clip" },
-      { id: "1g3ef2I-7fA", title: "Naruto Fight Scene" },
-      { id: "T1JmD9XzQOQ", title: "Demon Slayer Scene" },
-      { id: "6z0h-XGEdMI", title: "One Piece Clip" },
-      { id: "pQH0BvVgZxY", title: "Dragon Ball Z Clip" },
-      { id: "EJkq-1yQQxI", title: "Attack on Titan Scene" },
-      { id: "2e49b1j1oE0", title: "Pokémon Clip" },
-      { id: "9sGqj9xV_1Y", title: "Studio Ghibli Clip" },
-      { id: "F5vBXztCSt4", title: "Fullmetal Alchemist Clip" },
-      { id: "C8N9H1yf4Ag", title: "One Punch Man Clip" }
-    ],
-
-    music: [
-      { id: "kJQP7kiw5Fk", title: "Luis Fonsi – Despacito" },
-      { id: "RgKAFK5djSk", title: "Wiz Khalifa – See You Again" },
-      { id: "YykjpeuMNEk", title: "Shawn Mendes – Stitches" },
-      { id: "pRpeEdMmmQ0", title: "Shakira – Waka Waka" },
-      { id: "fLexgOxsZu0", title: "Mark Ronson – Uptown Funk" },
-      { id: "OPf0YbXqDm0", title: "Bruno Mars – 24K Magic" },
-      { id: "09R8_2nJtjg", title: "Ed Sheeran – Shape of You" },
-      { id: "hT_nvWreIhg", title: "Imagine Dragons – Believer" },
-      { id: "kOkQ4T5WO9E", title: "Adele – Hello" },
-      { id: "60nZcImufyM", title: "Coldplay – Paradise" }
-    ],
-
-    gaming: [
-      { id: "kA_5h4vpt00", title: "Minecraft Survival Tips" },
-      { id: "P3uJXnYh9r8", title: "Fortnite Funny Moments" },
-      { id: "0V9cwQO0Rvg", title: "Among Us Funny Plays" },
-      { id: "eZfq4TVLP4E", title: "Top Gaming Clips Compilation" },
-      { id: "g3I0wWg2hLc", title: "Roblox Adventures" },
-      { id: "h9N0M9k9J7s", title: "Call of Duty Montage" },
-      { id: "yQJkJ0T8H3U", title: "GTA V Funny Moments" },
-      { id: "3tL0ZAbTJ_0", title: "Pokemon Go Adventures" },
-      { id: "dD9hyKEK1yo", title: "Among Us Comedy Compilation" },
-      { id: "9bOdf-2i8Lc", title: "Minecraft Epic Builds" }
-    ],
-
-    education: [
-      { id: "aircAruvnKk", title: "Kurzgesagt – Science Explained" },
-      { id: "pPKR9_2z6ZQ", title: "AI Explained Simply" },
-      { id: "JhHMJCUmq28", title: "How Does WiFi Work?" },
-      { id: "QYIfxIPJcZw", title: "Quantum Computers Explained" },
-      { id: "Xc7dUF6NUqY", title: "MKBHD Tech Review" },
-      { id: "YQeP9f3oL6M", title: "School Math Tricks" },
-      { id: "bP6D4qOtJ9s", title: "What Is Life?" },
-      { id: "p92fG1sVfE8", title: "The Immune System Explained" },
-      { id: "PzKk7o6cF8g", title: "The History of Our Universe" },
-      { id: "h-KX-xM6v0I", title: "The Coronavirus Explained" },
-      { id: "m1s0VQ2N_0o", title: "Black Holes Explained" },
-      { id: "7QXjzM0A5iU", title: "The Most Dangerous Stuff in the Universe" },
-      { id: "W7ECRr6bpo8", title: "The Egg – A Short Story" },
-      { id: "T1JmD9XzQOQ", title: "How Space Travel Works" },
-      { id: "w5CGq6l3rNQ", title: "The Anthropic Principle" },
-      { id: "a4DRcXm6c6s", title: "The Deadliest Being on Planet Earth" },
-      { id: "2x8wOSM9XxQ", title: "The Big Bang Explained" },
-      { id: "V3XZ-NDR2i8", title: "The Immune System Explained II" },
-      { id: "nq2B9S-7sJo", title: "The Science of Productivity" },
-      { id: "xdo4duo6N4c", title: "The Universe in a Nutshell" }
-    ],
-
-    memes: [
-      { id: "LsoLEjrDogU", title: "Top Viral Memes Compilation" },
-      { id: "XyNlqQId-nk", title: "Funny Cats Compilation" },
-      { id: "M7FIvfx5J10", title: "Try Not To Laugh" },
-      { id: "sN01V3jP7aQ", title: "Hilarious TikTok Clips" }
-    ],
-
-    tryNotToLaugh: [
-      { id: "Jk3yYkL_HWg", title: "Clean Try Not To Laugh 1" },
-      { id: "U0CGsw6h60kasdfgh", title: "Funny Fails Compilation" },
-      { id: "E3u5u4xO7vM", title: "Best Pranks Compilation" }
-    ]
-  };
-
-  return (pool[category] || pool.trending).map(v => ({
-    ...v,
-    thumbnail: `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`,
-    type: "youtube"
-  }));
-}
-
-
-
-
-    // Load content
-    async function loadCarousel(carouselId, query) {
-      const carousel = document.getElementById(carouselId);
-      const videos = await searchYouTube(query);
-      
-      carousel.innerHTML = '';
-      videos.forEach(video => {
-        const card = createVideoCard(video);
-        carousel.appendChild(card);
-      });
+      return (pool[category] || pool.trending).map(v => ({
+        ...v,
+        thumbnail: `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`,
+        type: "youtube"
+      }));
     }
 
     function createVideoCard(video) {
@@ -750,7 +486,6 @@ function getDemoVideos(category) {
       description.textContent = 'Enjoy this free video content!';
       modal.classList.add('active');
       
-      // Add to watch history
       watchHistory.unshift(video);
       watchHistory = watchHistory.slice(0, 20);
       localStorage.setItem('miniTV_history', JSON.stringify(watchHistory));
@@ -792,91 +527,143 @@ function getDemoVideos(category) {
       });
       event.target.classList.add('active');
       
-      // You can load different content based on view
-      console.log('Loading view:', view);
+      const main = document.querySelector('main');
+      main.innerHTML = '<div class="spinner" style="margin: 200px auto;"></div>';
+      
+      setTimeout(async () => {
+        let videos = [];
+        
+        switch(view) {
+          case 'home':
+            location.reload();
+            return;
+          case 'movies':
+            videos = await searchYouTube('movies trailers', 50);
+            break;
+          case 'shows':
+            videos = await searchYouTube('tv shows episodes', 50);
+            break;
+          case 'documentaries':
+            videos = await searchYouTube('documentaries', 50);
+            break;
+          case 'watchlist':
+            videos = watchlist;
+            break;
+        }
+        
+        main.innerHTML = `
+          <div style="padding-top: 70px;">
+            <div class="category-section">
+              <h2 class="category-title">${view.charAt(0).toUpperCase() + view.slice(1)}</h2>
+              <div class="carousel" style="flex-wrap: wrap;">
+                ${videos.map(v => createVideoCard(v).outerHTML).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+        
+        main.querySelectorAll('.video-card').forEach((card, i) => {
+          card.onclick = () => playVideo(videos[i]);
+        });
+      }, 500);
     }
 
-    // Search functionality
     document.getElementById('search-input').addEventListener('keypress', async (e) => {
       if (e.key === 'Enter') {
         const query = e.target.value;
         if (query) {
-          const videos = await searchYouTube(query, 20);
-          const carousel = document.getElementById('trending-carousel');
-          carousel.innerHTML = '';
-          videos.forEach(video => {
-            carousel.appendChild(createVideoCard(video));
+          const main = document.querySelector('main');
+          main.innerHTML = '<div class="spinner" style="margin: 200px auto;"></div>';
+          
+          const videos = await searchYouTube(query, 50);
+          
+          main.innerHTML = `
+            <div style="padding-top: 70px;">
+              <div class="category-section">
+                <h2 class="category-title">Search Results for "${query}"</h2>
+                <div class="carousel" style="flex-wrap: wrap; justify-content: flex-start;">
+                  ${videos.map(v => createVideoCard(v).outerHTML).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+          
+          main.querySelectorAll('.video-card').forEach((card, i) => {
+            card.onclick = () => playVideo(videos[i]);
           });
         }
       }
     });
 
+    const validCodes = ["a9$k", "3p#q", "x7@r", "m!2z", "i♡mc", "raco"];
+    const codeLock = document.getElementById('code-lock');
+    const inputs = document.querySelectorAll('.code-input');
+    const submitBtn = document.getElementById('submit-code');
+    const errorMsg = document.getElementById('code-error');
 
-// List of valid codes
-const validCodes = [
-  "a9$k",
-  "3p#q",
-  "x7@r",
-  "m!2z",
-  "i♡mc",
-  "raco"
-];
+    inputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        if (input.value.length > 0 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      });
+      
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && input.value === "" && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
 
-const codeLock = document.getElementById('code-lock');
-const inputs = document.querySelectorAll('.code-input');
-const submitBtn = document.getElementById('submit-code');
-const errorMsg = document.getElementById('code-error');
+    submitBtn.addEventListener('click', () => {
+      let enteredCode = "";
+      inputs.forEach(input => enteredCode += input.value);
+      
+      if (validCodes.includes(enteredCode)) {
+        codeLock.style.display = 'none';
+      } else {
+        errorMsg.style.display = 'block';
+        inputs.forEach(input => input.value = "");
+        inputs[0].focus();
+      }
+    });
 
-// Focus next input automatically
-inputs.forEach((input, index) => {
-  input.addEventListener('input', () => {
-    if (input.value.length > 0 && index < inputs.length - 1) {
-      inputs[index + 1].focus();
-    }
-  });
-  
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace' && input.value === "" && index > 0) {
-      inputs[index - 1].focus();
-    }
-  });
-});
-
-submitBtn.addEventListener('click', () => {
-  let enteredCode = "";
-  inputs.forEach(input => enteredCode += input.value);
-  
-  if (validCodes.includes(enteredCode)) {
-    codeLock.style.display = 'none';
-  } else {
-    errorMsg.style.display = 'block';
-    inputs.forEach(input => input.value = "");
     inputs[0].focus();
-  }
-});
 
-// Auto-focus first input on page load
-inputs[0].focus();
+    async function loadAllVideos() {
+      const carousel = document.getElementById('all-videos-carousel');
+      carousel.innerHTML = '<div class="spinner"></div>';
+      
+      const searches = [
+        'trending videos',
+        'popular music videos',
+        'funny videos',
+        'gaming videos',
+        'educational videos',
+        'movie trailers',
+        'documentaries',
+        'anime clips',
+        'tech reviews',
+        'nature videos'
+      ];
+      
+      let allVideos = [];
+      
+      for (const search of searches) {
+        const videos = await searchYouTube(search, 20);
+        allVideos = allVideos.concat(videos);
+      }
+      
+      allVideos = allVideos.sort(() => Math.random() - 0.5);
+      
+      carousel.innerHTML = '';
+      allVideos.forEach(video => {
+        const card = createVideoCard(video);
+        carousel.appendChild(card);
+      });
+    }
 
-
-
-    // Initialize
-// Existing carousel loaders
-loadCarousel('trending-carousel', 'trending');        // pool.trending
-loadCarousel('docs-carousel', 'docs');               // pool.docs
-loadCarousel('tech-carousel', 'tech');               // pool.tech
-loadCarousel('nature-carousel', 'nature');           // pool.nature
-loadCarousel('classic-carousel', 'classic');         // pool.classic
-
-// NEW
-loadCarousel('movies-carousel', 'movies');
-loadCarousel('anime-carousel', 'anime');
-loadCarousel('music-carousel', 'music');
-loadCarousel('gaming-carousel', 'gaming');
-loadCarousel('education-carousel', 'education');
-loadCarousel('memes-carousel', 'memes');
-loadCarousel('tryNotToLaugh-carousel', 'tryNotToLaugh');
-
+    loadAllVideos();
     updateContinueWatching();
   </script>
 </body>
