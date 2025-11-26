@@ -5,6 +5,7 @@
 
     // 1000+ VERIFIED YouTube video IDs
     const videoDatabase = [
+      { id: "vdebCC4YKb0", title: "How to preform a scholars mate", category: "gaming"},
       // MUSIC (300 videos)
       { id: "dQw4w9WgXcQ", title: "Rick Astley - Never Gonna Give You Up", category: "music" },
       { id: "fJ9rUzIMcZQ", title: "Queen - Bohemian Rhapsody", category: "music" },
