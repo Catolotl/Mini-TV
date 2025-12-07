@@ -22,6 +22,335 @@
       overflow-x: hidden;
     }
     
+    /* Login Screen Styles */
+    #loginScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 5000;
+    }
+    #loginScreen h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #ccc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0 0 40px;
+      letter-spacing: -1.5px;
+    }
+    #loginScreen .chip-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+    #loginScreen .instruction {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      opacity: 0.85;
+      max-width: 500px;
+      text-align: center;
+    }
+    #loginScreen .status {
+      margin-top: 28px;
+      font-size: 1.1rem;
+      min-height: 32px;
+    }
+    #loginScreen .btn {
+      margin-top: 40px;
+      padding: 16px 56px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      background: transparent;
+      color: #fff;
+      border: 2px solid #555;
+      border-radius: 18px;
+      cursor: pointer;
+      transition: all 0.35s ease;
+    }
+    #loginScreen .btn:hover {
+      border-color: #0f9;
+      box-shadow: 0 0 40px rgba(0, 255, 150, 0.35);
+    }
+    #loginScreen .btn:active {
+      transform: scale(0.95);
+    }
+    .scan-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 4999;
+      background: radial-gradient(circle at center, rgba(0, 255, 150, 0.2) 0%, transparent 70%);
+      opacity: 0;
+      display: none;
+    }
+    body.scanning .scan-glow {
+      opacity: 1;
+      display: block;
+      animation: greenPulse 1.8s infinite;
+    }
+    @keyframes greenPulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.18); }
+    }
+    #passwordStage {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 5001;
+      transition: opacity 0.8s ease;
+    }
+    #passwordStage.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    body.step2 #loginScreen > *:not(#passwordStage) {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    body.step2 .scan-glow {
+      opacity: 0 !important;
+      display: none !important;
+    }
+    #passwordStage input {
+      padding: 20px;
+      font-size: 2rem;
+      letter-spacing: 12px;
+      text-align: center;
+      background: #111;
+      color: #fff;
+      border: 2px solid #444;
+      border-radius: 16px;
+      width: 340px;
+    }
+    #passwordStage input:focus {
+      outline: none;
+      border-color: #0f9;
+      box-shadow: 0 0 30px rgba(0, 255, 150, 0.3);
+    }
+
+    /* Profile Selection Screen */
+    #profileScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 5000;
+      padding: 40px;
+    }
+    #profileScreen.active {
+      display: flex;
+    }
+    #profileScreen h2 {
+      font-size: 3rem;
+      margin-bottom: 60px;
+      font-weight: 700;
+    }
+    .profiles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 180px));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .profile-card {
+      width: 180px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .profile-card:hover {
+      transform: scale(1.1);
+    }
+    .profile-avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      margin-bottom: 16px;
+      border: 4px solid transparent;
+      transition: 0.3s;
+      position: relative;
+    }
+    .profile-card:hover .profile-avatar {
+      border-color: white;
+    }
+    .profile-name {
+      font-size: 18px;
+      color: var(--text-secondary);
+      transition: 0.3s;
+    }
+    .profile-card:hover .profile-name {
+      color: white;
+    }
+    .add-profile {
+      background: rgba(255, 255, 255, 0.1);
+      border: 3px dashed rgba(255, 255, 255, 0.3);
+    }
+    .add-profile:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: white;
+    }
+    .edit-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 32px;
+      height: 32px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    .profile-card:hover .edit-icon {
+      display: flex;
+    }
+    .manage-profiles-btn {
+      padding: 12px 32px;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .manage-profiles-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: white;
+    }
+
+    /* Profile Editor Modal */
+    .profile-editor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 6000;
+    }
+    .profile-editor.active {
+      display: flex;
+    }
+    .editor-content {
+      background: #1a1a1a;
+      padding: 40px;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 90%;
+    }
+    .editor-content h3 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    .avatar-selector {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .avatar-option {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: 0.3s;
+    }
+    .avatar-option.selected {
+      border-color: white;
+      transform: scale(1.1);
+    }
+    .editor-content input {
+      width: 100%;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+    .editor-content input:focus {
+      outline: none;
+      border-color: white;
+    }
+    .editor-buttons {
+      display: flex;
+      gap: 12px;
+    }
+    .editor-buttons button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-save {
+      background: white;
+      color: black;
+    }
+    .btn-save:hover {
+      opacity: 0.9;
+    }
+    .btn-cancel {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    .btn-cancel:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .btn-delete {
+      background: #ff4444;
+      color: white;
+    }
+    .btn-delete:hover {
+      background: #cc0000;
+    }
+
+    /* Main TV Styles */
+    #mainTV {
+      display: none;
+    }
+    #mainTV.active {
+      display: block;
+    }
+    
     header {
       position: fixed;
       top: 0;
@@ -94,6 +423,7 @@
       justify-content: center;
       cursor: pointer;
       transition: 0.3s;
+      font-size: 18px;
     }
     .profile-icon:hover {
       transform: scale(1.1);
@@ -346,94 +676,358 @@
 </head>
 <body>
 
-  <header>
-    <div class="logo">📺 Mini TV</div>
-    <div class="nav-menu">
-      <div class="nav-item active" onclick="loadView('home')">Home</div>
-      <div class="nav-item" onclick="filterByCategory('music')">Music</div>
-      <div class="nav-item" onclick="filterByCategory('gaming')">Gaming</div>
-      <div class="nav-item" onclick="filterByCategory('education')">Education</div>
-      <div class="nav-item" onclick="filterByCategory('entertainment')">Entertainment</div>
+  <!-- Login Screen -->
+  <div id="loginScreen">
+    <h1>MINI TV</h1>
+    <div class="chip-icon">📺</div>
+    <div class="instruction">
+      Hold your Mini TV Card to the right of your Trackpad or on your camera
     </div>
-    <div style="display: flex; align-items: center; gap: 20px;">
-      <div class="search-bar">
-        <i class="fas fa-search"></i>
-        <input type="text" id="search-input" placeholder="Search videos..." />
-      </div>
-      <div class="profile-icon" onclick="alert('Profile settings coming soon!')">
-        <i class="fas fa-user"></i>
-      </div>
-    </div>
-  </header>
+    <div class="status" id="status"></div>
+    <button class="btn" id="tapBtn">Tap Card to Continue</button>
+  </div>
 
-  <main>
-    <div class="hero">
-      <div class="hero-content">
-        <h1 class="hero-title">Welcome to Mini TV</h1>
-        <p class="hero-description">Stream 1000+ free videos, music, gaming, education and entertainment. No account needed.</p>
-        <div class="hero-buttons">
-          <button class="btn btn-primary" onclick="playFeatured()">
-            <i class="fas fa-play"></i> Play Now
-          </button>
-          <button class="btn btn-secondary" onclick="scrollToVideos()">
-            <i class="fas fa-arrow-down"></i> Browse All
-          </button>
+  <div class="scan-glow"></div>
+
+  <div id="passwordStage">
+    <input type="text" maxlength="20" placeholder="•••••••••••••••••" autocomplete="off" id="codeInput">
+    <p style="margin-top:18px;opacity:0.6;font-size:0.95rem;">Two Step Log In: Enter the code on your card</p>
+  </div>
+
+  <!-- Profile Selection Screen -->
+  <div id="profileScreen">
+    <h2>Who's Watching?</h2>
+    <div class="profiles-grid" id="profilesGrid"></div>
+    <button class="manage-profiles-btn" onclick="toggleManageMode()">Manage Profiles</button>
+  </div>
+
+  <!-- Profile Editor Modal -->
+  <div class="profile-editor" id="profileEditor">
+    <div class="editor-content">
+      <h3 id="editorTitle">Create Profile</h3>
+      <div class="avatar-selector" id="avatarSelector"></div>
+      <input type="text" id="profileNameInput" placeholder="Enter profile name" maxlength="20">
+      <div class="editor-buttons">
+        <button class="btn-save" onclick="saveProfile()">Save</button>
+        <button class="btn-cancel" onclick="closeEditor()">Cancel</button>
+        <button class="btn-delete" id="deleteBtn" onclick="deleteProfile()" style="display:none;">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main TV Interface -->
+  <div id="mainTV">
+    <header>
+      <div class="logo">📺 Mini TV</div>
+      <div class="nav-menu">
+        <div class="nav-item active" onclick="loadView('home')">Home</div>
+        <div class="nav-item" onclick="filterByCategory('music')">Music</div>
+        <div class="nav-item" onclick="filterByCategory('gaming')">Gaming</div>
+        <div class="nav-item" onclick="filterByCategory('education')">Education</div>
+        <div class="nav-item" onclick="filterByCategory('entertainment')">Entertainment</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="search-input" placeholder="Search videos..." />
+        </div>
+        <div class="profile-icon" onclick="switchProfile()" id="currentProfileIcon">
+          <i class="fas fa-user"></i>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="hero">
+        <div class="hero-content">
+          <h1 class="hero-title">Welcome to Mini TV</h1>
+          <p class="hero-description">Stream 1000+ free videos, music, gaming, education and entertainment. No account needed.</p>
+          <div class="hero-buttons">
+            <button class="btn btn-primary" onclick="playFeatured()">
+              <i class="fas fa-play"></i> Play Now
+            </button>
+            <button class="btn btn-secondary" onclick="scrollToVideos()">
+              <i class="fas fa-arrow-down"></i> Browse All
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="continue-watching" class="category-section" style="display: none;">
+        <h2 class="category-title">Continue Watching</h2>
+        <div class="video-grid" id="continue-carousel"></div>
+      </div>
+
+      <div class="category-section" id="all-videos-section">
+        <h2 class="category-title">
+          All Videos
+          <span class="video-count" id="video-count">Loading...</span>
+        </h2>
+        <div class="filter-bar" id="filter-bar">
+          <div class="filter-btn active" onclick="filterByCategory('all')">All</div>
+          <div class="filter-btn" onclick="filterByCategory('music')">Music</div>
+          <div class="filter-btn" onclick="filterByCategory('gaming')">Gaming</div>
+          <div class="filter-btn" onclick="filterByCategory('education')">Education</div>
+          <div class="filter-btn" onclick="filterByCategory('entertainment')">Entertainment</div>
+          <div class="filter-btn" onclick="filterByCategory('tech')">Tech</div>
+          <div class="filter-btn" onclick="filterByCategory('nature')">Nature</div>
+          <div class="filter-btn" onclick="filterByCategory('anime')">Anime</div>
+        </div>
+        <div class="video-grid" id="all-videos-carousel">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </main>
+
+    <div class="modal" id="video-modal">
+      <div class="modal-content">
+        <div class="modal-close" onclick="closePlayer()">
+          <i class="fas fa-times"></i>
+        </div>
+        <iframe id="video-player" class="video-player" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+        <div class="video-details">
+          <h2 id="player-title">Video Title</h2>
+          <p id="player-description">Video description...</p>
         </div>
       </div>
     </div>
-
-    <div id="continue-watching" class="category-section" style="display: none;">
-      <h2 class="category-title">Continue Watching</h2>
-      <div class="video-grid" id="continue-carousel"></div>
-    </div>
-
-    <div class="category-section" id="all-videos-section">
-      <h2 class="category-title">
-        All Videos
-        <span class="video-count" id="video-count">Loading...</span>
-      </h2>
-      <div class="filter-bar" id="filter-bar">
-        <div class="filter-btn active" onclick="filterByCategory('all')">All</div>
-        <div class="filter-btn" onclick="filterByCategory('music')">Music</div>
-        <div class="filter-btn" onclick="filterByCategory('gaming')">Gaming</div>
-        <div class="filter-btn" onclick="filterByCategory('education')">Education</div>
-        <div class="filter-btn" onclick="filterByCategory('entertainment')">Entertainment</div>
-        <div class="filter-btn" onclick="filterByCategory('tech')">Tech</div>
-        <div class="filter-btn" onclick="filterByCategory('nature')">Nature</div>
-        <div class="filter-btn" onclick="filterByCategory('anime')">Anime</div>
-      </div>
-      <div class="video-grid" id="all-videos-carousel">
-        <div class="spinner"></div>
-      </div>
-    </div>
-  </main>
-
-  <div class="modal" id="video-modal">
-    <div class="modal-content">
-      <div class="modal-close" onclick="closePlayer()">
-        <i class="fas fa-times"></i>
-      </div>
-      <iframe id="video-player" class="video-player" frameborder="0" allowfullscreen allow="autoplay"></iframe>
-      <div class="video-details">
-        <h2 id="player-title">Video Title</h2>
-        <p id="player-description">Video description...</p>
-      </div>
-    </div>
-  </div>
-
-  <div id="code-lock" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:3000;flex-direction:column;">
-    <h2 style="color:white;margin-bottom:20px;font-size:32px;">🔒 Enter Access Code</h2>
-    <p style="color:var(--text-secondary);margin-bottom:30px;font-size:16px;">Codes are received upon subscription to Mini TV Membership</p>
-    <div style="display:flex;gap:12px;margin-bottom:24px;">
-      <input type="text" maxlength="1" class="code-input" style="width:60px;height:60px;text-align:center;font-size:28px;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:white;font-weight:600;">
-      <input type="text" maxlength="1" class="code-input" style="width:60px;height:60px;text-align:center;font-size:28px;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:white;font-weight:600;">
-      <input type="text" maxlength="1" class="code-input" style="width:60px;height:60px;text-align:center;font-size:28px;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:white;font-weight:600;">
-      <input type="text" maxlength="1" class="code-input" style="width:60px;height:60px;text-align:center;font-size:28px;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:white;font-weight:600;">
-    </div>
-    <button id="submit-code" style="padding:14px 32px;font-size:16px;border:none;border-radius:10px;cursor:pointer;background:white;color:black;font-weight:600;transition:0.3s;">Unlock Access</button>
-    <p id="code-error" style="color:#ff4444;margin-top:16px;display:none;font-size:14px;">❌ Incorrect code. Please try again.</p>
   </div>
   
-  <script src="script.js"> </script>
+  <script src="script.js"></script>
+  <script>
+    // Two-Step Login System
+    const VALID_CODES = ["minitv", "stream", "video", "watch", "tv482", "ai4me", "media", "show", "cinema", "flux", "pixel", "ultra", "neon", "retro", "prime", "elite"];
+    
+    const status = document.getElementById('status');
+    const tapBtn = document.getElementById('tapBtn');
+    const passwordStage = document.getElementById('passwordStage');
+    const codeInput = document.getElementById('codeInput');
+    const loginScreen = document.getElementById('loginScreen');
+    const profileScreen = document.getElementById('profileScreen');
+
+    function attemptScan() {
+      document.body.classList.add('scanning');
+      tapBtn.disabled = true;
+      status.textContent = "Reading card…";
+      status.style.color = "#ccc";
+
+      setTimeout(() => {
+        if (Math.random() < 0.70) {
+          status.textContent = "Card recognized";
+          status.style.color = "#0f9";
+          setTimeout(() => {
+            document.body.classList.add('step2');
+            setTimeout(() => {
+              passwordStage.classList.add('visible');
+              codeInput.focus();
+            }, 500);
+          }, 600);
+        } else {
+          document.body.classList.remove('scanning');
+          status.textContent = "Not recognized – try again";
+          status.style.color = "#f66";
+          tapBtn.disabled = false;
+          setTimeout(() => status.textContent = "", 2200);
+        }
+      }, 2100);
+    }
+
+    tapBtn.addEventListener('click', attemptScan);
+
+    codeInput.addEventListener('input', () => {
+      if (VALID_CODES.includes(codeInput.value.trim().toLowerCase())) {
+        setTimeout(() => {
+          loginScreen.style.display = 'none';
+          passwordStage.style.display = 'none';
+          loadProfiles();
+          profileScreen.classList.add('active');
+        }, 350);
+      }
+    });
+
+    // Profile Management System
+    const AVATAR_EMOJIS = ['👤', '🎮', '🎬', '🎵', '🎨', '🚀', '🌟', '💎', '🔥', '⚡', '🌈', '🎭', '🎪', '🎯', '🏆', '👑', '🦝'];
+    let profiles = [];
+    let currentProfile = null;
+    let editingProfileId = null;
+    let isManageMode = false;
+
+    async function loadProfiles() {
+      try {
+        const result = await window.storage.get('tv-profiles');
+        profiles = result ? JSON.parse(result.value) : [
+          { id: Date.now(), name: 'User 1', avatar: '👤' }
+        ];
+      } catch {
+        profiles = [{ id: Date.now(), name: 'User 1', avatar: '👤' }];
+      }
+      renderProfiles();
+    }
+
+    function renderProfiles() {
+      const grid = document.getElementById('profilesGrid');
+      grid.innerHTML = '';
+
+      profiles.forEach(profile => {
+        const card = document.createElement('div');
+        card.className = 'profile-card';
+        card.innerHTML = `
+          <div class="profile-avatar" style="background: ${getRandomGradient()}">
+            ${profile.avatar}
+            ${isManageMode ? '<div class="edit-icon"><i class="fas fa-pencil"></i></div>' : ''}
+          </div>
+          <div class="profile-name">${profile.name}</div>
+        `;
+        
+        if (isManageMode) {
+          card.onclick = () => editProfile(profile.id);
+        } else {
+          card.onclick = () => selectProfile(profile.id);
+        }
+        
+        grid.appendChild(card);
+      });
+
+      if (profiles.length < 5) {
+        const addCard = document.createElement('div');
+        addCard.className = 'profile-card';
+        addCard.innerHTML = `
+          <div class="profile-avatar add-profile">
+            <i class="fas fa-plus" style="font-size:48px;color:rgba(255,255,255,0.5)"></i>
+          </div>
+          <div class="profile-name">Add Profile</div>
+        `;
+        addCard.onclick = () => createNewProfile();
+        grid.appendChild(addCard);
+      }
+    }
+
+    function getRandomGradient() {
+      const gradients = [
+        'linear-gradient(135deg, #667eea, #764ba2)',
+        'linear-gradient(135deg, #f093fb, #f5576c)',
+        'linear-gradient(135deg, #4facfe, #00f2fe)',
+        'linear-gradient(135deg, #43e97b, #38f9d7)',
+        'linear-gradient(135deg, #fa709a, #fee140)',
+        'linear-gradient(135deg, #30cfd0, #330867)',
+        'linear-gradient(135deg, #a8edea, #fed6e3)',
+        'linear-gradient(135deg, #ff9a9e, #fecfef)'
+      ];
+      return gradients[Math.floor(Math.random() * gradients.length)];
+    }
+
+    function toggleManageMode() {
+      isManageMode = !isManageMode;
+      document.querySelector('.manage-profiles-btn').textContent = isManageMode ? 'Done' : 'Manage Profiles';
+      renderProfiles();
+    }
+
+    function createNewProfile() {
+      editingProfileId = null;
+      document.getElementById('editorTitle').textContent = 'Create Profile';
+      document.getElementById('profileNameInput').value = '';
+      document.getElementById('deleteBtn').style.display = 'none';
+      renderAvatarSelector();
+      document.getElementById('profileEditor').classList.add('active');
+    }
+
+    function editProfile(id) {
+      const profile = profiles.find(p => p.id === id);
+      if (!profile) return;
+      
+      editingProfileId = id;
+      document.getElementById('editorTitle').textContent = 'Edit Profile';
+      document.getElementById('profileNameInput').value = profile.name;
+      document.getElementById('deleteBtn').style.display = profiles.length > 1 ? 'block' : 'none';
+      renderAvatarSelector(profile.avatar);
+      document.getElementById('profileEditor').classList.add('active');
+    }
+
+    function renderAvatarSelector(selectedAvatar = null) {
+      const selector = document.getElementById('avatarSelector');
+      selector.innerHTML = '';
+      
+      AVATAR_EMOJIS.forEach(emoji => {
+        const option = document.createElement('div');
+        option.className = 'avatar-option' + (emoji === selectedAvatar ? ' selected' : '');
+        option.textContent = emoji;
+        option.style.background = getRandomGradient();
+        option.onclick = () => {
+          document.querySelectorAll('.avatar-option').forEach(o => o.classList.remove('selected'));
+          option.classList.add('selected');
+        };
+        selector.appendChild(option);
+      });
+      
+      if (!selectedAvatar) {
+        selector.firstChild?.classList.add('selected');
+      }
+    }
+
+    async function saveProfile() {
+      const name = document.getElementById('profileNameInput').value.trim();
+      const selectedAvatar = document.querySelector('.avatar-option.selected')?.textContent;
+      
+      if (!name || !selectedAvatar) {
+        alert('Please enter a name and select an avatar');
+        return;
+      }
+
+      if (editingProfileId) {
+        const profile = profiles.find(p => p.id === editingProfileId);
+        profile.name = name;
+        profile.avatar = selectedAvatar;
+      } else {
+        profiles.push({
+          id: Date.now(),
+          name: name,
+          avatar: selectedAvatar
+        });
+      }
+
+      await window.storage.set('tv-profiles', JSON.stringify(profiles));
+      closeEditor();
+      renderProfiles();
+    }
+
+    async function deleteProfile() {
+      if (profiles.length <= 1) {
+        alert('Cannot delete the last profile');
+        return;
+      }
+
+      if (confirm('Are you sure you want to delete this profile?')) {
+        profiles = profiles.filter(p => p.id !== editingProfileId);
+        await window.storage.set('tv-profiles', JSON.stringify(profiles));
+        closeEditor();
+        renderProfiles();
+      }
+    }
+
+    function closeEditor() {
+      document.getElementById('profileEditor').classList.remove('active');
+      editingProfileId = null;
+    }
+
+    function selectProfile(id) {
+      currentProfile = profiles.find(p => p.id === id);
+      profileScreen.classList.remove('active');
+      document.getElementById('mainTV').classList.add('active');
+      
+      const icon = document.getElementById('currentProfileIcon');
+      icon.textContent = currentProfile.avatar;
+    }
+
+    function switchProfile() {
+      document.getElementById('mainTV').classList.remove('active');
+      isManageMode = false;
+      document.querySelector('.manage-profiles-btn').textContent = 'Manage Profiles';
+      renderProfiles();
+      profileScreen.classList.add('active');
+    }
+
+    // Initialize
+    loadProfiles();
+  </script>
 </body>
 </html>
