@@ -6,311 +6,434 @@
   <title>Mini TV</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
-    :root { --bg:#000; --card:#111; --text:#fff; --green:#00ff9d; --pink:#ff2e96; }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
+    :root {
+      --bg: #000000;
+      --card-bg: #1a1a1a;
+      --accent: #fff;
+      --text: #ffffff;
+      --text-secondary: #a1a1a6;
+      --hover: #2a2a2e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 1000;
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff, #d4dfed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-menu {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .nav-item {
+      color: var(--text-secondary);
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+    .nav-item:hover, .nav-item.active {
+      color: var(--text);
+    }
+    .search-bar {
+      position: relative;
+    }
+    .search-bar input {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 8px 16px 8px 40px;
+      color: white;
+      width: 280px;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+    .search-bar input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--accent);
+    }
+    .search-bar i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+    }
+    .profile-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .profile-icon:hover {
+      transform: scale(1.1);
+    }
 
-    #code-lock, #profile-select { position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; }
-    #profile-select { z-index:9998; display:none; }
-    .code-inputs input { width:70px; height:70px; text-align:center; font-size:32px; background:rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.3); border-radius:16px; color:white; }
-    #code-error { color:#ff4444; opacity:0; margin-top:10px; }
-    .success-circle { position:absolute; width:200px; height:200px; border:8px solid transparent; border-radius:50%; border-top-color:var(--green); border-right-color:var(--pink); animation:faceid 1.2s forwards; opacity:0; }
-    @keyframes faceid { 0%{transform:scale(0.3);opacity:1} 70%{transform:scale(1.3)} 100%{transform:scale(2);opacity:0} }
+    main {
+      padding-top: 70px;
+    }
+    
+    .hero {
+      position: relative;
+      height: 65vh;
+      background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1574267432644-f61f3c46b1d6?w=1920');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      padding: 60px 40px;
+    }
+    .hero-content {
+      max-width: 600px;
+    }
+    .hero-title {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    }
+    .hero-description {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+    }
+    .btn {
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: white;
+      color: black;
+    }
+    .btn-primary:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: scale(1.05);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      backdrop-filter: blur(10px);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
 
-    .profiles-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:40px; max-width:1000px; }
-    .profile { text-align:center; cursor:pointer; transition:0.3s; position:relative; }
-    .profile:hover { transform:scale(1.1); }
-    .profile-avatar { width:160px; height:160px; border-radius:24px; background:linear-gradient(135deg,#667eea,#764ba2); margin:auto; display:flex; align-items:center; justify-content:center; font-size:70px; border:5px solid transparent; }
-    .profile-name { margin-top:16px; font-size:22px; font-weight:600; }
-    .profile-actions { position:absolute; top:8px; right:8px; opacity:0; transition:0.3s; }
-    .profile:hover .profile-actions { opacity:1; }
-    .profile-actions button { background:rgba(0,0,0,0.7); border:none; color:white; width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:16px; margin:0 4px; }
+    .category-section {
+      padding: 40px;
+      margin-bottom: 40px;
+    }
+    .category-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-left: 4px;
+    }
+    .video-count {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 400;
+      margin-left: 12px;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      padding: 10px 4px;
+    }
+    .video-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: 0.3s;
+      position: relative;
+    }
+    .video-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    }
+    .video-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .video-info {
+      padding: 16px;
+    }
+    .video-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 1.4;
+      min-height: 44px;
+    }
+    .video-meta {
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+    .play-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: 0.3s;
+      pointer-events: none;
+    }
+    .video-card:hover .play-overlay {
+      opacity: 1;
+    }
+    .play-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--accent);
+      color: black;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
 
-    #add-profile-btn { width:160px; height:160px; border:4px dashed #555; border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:60px; color:#777; cursor:pointer; }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 40px;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      width: 100%;
+      max-width: 1200px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: 0.3s;
+    }
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .video-player {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: black;
+    }
+    .video-details {
+      padding: 24px;
+    }
+    .video-details h2 {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .video-details p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
 
-    header { position:fixed; top:0; width:100%; height:70px; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); display:flex; align-items:center; justify-content:space-between; padding:0 40px; z-index:1000; }
-    .logo { font-size:32px; font-weight:900; background:linear-gradient(135deg,var(--green),var(--pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .spinner {
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 60px auto;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
-    #ad-banner { height:90px; background:linear-gradient(90deg,var(--green),var(--pink),var(--green)); color:white; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:bold; overflow:hidden; margin-top:70px; position:relative; }
-    .ad-slide { position:absolute; white-space:nowrap; animation:scroll 20s linear infinite; }
-    @keyframes scroll { from{transform:translateX(100%)} to{transform:translateX(-100%)} }
-
-    /* TALL HERO CAROUSEL */
-    #hero-carousel { height:80vh; position:relative; overflow:hidden; margin-bottom:40px; border-radius:20px; }
-    .carousel-slide { position:absolute; inset:0; opacity:0; transition:opacity 1s; }
-    .carousel-slide.active { opacity:1; }
-    .carousel-slide video { width:100%; height:100%; object-fit:cover; }
-    .carousel-overlay { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent,rgba(0,0,0,0.9)); padding:80px 60px 60px; }
-    .carousel-title { font-size:60px; font-weight:900; margin-bottom:20px; }
-    .carousel-desc { font-size:22px; color:#ccc; margin-bottom:30px; max-width:700px; }
-    .carousel-btn { padding:16px 40px; background:white; color:black; border:none; border-radius:50px; font-size:18px; font-weight:600; cursor:pointer; }
-
-    main { padding:0 40px 80px; }
-    .section-title { font-size:36px; margin:60px 0 30px; }
-    .video-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:28px; }
-    .video-card { background:var(--card); border-radius:16px; overflow:hidden; cursor:pointer; transition:0.3s; position:relative; }
-    .video-card:hover { transform:translateY(-12px); box-shadow:0 20px 40px rgba(0,0,0,0.8); }
-    .video-card video { width:100%; height:200px; object-fit:cover; background:#000; }
-    .play-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.6); opacity:0; transition:0.3s; display:flex; align-items:center; justify-content:center; }
-    .video-card:hover .play-overlay { opacity:1; }
-    .play-icon { width:70px; height:70px; background:white; color:black; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:30px; }
-
-    .modal { position:fixed; inset:0; background:rgba(0,0,0,0.97); display:none; align-items:center; justify-content:center; z-index:2000; }
-    .modal.active { display:flex; }
-    .modal video { width:92%; max-width:1400px; border-radius:20px; }
-
-    .hidden { display:none!important; }
-    .loader { text-align:center; padding:100px; color:#666; font-size:20px; }
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 8px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: white;
+      color: black;
+    }
   </style>
 </head>
 <body>
 
-  <!-- CODE LOCK -->
-  <div id="code-lock">
-    <h1 style="font-size:52px;">Mini TV</h1>
-    <p style="font-size:18px; color:#aaa;">Enter access code</p>
-    <div class="code-inputs">
-      <input type="text" maxlength="1" class="code-input">
-      <input type="text" maxlength="1" class="code-input">
-      <input type="text" maxlength="1" class="code-input">
-      <input type="text" maxlength="1" class="code-input">
+  <header>
+    <div class="logo">📺 Mini TV</div>
+    <div class="nav-menu">
+      <div class="nav-item active" onclick="loadView('home')">Home</div>
+      <div class="nav-item" onclick="filterByCategory('music')">Music</div>
+      <div class="nav-item" onclick="filterByCategory('gaming')">Gaming</div>
+      <div class="nav-item" onclick="filterByCategory('education')">Education</div>
+      <div class="nav-item" onclick="filterByCategory('entertainment')">Entertainment</div>
     </div>
-    <p id="code-error">Wrong code</p>
-  </div>
-
-  <!-- PROFILES -->
-  <div id="profile-select">
-    <h1 style="font-size:52px;">Who's watching?</h1>
-    <div class="profiles-grid" id="profiles-grid"></div>
-  </div>
-
-  <!-- MAIN APP -->
-  <header class="hidden" id="header">
-    <div class="logo">Mini TV</div>
-    <div style="display:flex; gap:24px; align-items:center;">
-      <input type="text" id="search" placeholder="Search millions of videos..." style="padding:14px 20px; width:400px; border-radius:50px; border:none; background:rgba(255,255,255,0.12); color:white; font-size:17px;">
-      <div onclick="showProfiles()" style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Search videos..." />
+      </div>
+      <div class="profile-icon" onclick="alert('Profile settings coming soon!')">
         <i class="fas fa-user"></i>
       </div>
     </div>
   </header>
 
-  <div id="ad-banner" class="hidden">
-    <div class="ad-slide">
-      WICKED COLLAB - 50% OFF PREMIUM • 4K NO ADS • LIMITED MERCH • UPGRADE NOW
-    </div>
-  </div>
-
-  <main class="hidden" id="main">
-    <!-- HERO CAROUSEL -->
-    <div id="hero-carousel">
-      <div class="carousel-slide active">
-        <video src="https://cdn.pixabay.com/vimeo/837880188/nature-837880188.mp4?width=1280&hash=..." loop muted autoplay playsinline></video>
-        <div class="carousel-overlay">
-          <div class="carousel-title">Ocean Waves at Sunset</div>
-          <div class="carousel-desc">Relax with stunning 4K nature footage</div>
-          <button class="carousel-btn" onclick="playCurrentHero()">Play Now</button>
+  <main>
+    <div class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">Welcome to Mini TV</h1>
+        <p class="hero-description">Stream 1000+ free videos, music, gaming, education and entertainment. No account needed.</p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary" onclick="playFeatured()">
+            <i class="fas fa-play"></i> Play Now
+          </button>
+          <button class="btn btn-secondary" onclick="scrollToVideos()">
+            <i class="fas fa-arrow-down"></i> Browse All
+          </button>
         </div>
       </div>
-      <!-- More slides added by JS -->
     </div>
 
-    <div id="continue-section" style="display:none;">
-      <h2 class="section-title">Continue Watching</h2>
-      <div class="video-grid" id="continue-grid"></div>
+    <div id="continue-watching" class="category-section" style="display: none;">
+      <h2 class="category-title">Continue Watching</h2>
+      <div class="video-grid" id="continue-carousel"></div>
     </div>
 
-    <h2 class="section-title">Trending Now</h2>
-    <div class="video-grid" id="video-grid">
-      <div class="loader">Loading amazing videos...</div>
+    <div class="category-section" id="all-videos-section">
+      <h2 class="category-title">
+        All Videos
+        <span class="video-count" id="video-count">Loading...</span>
+      </h2>
+      <div class="filter-bar" id="filter-bar">
+        <div class="filter-btn active" onclick="filterByCategory('all')">All</div>
+        <div class="filter-btn" onclick="filterByCategory('music')">Music</div>
+        <div class="filter-btn" onclick="filterByCategory('gaming')">Gaming</div>
+        <div class="filter-btn" onclick="filterByCategory('education')">Education</div>
+        <div class="filter-btn" onclick="filterByCategory('entertainment')">Entertainment</div>
+        <div class="filter-btn" onclick="filterByCategory('tech')">Tech</div>
+        <div class="filter-btn" onclick="filterByCategory('nature')">Nature</div>
+        <div class="filter-btn" onclick="filterByCategory('anime')">Anime</div>
+      </div>
+      <div class="video-grid" id="all-videos-carousel">
+        <div class="spinner"></div>
+      </div>
     </div>
   </main>
 
-  <div class="modal" id="modal">
-    <video controls autoplay id="player"></video>
-    <div style="position:absolute; top:20px; right:30px; font-size:50px; cursor:pointer; color:white;" onclick="closeModal()">×</div>
+  <div class="modal" id="video-modal">
+    <div class="modal-content">
+      <div class="modal-close" onclick="closePlayer()">
+        <i class="fas fa-times"></i>
+      </div>
+      <iframe id="video-player" class="video-player" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+      <div class="video-details">
+        <h2 id="player-title">Video Title</h2>
+        <p id="player-description">Video description...</p>
+      </div>
+    </div>
   </div>
 
-  <script>
-    const validCodes = ["a9$k", "3p#q", "x7@r", "m!2z", "i♡mc", "raco"];
-    let currentUser = null;
-    let profiles = JSON.parse(localStorage.getItem('miniTV_profiles') || '[]');
-    if (!profiles.length) {
-      profiles = [{id: Date.now(), name: "Main", avatar: "1"}];
-      localStorage.setItem('miniTV_profiles', JSON.stringify(profiles));
-    }
-    let heroVideos = [];
-
-    // Code & Profiles (same as before - fully working)
-    document.querySelectorAll('.code-input').forEach((el,i,arr) => {
-      el.addEventListener('input', () => el.value && arr[i+1]?.focus());
-      el.addEventListener('keydown', e => e.key==='Backspace' && !el.value && i>0 && arr[i-1].focus());
-    });
-    document.addEventListener('keypress', e => e.target.classList.contains('code-input') && e.key==='Enter' && checkCode());
-
-    function checkCode() {
-      const code = [...document.querySelectorAll('.code-input')].map(i=>i.value).join('');
-      if (validCodes.includes(code)) {
-        const circle = Object.assign(document.createElement('div'), {className:'success-circle'});
-        document.getElementById('code-lock').appendChild(circle);
-        setTimeout(() => {
-          document.getElementById('code-lock').style.display = 'none';
-          document.getElementById('profile-select').style.display = 'flex';
-          renderProfiles();
-        }, 1000);
-      } else {
-        document.getElementById('code-error').style.opacity = 1;
-        document.querySelectorAll('.code-input').forEach(i=>i.value='');
-        setTimeout(()=>document.getElementById('code-error').style.opacity=0, 2000);
-      }
-    }
-
-    function renderProfiles() {
-      const grid = document.getElementById('profiles-grid');
-      grid.innerHTML = '';
-      profiles.forEach(p => {
-        const div = document.createElement('div');
-        div.className = 'profile';
-        div.innerHTML = `
-          <div class="profile-avatar">${p.avatar}</div>
-          <div class="profile-name">${p.name}</div>
-          <div class="profile-actions">
-            <button onclick="editProfile(${p.id},event)">Edit</button>
-            <button onclick="deleteProfile(${p.id},event)" style="background:#ff4444;">Delete</button>
-          </div>
-        `;
-        div.onclick = e => !e.target.closest('button') && selectProfile(p);
-        grid.appendChild(div);
-      });
-      const add = document.createElement('div');
-      add.id = 'add-profile-btn'; add.innerHTML = '+';
-      add.onclick = () => {
-        const name = prompt("Name:"); if (!name) return;
-        const avatar = prompt("Emoji:") || "U";
-        profiles.push({id:Date.now(), name, avatar});
-        localStorage.setItem('miniTV_profiles', JSON.stringify(profiles));
-        renderProfiles();
-      };
-      grid.appendChild(add);
-    }
-
-    window.editProfile = (id,e) => { e.stopPropagation();
-      const p = profiles.find(x=>x.id===id);
-      const n = prompt("New name:", p.name); if(n){ p.name=n;
-        const a = prompt("New emoji:", p.avatar); if(a) p.avatar=a;
-        localStorage.setItem('miniTV_profiles', JSON.stringify(profiles));
-        renderProfiles();
-      }
-    };
-    window.deleteProfile = (id,e) => { e.stopPropagation();
-      if (profiles.length===1) return alert("Can't delete last profile");
-      if (confirm("Delete forever?")) {
-        profiles = profiles.filter(x=>x.id!==id);
-        localStorage.setItem('miniTV_profiles', JSON.stringify(profiles));
-        localStorage.removeItem('miniTV_history_'+id);
-        renderProfiles();
-      }
-    };
-
-    function selectProfile(p) {
-      currentUser = p;
-      document.getElementById('profile-select').classList.add('hidden');
-      document.getElementById('header').classList.remove('hidden');
-      document.getElementById('ad-banner').classList.remove('hidden');
-      document.getElementById('main').classList.remove('hidden');
-      loadHeroCarousel();
-      loadVideos();
-      loadContinueWatching();
-    }
-
-    function showProfiles() {
-      ['header','ad-banner','main'].forEach(id => document.getElementById(id).classList.add('hidden'));
-      document.getElementById('profile-select').style.display = 'flex';
-    }
-
-    // FAST VIDEO API (Pixabay)
-    async function loadHeroCarousel() {
-      const res = await fetch("https://pixabay.com/api/videos/?key=1334478-9f9f9f9f9f9f9f9f9f9f9f9f9&q=nature,ocean,space,cinematic&per_page=5");
-      const data = await res.json();
-      heroVideos = data.hits;
-      const container = document.getElementById('hero-carousel');
-      container.innerHTML = '';
-      heroVideos.forEach((v,i) => {
-        const slide = document.createElement('div');
-        slide.className = 'carousel-slide' + (i===0?' active':'');
-        slide.innerHTML = `
-          <video src="${v.videos.large.url}" loop muted ${i===0?'autoplay':''} playsinline></video>
-          <div class="carousel-overlay">
-            <div class="carousel-title">Featured: ${v.tags.split(',')[0]}</div>
-            <div class="carousel-desc">Stunning royalty-free cinematic footage</div>
-            <button class="carousel-btn" onclick="play('${v.videos.large.url}')">Play Now</button>
-          </div>
-        `;
-        container.appendChild(slide);
-      });
-      setInterval(() => {
-        const active = container.querySelector('.carousel-slide.active');
-        const next = active.nextElementSibling || container.firstElementChild;
-        active.classList.remove('active');
-        next.classList.add('active');
-        next.querySelector('video').play();
-      }, 8000);
-    }
-
-    window.playCurrentHero = () => {
-      const video = document.querySelector('#hero-carousel .active video');
-      play(video.src);
-    };
-
-    async function loadVideos() {
-      const res = await fetch("https://pixabay.com/api/videos/?key=1334478-9f9f9f9f9f9f9f9f9f9f9f9f9&q=trending,popular,cinematic,nature,drone&per_page=30");
-      const data = await res.json();
-      const grid = document.getElementById('video-grid');
-      grid.innerHTML = '';
-      data.hits.forEach(v => {
-        const card = document.createElement('div');
-        card.className = 'video-card';
-        card.innerHTML = `
-          <video src="${v.videos.medium.url}" preload="metadata" poster="${v.picture}"></video>
-          <div class="play-overlay"><div class="play-icon">Play</div></div>
-          <div style="padding:16px;"><div style="font-weight:600;">${v.tags}</div></div>
-        `;
-        card.onclick = () => play(v.videos.large.url || v.videos.medium.url);
-        grid.appendChild(card);
-      });
-    }
-
-    function play(url) {
-      document.getElementById('player').src = url;
-      document.getElementById('modal').classList.add('active');
-      const h = JSON.parse(localStorage.getItem('miniTV_history_'+currentUser.id) || '[]');
-      h.unshift({url, time:Date.now()});
-      localStorage.setItem('miniTV_history_'+currentUser.id, JSON.stringify(h.slice(0,20)));
-      loadContinueWatching();
-    }
-
-    function closeModal() {
-      document.getElementById('player').src = '';
-      document.getElementById('modal').classList.remove('active');
-    }
-
-    function loadContinueWatching() {
-      const h = JSON.parse(localStorage.getItem('miniTV_history_'+currentUser.id) || '[]');
-      if (!h.length) return;
-      const grid = document.getElementById('continue-grid');
-      document.getElementById('continue-section').style.display = 'block';
-      grid.innerHTML = '';
-      h.slice(0,10).forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'video-card';
-        card.innerHTML = `<video src="${item.url}" preload="metadata"></video>
-          <div class="play-overlay"><div class="play-icon">Play</div></div>`;
-        card.onclick = () => play(item.url);
-        grid.appendChild(card);
-      });
-    }
-
-    document.querySelector('.code-input').focus();
-  </script>
+  <div id="code-lock" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:3000;flex-direction:column;">
+    <h2 style="color:white;margin-bottom:20px;font-size:32px;">🔒 Enter Access Code</h2>
+    <p style="color:var(--text-secondary);margin-bottom:30px;font-size:16px;">Codes are received upon subscription to Mini TV Membership</p>
+    <div style="display:flex;gap:12px;margin-bottom:24px;">
+      <input type="text" maxlength="1" class="code-input" style="width:60px;height:60px;text-align:center;font-size:28px;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:white;font-weight:600;">
+      <input type="text" maxlength="1" class="code-input" style="width:60px;height:60px;text-align:center;font-size:28px;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:white;font-weight:600;">
+      <input type="text" maxlength="1" class="code-input" style="width:60px;height:60px;text-align:center;font-size:28px;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:white;font-weight:600;">
+      <input type="text" maxlength="1" class="code-input" style="width:60px;height:60px;text-align:center;font-size:28px;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:white;font-weight:600;">
+    </div>
+    <button id="submit-code" style="padding:14px 32px;font-size:16px;border:none;border-radius:10px;cursor:pointer;background:white;color:black;font-weight:600;transition:0.3s;">Unlock Access</button>
+    <p id="code-error" style="color:#ff4444;margin-top:16px;display:none;font-size:14px;">❌ Incorrect code. Please try again.</p>
+  </div>
+  
+  <script src="script.js"> </script>
 </body>
 </html>
