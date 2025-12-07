@@ -6,13 +6,12 @@
   <title>Mini TV</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
-    :root { --bg:#000; --card:#1a1a1a; --text:#fff; --green:#00ff9d; --pink:#ff2e96; }
+    :root { --bg:#000; --card:#111; --text:#fff; --green:#00ff9d; --pink:#ff2e96; }
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); overflow:hidden; height:100vh; }
+    body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
 
     #code-lock, #profile-select { position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; }
     #profile-select { z-index:9998; display:none; }
-
     .code-inputs input { width:70px; height:70px; text-align:center; font-size:32px; background:rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.3); border-radius:16px; color:white; }
     #code-error { color:#ff4444; opacity:0; margin-top:10px; }
     .success-circle { position:absolute; width:200px; height:200px; border:8px solid transparent; border-radius:50%; border-top-color:var(--green); border-right-color:var(--pink); animation:faceid 1.2s forwards; opacity:0; }
@@ -21,28 +20,33 @@
     .profiles-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:40px; max-width:1000px; }
     .profile { text-align:center; cursor:pointer; transition:0.3s; position:relative; }
     .profile:hover { transform:scale(1.1); }
-    .profile-avatar { width:160px; height:160px; border-radius:24px; background:linear-gradient(135deg,#667eea,#764ba2); margin:auto; display:flex; align-items:center; justify-content:center; font-size:70px; border:5px solid transparent; transition:0.3s; }
-    .profile.active .profile-avatar { border-color:white; }
+    .profile-avatar { width:160px; height:160px; border-radius:24px; background:linear-gradient(135deg,#667eea,#764ba2); margin:auto; display:flex; align-items:center; justify-content:center; font-size:70px; border:5px solid transparent; }
     .profile-name { margin-top:16px; font-size:22px; font-weight:600; }
-
     .profile-actions { position:absolute; top:8px; right:8px; opacity:0; transition:0.3s; }
     .profile:hover .profile-actions { opacity:1; }
-    .profile-actions button { background:rgba(0,0,0,0.7); border:none; color:white; width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:16px; }
+    .profile-actions button { background:rgba(0,0,0,0.7); border:none; color:white; width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:16px; margin:0 4px; }
 
-    #add-profile-btn { width:160px; height:160px; border:4px dashed #555; border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:60px; color:#777; cursor:pointer; transition:0.3s; }
-    #add-profile-btn:hover { border-color:white; color:white; }
+    #add-profile-btn { width:160px; height:160px; border:4px dashed #555; border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:60px; color:#777; cursor:pointer; }
 
-    header { position:fixed; top:0; width:100%; height:70px; background:rgba(0,0,0,0.8); backdrop-filter:blur(20px); display:flex; align-items:center; justify-content:space-between; padding:0 40px; z-index:1000; }
-    .logo { font-size:30px; font-weight:800; background:linear-gradient(135deg,var(--green),var(--pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    header { position:fixed; top:0; width:100%; height:70px; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); display:flex; align-items:center; justify-content:space-between; padding:0 40px; z-index:1000; }
+    .logo { font-size:32px; font-weight:900; background:linear-gradient(135deg,var(--green),var(--pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 
     #ad-banner { height:90px; background:linear-gradient(90deg,var(--green),var(--pink),var(--green)); color:white; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:bold; overflow:hidden; margin-top:70px; position:relative; }
-    .ad-slide { position:absolute; white-space:nowrap; animation:scroll 22s linear infinite; }
+    .ad-slide { position:absolute; white-space:nowrap; animation:scroll 20s linear infinite; }
     @keyframes scroll { from{transform:translateX(100%)} to{transform:translateX(-100%)} }
 
-    main { padding:180px 40px 40px; }
-    .search-bar input { width:420px; padding:14px 20px 14px 50px; border-radius:50px; border:none; background:rgba(255,255,255,0.12); color:white; font-size:17px; }
-    .search-bar i { position:absolute; left:18px; top:16px; color:#aaa; }
+    /* TALL HERO CAROUSEL */
+    #hero-carousel { height:80vh; position:relative; overflow:hidden; margin-bottom:40px; border-radius:20px; }
+    .carousel-slide { position:absolute; inset:0; opacity:0; transition:opacity 1s; }
+    .carousel-slide.active { opacity:1; }
+    .carousel-slide video { width:100%; height:100%; object-fit:cover; }
+    .carousel-overlay { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent,rgba(0,0,0,0.9)); padding:80px 60px 60px; }
+    .carousel-title { font-size:60px; font-weight:900; margin-bottom:20px; }
+    .carousel-desc { font-size:22px; color:#ccc; margin-bottom:30px; max-width:700px; }
+    .carousel-btn { padding:16px 40px; background:white; color:black; border:none; border-radius:50px; font-size:18px; font-weight:600; cursor:pointer; }
 
+    main { padding:0 40px 80px; }
+    .section-title { font-size:36px; margin:60px 0 30px; }
     .video-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:28px; }
     .video-card { background:var(--card); border-radius:16px; overflow:hidden; cursor:pointer; transition:0.3s; position:relative; }
     .video-card:hover { transform:translateY(-12px); box-shadow:0 20px 40px rgba(0,0,0,0.8); }
@@ -53,10 +57,10 @@
 
     .modal { position:fixed; inset:0; background:rgba(0,0,0,0.97); display:none; align-items:center; justify-content:center; z-index:2000; }
     .modal.active { display:flex; }
-    .modal video { width:92%; max-width:1300px; border-radius:20px; box-shadow:0 20px 60px rgba(0,0,0,0.8); }
+    .modal video { width:92%; max-width:1400px; border-radius:20px; }
 
     .hidden { display:none!important; }
-    .loader { text-align:center; padding:80px; color:#666; font-size:20px; }
+    .loader { text-align:center; padding:100px; color:#666; font-size:20px; }
   </style>
 </head>
 <body>
@@ -64,19 +68,19 @@
   <!-- CODE LOCK -->
   <div id="code-lock">
     <h1 style="font-size:52px;">Mini TV</h1>
-    <p style="font-size:18px; color:#aaa;">Enter your access code</p>
+    <p style="font-size:18px; color:#aaa;">Enter access code</p>
     <div class="code-inputs">
       <input type="text" maxlength="1" class="code-input">
       <input type="text" maxlength="1" class="code-input">
       <input type="text" maxlength="1" class="code-input">
       <input type="text" maxlength="1" class="code-input">
     </div>
-    <p id="code-error">Incorrect code</p>
+    <p id="code-error">Wrong code</p>
   </div>
 
-  <!-- PROFILE SELECTION -->
+  <!-- PROFILES -->
   <div id="profile-select">
-    <h1 style="font-size:52px; margin-bottom:20px;">Who's watching?</h1>
+    <h1 style="font-size:52px;">Who's watching?</h1>
     <div class="profiles-grid" id="profiles-grid"></div>
   </div>
 
@@ -84,10 +88,7 @@
   <header class="hidden" id="header">
     <div class="logo">Mini TV</div>
     <div style="display:flex; gap:24px; align-items:center;">
-      <div class="search-bar" style="position:relative;">
-        <i class="fas fa-search"></i>
-        <input type="text" id="search" placeholder="Search 10,000+ free videos...">
-      </div>
+      <input type="text" id="search" placeholder="Search millions of videos..." style="padding:14px 20px; width:400px; border-radius:50px; border:none; background:rgba(255,255,255,0.12); color:white; font-size:17px;">
       <div onclick="showProfiles()" style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;cursor:pointer;">
         <i class="fas fa-user"></i>
       </div>
@@ -96,18 +97,32 @@
 
   <div id="ad-banner" class="hidden">
     <div class="ad-slide">
-      WICKED COLLAB - 50% OFF PREMIUM • NEW 4K EVERY WEEK • NO ADS UPGRADE • LIMITED MERCH DROP
+      WICKED COLLAB - 50% OFF PREMIUM • 4K NO ADS • LIMITED MERCH • UPGRADE NOW
     </div>
   </div>
 
   <main class="hidden" id="main">
-    <div id="continue-section" style="margin-bottom:60px; display:none;">
-      <h2 style="font-size:36px; margin-bottom:24px;">Continue Watching</h2>
+    <!-- HERO CAROUSEL -->
+    <div id="hero-carousel">
+      <div class="carousel-slide active">
+        <video src="https://cdn.pixabay.com/vimeo/837880188/nature-837880188.mp4?width=1280&hash=..." loop muted autoplay playsinline></video>
+        <div class="carousel-overlay">
+          <div class="carousel-title">Ocean Waves at Sunset</div>
+          <div class="carousel-desc">Relax with stunning 4K nature footage</div>
+          <button class="carousel-btn" onclick="playCurrentHero()">Play Now</button>
+        </div>
+      </div>
+      <!-- More slides added by JS -->
+    </div>
+
+    <div id="continue-section" style="display:none;">
+      <h2 class="section-title">Continue Watching</h2>
       <div class="video-grid" id="continue-grid"></div>
     </div>
-    <h2 style="font-size:36px; margin-bottom:24px;">Discover Free Videos</h2>
+
+    <h2 class="section-title">Trending Now</h2>
     <div class="video-grid" id="video-grid">
-      <div class="loader">Loading beautiful videos from Pexels...</div>
+      <div class="loader">Loading amazing videos...</div>
     </div>
   </main>
 
@@ -121,11 +136,12 @@
     let currentUser = null;
     let profiles = JSON.parse(localStorage.getItem('miniTV_profiles') || '[]');
     if (!profiles.length) {
-      profiles = [{id: Date.now(), name: "Main User", avatar: "1"}];
+      profiles = [{id: Date.now(), name: "Main", avatar: "1"}];
       localStorage.setItem('miniTV_profiles', JSON.stringify(profiles));
     }
+    let heroVideos = [];
 
-    // Code lock
+    // Code & Profiles (same as before - fully working)
     document.querySelectorAll('.code-input').forEach((el,i,arr) => {
       el.addEventListener('input', () => el.value && arr[i+1]?.focus());
       el.addEventListener('keydown', e => e.key==='Backspace' && !el.value && i>0 && arr[i-1].focus());
@@ -152,7 +168,6 @@
     function renderProfiles() {
       const grid = document.getElementById('profiles-grid');
       grid.innerHTML = '';
-
       profiles.forEach(p => {
         const div = document.createElement('div');
         div.className = 'profile';
@@ -160,51 +175,39 @@
           <div class="profile-avatar">${p.avatar}</div>
           <div class="profile-name">${p.name}</div>
           <div class="profile-actions">
-            <button onclick="editProfile(${p.id}, event)">Edit</button>
-            <button onclick="deleteProfile(${p.id}, event)" style="background:#ff4444;">Delete</button>
+            <button onclick="editProfile(${p.id},event)">Edit</button>
+            <button onclick="deleteProfile(${p.id},event)" style="background:#ff4444;">Delete</button>
           </div>
         `;
-        div.onclick = (e) => {
-          if (!e.target.closest('button')) selectProfile(p);
-        };
+        div.onclick = e => !e.target.closest('button') && selectProfile(p);
         grid.appendChild(div);
       });
-
       const add = document.createElement('div');
-      add.id = 'add-profile-btn';
-      add.innerHTML = '+';
+      add.id = 'add-profile-btn'; add.innerHTML = '+';
       add.onclick = () => {
-        const name = prompt("New profile name:");
-        if (!name) return;
-        const avatar = prompt("Choose an emoji avatar:") || "U";
-        const newProfile = {id: Date.now(), name, avatar};
-        profiles.push(newProfile);
+        const name = prompt("Name:"); if (!name) return;
+        const avatar = prompt("Emoji:") || "U";
+        profiles.push({id:Date.now(), name, avatar});
         localStorage.setItem('miniTV_profiles', JSON.stringify(profiles));
         renderProfiles();
       };
       grid.appendChild(add);
     }
 
-    window.editProfile = (id, e) => {
-      e.stopPropagation();
-      const profile = profiles.find(p => p.id === id);
-      const newName = prompt("New name:", profile.name);
-      if (newName && newName !== profile.name) {
-        profile.name = newName;
-        const newAvatar = prompt("New emoji avatar:", profile.avatar);
-        if (newAvatar) profile.avatar = newAvatar;
+    window.editProfile = (id,e) => { e.stopPropagation();
+      const p = profiles.find(x=>x.id===id);
+      const n = prompt("New name:", p.name); if(n){ p.name=n;
+        const a = prompt("New emoji:", p.avatar); if(a) p.avatar=a;
         localStorage.setItem('miniTV_profiles', JSON.stringify(profiles));
         renderProfiles();
       }
     };
-
-    window.deleteProfile = (id, e) => {
-      e.stopPropagation();
-      if (profiles.length === 1) return alert("Cannot delete the last profile!");
-      if (confirm("Delete this profile and all its watch history?")) {
-        profiles = profiles.filter(p => p.id !== id);
+    window.deleteProfile = (id,e) => { e.stopPropagation();
+      if (profiles.length===1) return alert("Can't delete last profile");
+      if (confirm("Delete forever?")) {
+        profiles = profiles.filter(x=>x.id!==id);
         localStorage.setItem('miniTV_profiles', JSON.stringify(profiles));
-        localStorage.removeItem('miniTV_history_' + id);
+        localStorage.removeItem('miniTV_history_'+id);
         renderProfiles();
       }
     };
@@ -215,59 +218,74 @@
       document.getElementById('header').classList.remove('hidden');
       document.getElementById('ad-banner').classList.remove('hidden');
       document.getElementById('main').classList.remove('hidden');
+      loadHeroCarousel();
       loadVideos();
       loadContinueWatching();
     }
 
     function showProfiles() {
-      document.getElementById('header').classList.add('hidden');
-      document.getElementById('ad-banner').classList.add('hidden');
-      document.getElementById('main').classList.add('hidden');
+      ['header','ad-banner','main'].forEach(id => document.getElementById(id).classList.add('hidden'));
       document.getElementById('profile-select').style.display = 'flex';
     }
 
-    // Pexels Video Loading
-    let page = 1, loading = false, query = "";
-    async function loadVideos() {
-      if (loading) return;
-      loading = true;
-      const url = query 
-        ? `https://api.pexels.com/videos/search?query=${query}&per_page=15&page=${page}`
-        : `https://api.pexels.com/videos/popular?per_page=15&page=${page}`;
-      
-      const res = await fetch(url, {headers: {Authorization: '563492ad6f91700001000001e3f7f8c8f2f04e2b8c7f9d8e8c7f9d8e'}});
+    // FAST VIDEO API (Pixabay)
+    async function loadHeroCarousel() {
+      const res = await fetch("https://pixabay.com/api/videos/?key=1334478-9f9f9f9f9f9f9f9f9f9f9f9f9&q=nature,ocean,space,cinematic&per_page=5");
       const data = await res.json();
-      const container = document.getElementById('video-grid');
-      container.querySelector('.loader')?.remove();
+      heroVideos = data.hits;
+      const container = document.getElementById('hero-carousel');
+      container.innerHTML = '';
+      heroVideos.forEach((v,i) => {
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide' + (i===0?' active':'');
+        slide.innerHTML = `
+          <video src="${v.videos.large.url}" loop muted ${i===0?'autoplay':''} playsinline></video>
+          <div class="carousel-overlay">
+            <div class="carousel-title">Featured: ${v.tags.split(',')[0]}</div>
+            <div class="carousel-desc">Stunning royalty-free cinematic footage</div>
+            <button class="carousel-btn" onclick="play('${v.videos.large.url}')">Play Now</button>
+          </div>
+        `;
+        container.appendChild(slide);
+      });
+      setInterval(() => {
+        const active = container.querySelector('.carousel-slide.active');
+        const next = active.nextElementSibling || container.firstElementChild;
+        active.classList.remove('active');
+        next.classList.add('active');
+        next.querySelector('video').play();
+      }, 8000);
+    }
 
-      data.videos.forEach(v => {
-        const file = v.video_files.find(f => f.quality === 'hd') || v.video_files[0];
+    window.playCurrentHero = () => {
+      const video = document.querySelector('#hero-carousel .active video');
+      play(video.src);
+    };
+
+    async function loadVideos() {
+      const res = await fetch("https://pixabay.com/api/videos/?key=1334478-9f9f9f9f9f9f9f9f9f9f9f9f9&q=trending,popular,cinematic,nature,drone&per_page=30");
+      const data = await res.json();
+      const grid = document.getElementById('video-grid');
+      grid.innerHTML = '';
+      data.hits.forEach(v => {
         const card = document.createElement('div');
         card.className = 'video-card';
         card.innerHTML = `
-          <video src="${file.link}" poster="${v.image}" preload="metadata"></video>
-          <div class="play-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>
-          <div style="padding:16px;">
-            <div style="font-weight:600; margin-bottom:6px;">${v.user.name}'s Video</div>
-            <div style="color:#aaa; font-size:14px;">${Math.floor(v.duration)}s • Free HD</div>
-          </div>
+          <video src="${v.videos.medium.url}" preload="metadata" poster="${v.picture}"></video>
+          <div class="play-overlay"><div class="play-icon">Play</div></div>
+          <div style="padding:16px;"><div style="font-weight:600;">${v.tags}</div></div>
         `;
-        card.onclick = () => play(file.link, v.user.name + "'s Video");
-        container.appendChild(card);
+        card.onclick = () => play(v.videos.large.url || v.videos.medium.url);
+        grid.appendChild(card);
       });
-      page++; loading = false;
     }
 
-    function play(url, title) {
+    function play(url) {
       document.getElementById('player').src = url;
       document.getElementById('modal').classList.add('active');
-      
-      const history = JSON.parse(localStorage.getItem('miniTV_history_'+currentUser.id) || '[]');
-      const entry = {url, title, time: Date.now()};
-      const exists = history.findIndex(h => h.url === url);
-      if (exists > -1) history.splice(exists, 1);
-      history.unshift(entry);
-      localStorage.setItem('miniTV_history_'+currentUser.id, JSON.stringify(history.slice(0,20)));
+      const h = JSON.parse(localStorage.getItem('miniTV_history_'+currentUser.id) || '[]');
+      h.unshift({url, time:Date.now()});
+      localStorage.setItem('miniTV_history_'+currentUser.id, JSON.stringify(h.slice(0,20)));
       loadContinueWatching();
     }
 
@@ -277,35 +295,21 @@
     }
 
     function loadContinueWatching() {
-      const history = JSON.parse(localStorage.getItem('miniTV_history_'+currentUser.id) || '[]');
-      if (!history.length) return;
-      const section = document.getElementById('continue-section');
+      const h = JSON.parse(localStorage.getItem('miniTV_history_'+currentUser.id) || '[]');
+      if (!h.length) return;
       const grid = document.getElementById('continue-grid');
-      section.style.display = 'block';
+      document.getElementById('continue-section').style.display = 'block';
       grid.innerHTML = '';
-      history.slice(0,10).forEach(h => {
+      h.slice(0,10).forEach(item => {
         const card = document.createElement('div');
         card.className = 'video-card';
-        card.innerHTML = `<video src="${h.url}" preload="metadata"></video>
-          <div class="play-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>
-          <div style="padding:16px;"><div style="font-weight:600;">${h.title}</div></div>`;
-        card.onclick = () => play(h.url, h.title);
+        card.innerHTML = `<video src="${item.url}" preload="metadata"></video>
+          <div class="play-overlay"><div class="play-icon">Play</div></div>`;
+        card.onclick = () => play(item.url);
         grid.appendChild(card);
       });
     }
 
-    document.getElementById('search').addEventListener('input', e => {
-      query = e.target.value.trim();
-      page = 1;
-      document.getElementById('video-grid').innerHTML = '<div class="loader">Searching...</div>';
-      loadVideos();
-    });
-
-    window.addEventListener('scroll', () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1200 && !loading) loadVideos();
-    });
-
-    // Start
     document.querySelector('.code-input').focus();
   </script>
 </body>
