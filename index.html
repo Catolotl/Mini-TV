@@ -34,7 +34,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 5000;
+      z-index: 4998;
     }
     #loginScreen h1 {
       font-size: 3.2rem;
@@ -109,7 +109,7 @@
       justify-content: center;
       opacity: 0;
       visibility: hidden;
-      z-index: 5001;
+      z-index: 4998;
       transition: opacity 0.8s ease;
     }
     #passwordStage.visible {
@@ -708,7 +708,8 @@
       <div class="avatar-selector" id="avatarSelector"></div>
       <input type="text" id="profileNameInput" placeholder="Enter profile name" maxlength="20">
       <div class="editor-buttons">
-        <button class="btn-cancel" onclick="closeEditor()">Done</button>
+        <button class="btn-save" onclick="saveProfile()">Save</button>
+        <button class="btn-cancel" onclick="closeEditor()">Cancel</button>
         <button class="btn-delete" id="deleteBtn" onclick="deleteProfile()" style="display:none;">Delete</button>
       </div>
     </div>
@@ -845,7 +846,7 @@
     });
 
     // Profile Management System
-    const AVATAR_EMOJIS = ['👤', '🎮', '🎬', '🎵', '🎨', '🚀', '🌟', '💎', '🔥', '⚡', '🌈', '🎭', '🎪', '🎯', '🏆', '👑', '🦝'];
+    const AVATAR_EMOJIS = ['👤', '🎮', '🎬', '🎵', '🎨', '🚀', '🌟', '💎', '🔥', '⚡', '🌈', '🎭', '🎪', '🎯', '🏆', '👑'];
     let profiles = [];
     let currentProfile = null;
     let editingProfileId = null;
@@ -853,8 +854,8 @@
 
     async function loadProfiles() {
       try {
-        const result = await window.storage.get('tv-profiles');
-        profiles = result ? JSON.parse(result.value) : [
+        const stored = localStorage.getItem('tv-profiles');
+        profiles = stored ? JSON.parse(stored) : [
           { id: Date.now(), name: 'User 1', avatar: '👤' }
         ];
       } catch {
@@ -974,8 +975,10 @@
 
       if (editingProfileId) {
         const profile = profiles.find(p => p.id === editingProfileId);
-        profile.name = name;
-        profile.avatar = selectedAvatar;
+        if (profile) {
+          profile.name = name;
+          profile.avatar = selectedAvatar;
+        }
       } else {
         profiles.push({
           id: Date.now(),
@@ -984,7 +987,7 @@
         });
       }
 
-      await window.storage.set('tv-profiles', JSON.stringify(profiles));
+      localStorage.setItem('tv-profiles', JSON.stringify(profiles));
       closeEditor();
       renderProfiles();
     }
@@ -997,7 +1000,7 @@
 
       if (confirm('Are you sure you want to delete this profile?')) {
         profiles = profiles.filter(p => p.id !== editingProfileId);
-        await window.storage.set('tv-profiles', JSON.stringify(profiles));
+        localStorage.setItem('tv-profiles', JSON.stringify(profiles));
         closeEditor();
         renderProfiles();
       }
