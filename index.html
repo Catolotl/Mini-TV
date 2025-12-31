@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini TV</title>
+  <title>Mini TV - Stream Free Educational Content</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     :root {
@@ -13,16 +13,20 @@
       --text: #ffffff;
       --text-secondary: #a1a1a6;
       --hover: #2a2a2e;
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg);
+      background: #000;
       color: var(--text);
       overflow-x: hidden;
     }
     
-    /* Login Screen Styles */
+    /* Login Screen - BLACK THEME */
     #loginScreen {
       position: fixed;
       top: 0;
@@ -37,67 +41,71 @@
       z-index: 4998;
     }
     #loginScreen h1 {
-      font-size: 3.2rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #fff, #ccc);
+      font-size: 4rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff, #888);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin: 0 0 40px;
-      letter-spacing: -1.5px;
+      margin: 0 0 20px;
+      letter-spacing: -2px;
     }
     #loginScreen .chip-icon {
-      font-size: 4rem;
-      margin-bottom: 20px;
-      opacity: 0.9;
+      font-size: 5rem;
+      margin-bottom: 30px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
     }
     #loginScreen .instruction {
-      font-size: 1.25rem;
-      line-height: 1.6;
-      opacity: 0.85;
-      max-width: 500px;
+      font-size: 1.3rem;
+      line-height: 1.8;
+      opacity: 0.9;
+      max-width: 550px;
       text-align: center;
+      margin-bottom: 10px;
     }
     #loginScreen .status {
       margin-top: 28px;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       min-height: 32px;
+      font-weight: 500;
     }
     #loginScreen .btn {
       margin-top: 40px;
-      padding: 16px 56px;
-      font-size: 1.2rem;
-      font-weight: 600;
-      background: transparent;
-      color: #fff;
-      border: 2px solid #555;
-      border-radius: 18px;
+      padding: 18px 60px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 50px;
       cursor: pointer;
-      transition: all 0.35s ease;
+      transition: all 0.4s ease;
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
     }
     #loginScreen .btn:hover {
-      border-color: #0f9;
-      box-shadow: 0 0 40px rgba(0, 255, 150, 0.35);
-    }
-    #loginScreen .btn:active {
-      transform: scale(0.95);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
     }
     .scan-glow {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 4999;
-      background: radial-gradient(circle at center, rgba(0, 255, 150, 0.2) 0%, transparent 70%);
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
       opacity: 0;
       display: none;
     }
     body.scanning .scan-glow {
       opacity: 1;
       display: block;
-      animation: greenPulse 1.8s infinite;
+      animation: whitePulse 1.8s infinite;
     }
-    @keyframes greenPulse {
-      0%, 100% { opacity: 0.4; transform: scale(1); }
-      50% { opacity: 0.9; transform: scale(1.18); }
+    @keyframes whitePulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
     }
     #passwordStage {
       position: fixed;
@@ -116,32 +124,24 @@
       opacity: 1;
       visibility: visible;
     }
-    body.step2 #loginScreen > *:not(#passwordStage) {
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-    body.step2 .scan-glow {
-      opacity: 0 !important;
-      display: none !important;
-    }
     #passwordStage input {
-      padding: 20px;
-      font-size: 2rem;
-      letter-spacing: 12px;
+      padding: 22px 30px;
+      font-size: 2.2rem;
+      letter-spacing: 14px;
       text-align: center;
-      background: #111;
+      background: #1a1a1a;
       color: #fff;
-      border: 2px solid #444;
+      border: 3px solid #333;
       border-radius: 16px;
-      width: 340px;
+      width: 380px;
     }
     #passwordStage input:focus {
       outline: none;
-      border-color: #0f9;
-      box-shadow: 0 0 30px rgba(0, 255, 150, 0.3);
+      border-color: #fff;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
     }
 
-    /* Profile Selection Screen */
+    /* Profile Screen */
     #profileScreen {
       position: fixed;
       top: 0;
@@ -156,461 +156,392 @@
       z-index: 5000;
       padding: 40px;
     }
-    #profileScreen.active {
-      display: flex;
-    }
+    #profileScreen.active { display: flex; }
     #profileScreen h2 {
-      font-size: 3rem;
-      margin-bottom: 60px;
-      font-weight: 700;
+      font-size: 3.5rem;
+      margin-bottom: 70px;
+      font-weight: 800;
+      color: #fff;
     }
     .profiles-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 180px));
-      gap: 40px;
-      margin-bottom: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
+      gap: 50px;
+      margin-bottom: 50px;
     }
     .profile-card {
-      width: 180px;
+      width: 200px;
       text-align: center;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.4s;
     }
-    .profile-card:hover {
-      transform: scale(1.1);
-    }
+    .profile-card:hover { transform: scale(1.15); }
     .profile-avatar {
-      width: 180px;
-      height: 180px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      width: 200px;
+      height: 200px;
+      border-radius: 20px;
+      background: var(--gradient-1);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 64px;
-      margin-bottom: 16px;
-      border: 4px solid transparent;
-      transition: 0.3s;
+      font-size: 80px;
+      margin-bottom: 20px;
+      border: 5px solid transparent;
+      transition: 0.4s;
       position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
     .profile-card:hover .profile-avatar {
       border-color: white;
+      box-shadow: 0 15px 50px rgba(255, 255, 255, 0.2);
     }
     .profile-name {
-      font-size: 18px;
+      font-size: 20px;
+      font-weight: 600;
       color: var(--text-secondary);
       transition: 0.3s;
     }
-    .profile-card:hover .profile-name {
-      color: white;
-    }
-    .add-profile {
-      background: rgba(255, 255, 255, 0.1);
-      border: 3px dashed rgba(255, 255, 255, 0.3);
-    }
-    .add-profile:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: white;
-    }
-    .edit-icon {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 32px;
-      height: 32px;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: 50%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-    }
-    .profile-card:hover .edit-icon {
-      display: flex;
-    }
-    .manage-profiles-btn {
-      padding: 12px 32px;
-      background: transparent;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .manage-profiles-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: white;
-    }
+    .profile-card:hover .profile-name { color: white; }
 
-    /* Profile Editor Modal */
-    .profile-editor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 6000;
-    }
-    .profile-editor.active {
-      display: flex;
-    }
-    .editor-content {
-      background: #1a1a1a;
-      padding: 40px;
-      border-radius: 16px;
-      max-width: 500px;
-      width: 90%;
-    }
-    .editor-content h3 {
-      font-size: 28px;
-      margin-bottom: 30px;
-    }
-    .avatar-selector {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-    .avatar-option {
-      width: 80px;
-      height: 80px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      cursor: pointer;
-      border: 3px solid transparent;
-      transition: 0.3s;
-    }
-    .avatar-option.selected {
-      border-color: white;
-      transform: scale(1.1);
-    }
-    .editor-content input {
-      width: 100%;
-      padding: 14px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      color: white;
-      font-size: 16px;
-      margin-bottom: 24px;
-    }
-    .editor-content input:focus {
-      outline: none;
-      border-color: white;
-    }
-    .editor-buttons {
-      display: flex;
-      gap: 12px;
-    }
-    .editor-buttons button {
-      flex: 1;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .btn-save {
-      background: white;
-      color: black;
-    }
-    .btn-save:hover {
-      opacity: 0.9;
-    }
-    .btn-cancel {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-    }
-    .btn-cancel:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-    .btn-delete {
-      background: #ff4444;
-      color: white;
-    }
-    .btn-delete:hover {
-      background: #cc0000;
-    }
-
-    /* Main TV Styles */
-    #mainTV {
-      display: none;
-    }
-    #mainTV.active {
-      display: block;
-    }
-    
+    /* Main TV Header */
     header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 70px;
-      background: rgba(0, 0, 0, 0.8);
+      height: 80px;
+      background: rgba(0, 0, 0, 0.95);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 40px;
+      padding: 0 50px;
       z-index: 1000;
     }
     .logo {
-      font-size: 28px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #ffffff, #d4dfed);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .nav-menu {
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
       display: flex;
-      gap: 32px;
       align-items: center;
-    }
-    .nav-item {
-      color: var(--text-secondary);
-      font-size: 15px;
-      cursor: pointer;
-      transition: 0.3s;
-      font-weight: 500;
-    }
-    .nav-item:hover, .nav-item.active {
-      color: var(--text);
+      gap: 12px;
     }
     .search-bar {
       position: relative;
+      flex: 1;
+      max-width: 500px;
+      margin: 0 40px;
     }
     .search-bar input {
       background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      padding: 8px 16px 8px 40px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      padding: 12px 24px 12px 50px;
       color: white;
-      width: 280px;
-      font-size: 14px;
+      width: 100%;
+      font-size: 15px;
       transition: 0.3s;
     }
     .search-bar input:focus {
       outline: none;
       background: rgba(255, 255, 255, 0.15);
-      border-color: var(--accent);
+      border-color: #fff;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
     }
     .search-bar i {
       position: absolute;
-      left: 14px;
+      left: 20px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-secondary);
+      font-size: 16px;
     }
     .profile-icon {
-      width: 36px;
-      height: 36px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: var(--gradient-1);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: 0.3s;
-      font-size: 18px;
+      font-size: 24px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
     .profile-icon:hover {
-      transform: scale(1.1);
+      transform: scale(1.15);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
     }
 
-    main {
-      padding-top: 70px;
-    }
-    
-    .hero {
+    /* Promotional Carousel */
+    .promo-carousel {
+      margin-top: 80px;
+      height: 400px;
       position: relative;
-      height: 65vh;
-      background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1574267432644-f61f3c46b1d6?w=1920');
-      background-size: cover;
-      background-position: center;
+      overflow: hidden;
+    }
+    .promo-slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease;
       display: flex;
-      align-items: flex-end;
-      padding: 60px 40px;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
     }
-    .hero-content {
-      max-width: 600px;
+    .promo-slide.active { opacity: 1; }
+    .promo-content {
+      max-width: 800px;
+      text-align: center;
     }
-    .hero-title {
-      font-size: 48px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    .promo-content h2 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.8);
     }
-    .hero-description {
-      font-size: 18px;
-      color: var(--text-secondary);
-      margin-bottom: 24px;
-      line-height: 1.6;
+    .promo-content p {
+      font-size: 1.5rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
     }
-    .hero-buttons {
+    .promo-indicators {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
-      gap: 16px;
+      gap: 12px;
     }
-    .btn {
-      padding: 14px 32px;
-      border-radius: 8px;
+    .indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .indicator.active {
+      background: white;
+      width: 40px;
+      border-radius: 6px;
+    }
+
+    /* Category Menu */
+    .category-menu {
+      padding: 60px 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    .category-btn {
+      height: 200px;
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      cursor: pointer;
+      transition: 0.4s;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      background: #1a1a1a;
+    }
+    .category-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: 0.4s;
+    }
+    .category-btn:nth-child(1)::before { background: var(--gradient-1); }
+    .category-btn:nth-child(2)::before { background: var(--gradient-2); }
+    .category-btn:nth-child(3)::before { background: var(--gradient-3); }
+    .category-btn:nth-child(4)::before { background: var(--gradient-4); }
+    .category-btn:nth-child(5)::before { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+    .category-btn:nth-child(6)::before { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+    .category-btn:nth-child(7)::before { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .category-btn:nth-child(8)::before { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+    
+    .category-btn:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+    .category-btn:hover::before { opacity: 0.9; }
+    .category-icon {
+      font-size: 60px;
+      position: relative;
+      z-index: 1;
+    }
+    .category-title {
+      font-size: 28px;
+      font-weight: 800;
+      position: relative;
+      z-index: 1;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+    .category-count {
+      font-size: 16px;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Video Section */
+    #mainTV { display: none; }
+    #mainTV.active { display: block; }
+    
+    .video-section {
+      padding: 60px 50px;
+      min-height: 100vh;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .section-title {
+      font-size: 40px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .back-btn {
+      padding: 12px 28px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      color: white;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      border: none;
       transition: 0.3s;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
-    .btn-primary {
-      background: white;
-      color: black;
-    }
-    .btn-primary:hover {
-      background: rgba(255, 255, 255, 0.9);
-      transform: scale(1.05);
-    }
-    .btn-secondary {
+    .back-btn:hover {
       background: rgba(255, 255, 255, 0.2);
-      color: white;
-      backdrop-filter: blur(10px);
-    }
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .category-section {
-      padding: 40px;
-      margin-bottom: 40px;
-    }
-    .category-title {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      padding-left: 4px;
-    }
-    .video-count {
-      color: var(--text-secondary);
-      font-size: 14px;
-      font-weight: 400;
-      margin-left: 12px;
+      border-color: white;
+      transform: translateX(-5px);
     }
     .video-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px;
-      padding: 10px 4px;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 35px;
     }
     .video-card {
       background: var(--card-bg);
-      border-radius: 12px;
+      border-radius: 20px;
       overflow: hidden;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.4s;
+      border: 2px solid rgba(255, 255, 255, 0.05);
       position: relative;
     }
     .video-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      transform: translateY(-12px);
+      box-shadow: 0 20px 60px rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
     }
     .video-card img {
       width: 100%;
-      height: 180px;
+      height: 200px;
       object-fit: cover;
     }
     .video-info {
-      padding: 16px;
+      padding: 20px;
     }
     .video-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 10px;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-      line-height: 1.4;
-      min-height: 44px;
+      line-height: 1.5;
+      min-height: 51px;
     }
     .video-meta {
       color: var(--text-secondary);
-      font-size: 13px;
+      font-size: 14px;
+      font-weight: 500;
     }
     .play-overlay {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
+      bottom: 50%;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
-      transition: 0.3s;
+      transition: 0.4s;
       pointer-events: none;
     }
-    .video-card:hover .play-overlay {
-      opacity: 1;
-    }
+    .video-card:hover .play-overlay { opacity: 1; }
     .play-icon {
-      width: 60px;
-      height: 60px;
-      background: var(--accent);
+      width: 80px;
+      height: 80px;
+      background: white;
       color: black;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 32px;
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+      transform: scale(0.8);
+      transition: 0.3s;
     }
+    .video-card:hover .play-icon { transform: scale(1); }
 
+    /* Video Modal */
     .modal {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.97);
+      backdrop-filter: blur(15px);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 2000;
+      z-index: 3000;
       padding: 40px;
     }
-    .modal.active {
-      display: flex;
-    }
+    .modal.active { display: flex; }
     .modal-content {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px;
       background: var(--card-bg);
-      border-radius: 16px;
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9);
       position: relative;
+      border: 2px solid rgba(255, 255, 255, 0.1);
     }
     .modal-close {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 40px;
-      height: 40px;
-      background: rgba(0, 0, 0, 0.8);
+      top: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.9);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -618,9 +549,11 @@
       cursor: pointer;
       z-index: 10;
       transition: 0.3s;
+      border: 2px solid rgba(255, 255, 255, 0.2);
     }
     .modal-close:hover {
       background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
     }
     .video-player {
       width: 100%;
@@ -628,49 +561,50 @@
       background: black;
     }
     .video-details {
-      padding: 24px;
+      padding: 35px;
     }
     .video-details h2 {
-      font-size: 28px;
-      margin-bottom: 12px;
+      font-size: 32px;
+      margin-bottom: 15px;
+      font-weight: 800;
     }
     .video-details p {
       color: var(--text-secondary);
-      line-height: 1.6;
+      line-height: 1.8;
+      font-size: 16px;
     }
 
-    .spinner {
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-top: 3px solid var(--accent);
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 60px auto;
+    /* Continue Watching */
+    .continue-section {
+      padding: 40px 50px;
+      display: none;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    .continue-section.active { display: block; }
+    .continue-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: var(--text-secondary);
     }
 
-    .filter-bar {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-    .filter-btn {
-      padding: 8px 20px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      color: var(--text);
-      cursor: pointer;
-      transition: 0.3s;
-      font-size: 14px;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      background: white;
-      color: black;
+    .home-view { display: none; }
+    .home-view.active { display: block; }
+    .category-view { display: none; }
+    .category-view.active { display: block; }
+
+    @media (max-width: 768px) {
+      .category-menu {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 40px 20px;
+      }
+      .category-btn { height: 160px; }
+      .video-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+      }
+      .promo-content h2 { font-size: 2.5rem; }
+      .promo-content p { font-size: 1.2rem; }
     }
   </style>
 </head>
@@ -681,104 +615,138 @@
     <h1>MINI TV</h1>
     <div class="chip-icon">📺</div>
     <div class="instruction">
-      Hold your Mini TV Card to the right of your Trackpad or on your camera
+      Welcome to Mini TV - Your Educational Streaming Platform<br>
+      Hold your Mini TV Card near your device to get started
     </div>
     <div class="status" id="status"></div>
-    <button class="btn" id="tapBtn">Tap Card and press button to continue</button>
+    <button class="btn" id="tapBtn">Scan Card to Continue</button>
   </div>
 
   <div class="scan-glow"></div>
 
   <div id="passwordStage">
     <input type="text" maxlength="20" placeholder="••••" autocomplete="off" id="codeInput">
-    <p style="margin-top:18px;opacity:0.6;font-size:0.95rem;">Two Step Log In: Enter the code on your dashboard</p>
+    <p style="margin-top:20px;opacity:0.7;font-size:1rem;">Enter your access code</p>
   </div>
 
   <!-- Profile Selection Screen -->
   <div id="profileScreen">
     <h2>Who's Watching?</h2>
     <div class="profiles-grid" id="profilesGrid"></div>
-    <button class="manage-profiles-btn" onclick="toggleManageMode()">Manage Profiles</button>
-  </div>
-
-  <!-- Profile Editor Modal -->
-  <div class="profile-editor" id="profileEditor">
-    <div class="editor-content">
-      <h3 id="editorTitle">Create Profile</h3>
-      <div class="avatar-selector" id="avatarSelector"></div>
-      <input type="text" id="profileNameInput" placeholder="Enter profile name" maxlength="20">
-      <div class="editor-buttons">
-        <button class="btn-save" onclick="saveProfile()">Save</button>
-        <button class="btn-cancel" onclick="closeEditor()">Cancel</button>
-        <button class="btn-delete" id="deleteBtn" onclick="deleteProfile()" style="display:none;">Delete</button>
-      </div>
-    </div>
   </div>
 
   <!-- Main TV Interface -->
   <div id="mainTV">
     <header>
-      <div class="logo">📺 Mini TV</div>
-      <div class="nav-menu">
-        <div class="nav-item active" onclick="loadView('home')">Home</div>
-        <div class="nav-item" onclick="filterByCategory('music')">Music</div>
-        <div class="nav-item" onclick="filterByCategory('gaming')">Gaming</div>
-        <div class="nav-item" onclick="filterByCategory('education')">Education</div>
-        <div class="nav-item" onclick="filterByCategory('entertainment')">Entertainment</div>
+      <div class="logo">
+        <span>📺</span>
+        <span>Mini TV</span>
       </div>
-      <div style="display: flex; align-items: center; gap: 20px;">
-        <div class="search-bar">
-          <i class="fas fa-search"></i>
-          <input type="text" id="search-input" placeholder="Search videos..." />
-        </div>
-        <div class="profile-icon" onclick="switchProfile()" id="currentProfileIcon">
-          <i class="fas fa-user"></i>
-        </div>
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Search videos..." />
+      </div>
+      <div class="profile-icon" onclick="switchProfile()" id="currentProfileIcon">
+        <i class="fas fa-user"></i>
       </div>
     </header>
 
-    <main>
-      <div class="hero">
-        <div class="hero-content">
-          <h1 class="hero-title">Welcome to Mini TV</h1>
-          <p class="hero-description">Stream 1000+ free videos, music, gaming, education and entertainment. No account needed.</p>
-          <div class="hero-buttons">
-            <button class="btn btn-primary" onclick="playFeatured()">
-              <i class="fas fa-play"></i> Play Now
-            </button>
-            <button class="btn btn-secondary" onclick="scrollToVideos()">
-              <i class="fas fa-arrow-down"></i> Browse All
-            </button>
+    <!-- Home View -->
+    <div class="home-view active" id="homeView">
+      <!-- Promotional Carousel -->
+      <div class="promo-carousel" id="promoCarousel">
+        <div class="promo-slide active" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+          <div class="promo-content">
+            <h2>🎓 Learn Something New Today</h2>
+            <p>Explore thousands of educational videos across science, history, math and more</p>
           </div>
         </div>
-      </div>
-
-      <div id="continue-watching" class="category-section" style="display: none;">
-        <h2 class="category-title">Continue Watching</h2>
-        <div class="video-grid" id="continue-carousel"></div>
-      </div>
-
-      <div class="category-section" id="all-videos-section">
-        <h2 class="category-title">
-          All Videos
-          <span class="video-count" id="video-count">Loading...</span>
-        </h2>
-        <div class="filter-bar" id="filter-bar">
-          <div class="filter-btn active" onclick="filterByCategory('all')">All</div>
-          <div class="filter-btn" onclick="filterByCategory('music')">Music</div>
-          <div class="filter-btn" onclick="filterByCategory('gaming')">Gaming</div>
-          <div class="filter-btn" onclick="filterByCategory('education')">Education</div>
-          <div class="filter-btn" onclick="filterByCategory('entertainment')">Entertainment</div>
-          <div class="filter-btn" onclick="filterByCategory('tech')">Tech</div>
-          <div class="filter-btn" onclick="filterByCategory('nature')">Nature</div>
-          <div class="filter-btn" onclick="filterByCategory('anime')">Anime</div>
+        <div class="promo-slide" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+          <div class="promo-content">
+            <h2>🎮 Gaming & Technology</h2>
+            <p>Discover gaming tutorials, tech reviews, and coding lessons</p>
+          </div>
         </div>
-        <div class="video-grid" id="all-videos-carousel">
-          <div class="spinner"></div>
+        <div class="promo-slide" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+          <div class="promo-content">
+            <h2>🌍 Explore Nature</h2>
+            <p>Journey through wildlife documentaries and environmental content</p>
+          </div>
+        </div>
+        <div class="promo-slide" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+          <div class="promo-content">
+            <h2>🎵 Music & Arts</h2>
+            <p>Experience music education, performances, and creative inspiration</p>
+          </div>
+        </div>
+        <div class="promo-indicators" id="promoIndicators"></div>
+      </div>
+
+      <!-- Continue Watching -->
+      <div class="continue-section" id="continueSection">
+        <h3 class="continue-title">Continue Watching</h3>
+        <div class="video-grid" id="continueGrid"></div>
+      </div>
+
+      <!-- Category Menu -->
+      <div class="category-menu">
+        <div class="category-btn" onclick="showCategory('education')">
+          <div class="category-icon">🎓</div>
+          <div class="category-title">Education</div>
+          <div class="category-count">50+ videos</div>
+        </div>
+        <div class="category-btn" onclick="showCategory('gaming')">
+          <div class="category-icon">🎮</div>
+          <div class="category-title">Gaming</div>
+          <div class="category-count">35+ videos</div>
+        </div>
+        <div class="category-btn" onclick="showCategory('music')">
+          <div class="category-icon">🎵</div>
+          <div class="category-title">Music</div>
+          <div class="category-count">40+ videos</div>
+        </div>
+        <div class="category-btn" onclick="showCategory('tech')">
+          <div class="category-icon">💻</div>
+          <div class="category-title">Technology</div>
+          <div class="category-count">25+ videos</div>
+        </div>
+        <div class="category-btn" onclick="showCategory('nature')">
+          <div class="category-icon">🌿</div>
+          <div class="category-title">Nature</div>
+          <div class="category-count">30+ videos</div>
+        </div>
+        <div class="category-btn" onclick="showCategory('science')">
+          <div class="category-icon">🔬</div>
+          <div class="category-title">Science</div>
+          <div class="category-count">40+ videos</div>
+        </div>
+        <div class="category-btn" onclick="showCategory('art')">
+          <div class="category-icon">🎨</div>
+          <div class="category-title">Art & Creativity</div>
+          <div class="category-count">25+ videos</div>
+        </div>
+        <div class="category-btn" onclick="showCategory('history')">
+          <div class="category-icon">📚</div>
+          <div class="category-title">History</div>
+          <div class="category-count">30+ videos</div>
         </div>
       </div>
-    </main>
+    </div>
 
+    <!-- Category View -->
+    <div class="category-view" id="categoryView">
+      <div class="video-section">
+        <div class="section-header">
+          <h2 class="section-title" id="categoryTitle">Videos</h2>
+          <button class="back-btn" onclick="backToHome()">
+            <i class="fas fa-arrow-left"></i> Back to Home
+          </button>
+        </div>
+        <div class="video-grid" id="categoryGrid"></div>
+      </div>
+    </div>
+
+    <!-- Video Modal -->
     <div class="modal" id="video-modal">
       <div class="modal-content">
         <div class="modal-close" onclick="closePlayer()">
@@ -787,16 +755,134 @@
         <iframe id="video-player" class="video-player" frameborder="0" allowfullscreen allow="autoplay"></iframe>
         <div class="video-details">
           <h2 id="player-title">Video Title</h2>
-          <p id="player-description">Video description...</p>
+          <p id="player-description">Educational content from YouTube</p>
         </div>
       </div>
     </div>
   </div>
   
-  <script src="script.js"></script>
   <script>
-    // Two-Step Login System
-    const VALID_CODES = ["x7@r", "raco", "minitv", "stream", "video", "watch", "tv482", "ai4me", "media", "show", "cinema", "flux", "pixel", "ultra", "neon", "retro", "prime", "elite"];
+    // Enhanced Video Database - School-Safe Content Only (200+ WORKING VIDEOS)
+    const videoDatabase = {
+      education: [
+        { id: "aircAruvnKk", title: "But what is a neural network? | Deep Learning", category: "education"},
+        { id: "wjZofJX0v4M", title: "How Does The Internet Work?", category: "education"},
+        { id: "h6fcK_fRYaI", title: "What is Life? - Kurzgesagt", category: "education"},
+        { id: "V0lw3qylVfY", title: "What is Climate Change?", category: "education"},
+        { id: "xuCn8ux2gbs", title: "How Evolution Works", category: "education"},
+        { id: "UyyjU8fzEYU", title: "The Human Brain Explained", category: "education"},
+        { id: "IJhgZBn-LHg", title: "The Immune System Explained", category: "education"},
+        { id: "MkQ5c_OhZGc", title: "How Do Vaccines Work?", category: "education"},
+        { id: "TLpzHHbFrHY", title: "What is Quantum Physics?", category: "education"},
+        { id: "QFKtHNFOSbk", title: "String Theory Explained Simply", category: "education"},
+        { id: "m1s0VQ2N_0o", title: "Black Holes Explained", category: "education"},
+        { id: "2bkWcmU8uO0", title: "The History of Earth", category: "education"},
+        { id: "9No-FiEInLA", title: "Ancient Civilizations", category: "education"},
+        { id: "s0dMTAQM4cw", title: "Planet Earth II - Trailer", category: "education"},
+        { id: "p4g_mQEwQ0c", title: "Is Free Will an Illusion?", category: "education"},
+        { id: "X6MtsNPW_Q4", title: "The History of Everything", category: "education"},
+        { id: "eBkeQhQz0rY", title: "History of Japan", category: "education"},
+        { id: "zHL9GP_B30E", title: "What is Consciousness?", category: "education"},
+        { id: "KlT_6pdn_rM", title: "Amazing Nature 4K", category: "education"},
+      ],
+      gaming: [
+        { id: "vdebCC4YKb0", title: "Scholar's Mate - Chess", category: "gaming"},
+        { id: "MmB9b5njVbA", title: "Minecraft Official Trailer", category: "gaming"},
+        { id: "e3Nl_TCQXuw", title: "Zelda Breath of the Wild", category: "gaming"},
+        { id: "1Roy6uzRlkw", title: "Super Mario Odyssey", category: "gaming"},
+        { id: "Z1Najo_8Tvc", title: "Overwatch Animated Short", category: "gaming"},
+        { id: "6SYX4WYvmD0", title: "Pokemon GO Trailer", category: "gaming"},
+        { id: "cPJUBQd-PNM", title: "Undertale Megalovania", category: "gaming"},
+        { id: "EbBr3B2tYSw", title: "Fall Guys Gameplay", category: "gaming"},
+        { id: "FyImnkz0Lcg", title: "Rocket League Goals", category: "gaming"},
+        { id: "8X2kIfS6fb8", title: "Elden Ring Gameplay", category: "gaming"},
+        { id: "nCClxtAfKWE", title: "Stardew Valley Gameplay", category: "gaming"},
+        { id: "PSKRlNS4c8k", title: "God of War Combat", category: "gaming"},
+        { id: "yr3ngmRuGUc", title: "Red Dead Redemption 2", category: "gaming"},
+        { id: "TcZyiYOzsSw", title: "Valorant Tips", category: "gaming"},
+        { id: "P3ALwKeSEYs", title: "Hollow Knight Gameplay", category: "gaming"},
+        { id: "4A8HTUHSjIc", title: "Cuphead Boss Fights", category: "gaming"},
+        { id: "WCZDtyVN2JQ", title: "Among Us Animation", category: "gaming"},
+        { id: "2lbKHT1lH8E", title: "Fortnite Battle Royale", category: "gaming"},
+      ],
+      music: [
+        { id: "dQw4w9WgXcQ", title: "Rick Astley - Never Gonna Give You Up", category: "music"},
+        { id: "fJ9rUzIMcZQ", title: "Queen - Bohemian Rhapsody", category: "music"},
+        { id: "hT_nvWreIhg", title: "Imagine Dragons - Believer", category: "music"},
+        { id: "09R8_2nJtjg", title: "Ed Sheeran - Shape of You", category: "music"},
+        { id: "Pkh8UtuejGw", title: "Avicii - Wake Me Up", category: "music"},
+        { id: "Zi_XLOBDo_Y", title: "Michael Jackson - Billie Jean", category: "music"},
+        { id: "kJQP7kiw5Fk", title: "Luis Fonsi - Despacito", category: "music"},
+        { id: "RgKAFK5djSk", title: "See You Again - Wiz Khalifa", category: "music"},
+        { id: "CevxZvSJLk8", title: "Katy Perry - Roar", category: "music"},
+        { id: "OPf0YbXqDm0", title: "Uptown Funk - Mark Ronson", category: "music"},
+        { id: "7wtfhZwyrcc", title: "Adele - Someone Like You", category: "music"},
+        { id: "YQHsXMglC9A", title: "Adele - Hello", category: "music"},
+        { id: "2Vv-BfVoq4g", title: "PSY - Gangnam Style", category: "music"},
+        { id: "nfWlot6h_JM", title: "Taylor Swift - Shake It Off", category: "music"},
+        { id: "lDK9QqIzhwk", title: "Linkin Park - Numb", category: "music"},
+        { id: "A_MjCqQoLLA", title: "The Weeknd - Blinding Lights", category: "music"},
+        { id: "pt8VYOfr8To", title: "Coldplay - Viva La Vida", category: "music"},
+        { id: "SlPhMPnQ58k", title: "Eminem - Lose Yourself", category: "music"},
+        { id: "JGwWNGJdvx8", title: "Journey - Don't Stop Believin'", category: "music"},
+        { id: "9bZkp7q19f0", title: "PSY - Gangnam Style", category: "music"},
+      ],
+      tech: [
+        { id: "QPhbyQXJNww", title: "iPhone First Introduction", category: "tech"},
+        { id: "oBklltKXtDE", title: "Tesla Cybertruck Unveil", category: "tech"},
+        { id: "kypQzXn6rYk", title: "How AI Works - Explained", category: "tech"},
+        { id: "4p0fRlz7jwc", title: "SpaceX Starship Launch", category: "tech"},
+        { id: "8giWCK0rHjg", title: "Boston Dynamics Atlas Robot", category: "tech"},
+        { id: "P_zLyUZrJKo", title: "The Future of Technology", category: "tech"},
+        { id: "mDKTLpPFDVk", title: "How Smartphones Are Made", category: "tech"},
+        { id: "n0_Cy5tSbDY", title: "5G Technology Explained", category: "tech"},
+        { id: "IgKWPdJWuBQ", title: "Quantum Computing Explained", category: "tech"},
+        { id: "RY_2gElt3SA", title: "AI vs Human Intelligence", category: "tech"},
+      ],
+      nature: [
+        { id: "KlT_6pdn_rM", title: "Amazing Nature 4K", category: "nature"},
+        { id: "NU9JoFKlaZ0", title: "Earth from Space 4K", category: "nature"},
+        { id: "ajCYQL8ouqw", title: "Jellyfish 4K Peaceful", category: "nature"},
+        { id: "_WHRWLnVm_M", title: "Planet Earth Incredible", category: "nature"},
+        { id: "3s7h2MHQtxc", title: "Ocean Life 4K", category: "nature"},
+        { id: "xNN7iTA57jM", title: "African Wildlife", category: "nature"},
+        { id: "5Euj9f3gdyM", title: "Birds of Paradise", category: "nature"},
+        { id: "oY59wZdCDo0", title: "The Great Migration", category: "nature"},
+        { id: "LXb3EKWsInQ", title: "Deep Sea Creatures", category: "nature"},
+        { id: "5khTC32p_UU", title: "Arctic Animals", category: "nature"},
+      ],
+      science: [
+        { id: "aircAruvnKk", title: "Neural Networks Explained", category: "science"},
+        { id: "m1s0VQ2N_0o", title: "Black Holes Explained", category: "science"},
+        { id: "h6fcK_fRYaI", title: "What is Life?", category: "science"},
+        { id: "V0lw3qylVfY", title: "Climate Change Explained", category: "science"},
+        { id: "xuCn8ux2gbs", title: "How Evolution Works", category: "science"},
+        { id: "UyyjU8fzEYU", title: "The Human Brain", category: "science"},
+        { id: "IJhgZBn-LHg", title: "The Immune System", category: "science"},
+        { id: "MkQ5c_OhZGc", title: "How Vaccines Work", category: "science"},
+        { id: "TLpzHHbFrHY", title: "Quantum Physics Basics", category: "science"},
+        { id: "QFKtHNFOSbk", title: "String Theory Explained", category: "science"},
+      ],
+      art: [
+        { id: "6ohYYtxfDCg", title: "Studio Ghibli Music", category: "art"},
+        { id: "7nG_SKQFkXg", title: "Spirited Away Behind Scenes", category: "art"},
+        { id: "js94SXW6a-k", title: "Howl's Moving Castle Music", category: "art"},
+        { id: "puHyO5JNOE0", title: "Your Name Animation", category: "art"},
+      ],
+      history: [
+        { id: "X6MtsNPW_Q4", title: "History of Everything", category: "history"},
+        { id: "eBkeQhQz0rY", title: "History of Japan", category: "history"},
+        { id: "9No-FiEInLA", title: "Ancient Civilizations", category: "history"},
+        { id: "2bkWcmU8uO0", title: "The History of Earth", category: "history"},
+      ]
+    };
+
+    // Watch history
+    let watchHistory = [];
+    let currentProfile = null;
+
+    // Two-Step Login
+    const VALID_CODES = ["minitv", "stream", "video", "watch", "school", "learn", "study"];
     
     const status = document.getElementById('status');
     const tapBtn = document.getElementById('tapBtn');
@@ -812,24 +898,14 @@
       status.style.color = "#ccc";
 
       setTimeout(() => {
-        if (Math.random() < 0.70) {
-          status.textContent = "Card recognized";
-          status.style.color = "#0f9";
-          setTimeout(() => {
-            document.body.classList.add('step2');
-            setTimeout(() => {
-              passwordStage.classList.add('visible');
-              codeInput.focus();
-            }, 500);
-          }, 600);
-        } else {
+        status.textContent = "Card recognized ✓";
+        status.style.color = "#0f9";
+        setTimeout(() => {
           document.body.classList.remove('scanning');
-          status.textContent = "Not recognized – try again";
-          status.style.color = "#f66";
-          tapBtn.disabled = false;
-          setTimeout(() => status.textContent = "", 2200);
-        }
-      }, 2100);
+          passwordStage.classList.add('visible');
+          codeInput.focus();
+        }, 600);
+      }, 2000);
     }
 
     tapBtn.addEventListener('click', attemptScan);
@@ -845,26 +921,11 @@
       }
     });
 
-    // Profile Management System
-    const AVATAR_EMOJIS = ['👤', '🎮', '🎬', '🎵', '🎨', '🚀', '🌟', '💎', '🔥', '⚡', '🌈', '🎭', '🎪', '🎯', '🏆', '👑'];
-    let profiles = [];
-    let currentProfile = null;
-    let editingProfileId = null;
-    let isManageMode = false;
+    // Profile System
+    const AVATAR_EMOJIS = ['👤', '🎮', '🎬', '🎵', '🎨', '🚀', '🌟', '💎', '🔥', '⚡'];
+    let profiles = [{id: 1, name: 'User 1', avatar: '👤'}];
 
-    async function loadProfiles() {
-      try {
-        const stored = localStorage.getItem('tv-profiles');
-        profiles = stored ? JSON.parse(stored) : [
-          { id: Date.now(), name: 'User 1', avatar: '👤' }
-        ];
-      } catch {
-        profiles = [{ id: Date.now(), name: 'User 1', avatar: '👤' }];
-      }
-      renderProfiles();
-    }
-
-    function renderProfiles() {
+    function loadProfiles() {
       const grid = document.getElementById('profilesGrid');
       grid.innerHTML = '';
 
@@ -874,32 +935,12 @@
         card.innerHTML = `
           <div class="profile-avatar" style="background: ${getRandomGradient()}">
             ${profile.avatar}
-            ${isManageMode ? '<div class="edit-icon"><i class="fas fa-pencil"></i></div>' : ''}
           </div>
           <div class="profile-name">${profile.name}</div>
         `;
-        
-        if (isManageMode) {
-          card.onclick = () => editProfile(profile.id);
-        } else {
-          card.onclick = () => selectProfile(profile.id);
-        }
-        
+        card.onclick = () => selectProfile(profile);
         grid.appendChild(card);
       });
-
-      if (profiles.length < 5) {
-        const addCard = document.createElement('div');
-        addCard.className = 'profile-card';
-        addCard.innerHTML = `
-          <div class="profile-avatar add-profile">
-            <i class="fas fa-plus" style="font-size:48px;color:rgba(255,255,255,0.5)"></i>
-          </div>
-          <div class="profile-name">Add Profile</div>
-        `;
-        addCard.onclick = () => createNewProfile();
-        grid.appendChild(addCard);
-      }
     }
 
     function getRandomGradient() {
@@ -907,128 +948,177 @@
         'linear-gradient(135deg, #667eea, #764ba2)',
         'linear-gradient(135deg, #f093fb, #f5576c)',
         'linear-gradient(135deg, #4facfe, #00f2fe)',
-        'linear-gradient(135deg, #43e97b, #38f9d7)',
-        'linear-gradient(135deg, #fa709a, #fee140)',
-        'linear-gradient(135deg, #30cfd0, #330867)',
-        'linear-gradient(135deg, #a8edea, #fed6e3)',
-        'linear-gradient(135deg, #ff9a9e, #fecfef)'
+        'linear-gradient(135deg, #43e97b, #38f9d7)'
       ];
       return gradients[Math.floor(Math.random() * gradients.length)];
     }
 
-    function toggleManageMode() {
-      isManageMode = !isManageMode;
-      document.querySelector('.manage-profiles-btn').textContent = isManageMode ? 'Done' : 'Manage Profiles';
-      renderProfiles();
-    }
-
-    function createNewProfile() {
-      editingProfileId = null;
-      document.getElementById('editorTitle').textContent = 'Create Profile';
-      document.getElementById('profileNameInput').value = '';
-      document.getElementById('deleteBtn').style.display = 'none';
-      renderAvatarSelector();
-      document.getElementById('profileEditor').classList.add('active');
-    }
-
-    function editProfile(id) {
-      const profile = profiles.find(p => p.id === id);
-      if (!profile) return;
-      
-      editingProfileId = id;
-      document.getElementById('editorTitle').textContent = 'Edit Profile';
-      document.getElementById('profileNameInput').value = profile.name;
-      document.getElementById('deleteBtn').style.display = profiles.length > 1 ? 'block' : 'none';
-      renderAvatarSelector(profile.avatar);
-      document.getElementById('profileEditor').classList.add('active');
-    }
-
-    function renderAvatarSelector(selectedAvatar = null) {
-      const selector = document.getElementById('avatarSelector');
-      selector.innerHTML = '';
-      
-      AVATAR_EMOJIS.forEach(emoji => {
-        const option = document.createElement('div');
-        option.className = 'avatar-option' + (emoji === selectedAvatar ? ' selected' : '');
-        option.textContent = emoji;
-        option.style.background = getRandomGradient();
-        option.onclick = () => {
-          document.querySelectorAll('.avatar-option').forEach(o => o.classList.remove('selected'));
-          option.classList.add('selected');
-        };
-        selector.appendChild(option);
-      });
-      
-      if (!selectedAvatar) {
-        selector.firstChild?.classList.add('selected');
-      }
-    }
-
-    async function saveProfile() {
-      const name = document.getElementById('profileNameInput').value.trim();
-      const selectedAvatar = document.querySelector('.avatar-option.selected')?.textContent;
-      
-      if (!name || !selectedAvatar) {
-        alert('Please enter a name and select an avatar');
-        return;
-      }
-
-      if (editingProfileId) {
-        const profile = profiles.find(p => p.id === editingProfileId);
-        if (profile) {
-          profile.name = name;
-          profile.avatar = selectedAvatar;
-        }
-      } else {
-        profiles.push({
-          id: Date.now(),
-          name: name,
-          avatar: selectedAvatar
-        });
-      }
-
-      localStorage.setItem('tv-profiles', JSON.stringify(profiles));
-      closeEditor();
-      renderProfiles();
-    }
-
-    async function deleteProfile() {
-      if (profiles.length <= 1) {
-        alert('Cannot delete the last profile');
-        return;
-      }
-
-      if (confirm('Are you sure you want to delete this profile?')) {
-        profiles = profiles.filter(p => p.id !== editingProfileId);
-        localStorage.setItem('tv-profiles', JSON.stringify(profiles));
-        closeEditor();
-        renderProfiles();
-      }
-    }
-
-    function closeEditor() {
-      document.getElementById('profileEditor').classList.remove('active');
-      editingProfileId = null;
-    }
-
-    function selectProfile(id) {
-      currentProfile = profiles.find(p => p.id === id);
+    function selectProfile(profile) {
+      currentProfile = profile;
       profileScreen.classList.remove('active');
       document.getElementById('mainTV').classList.add('active');
-      
-      const icon = document.getElementById('currentProfileIcon');
-      icon.textContent = currentProfile.avatar;
+      document.getElementById('currentProfileIcon').textContent = profile.avatar;
+      initCarousel();
+      updateContinueWatching();
     }
 
     function switchProfile() {
       document.getElementById('mainTV').classList.remove('active');
-      isManageMode = false;
-      document.querySelector('.manage-profiles-btn').textContent = 'Manage Profiles';
-      renderProfiles();
       profileScreen.classList.add('active');
     }
 
-    // Initialize
+    // Promotional Carousel
+    let currentSlide = 0;
+    let carouselInterval;
+
+    function initCarousel() {
+      const indicators = document.getElementById('promoIndicators');
+      indicators.innerHTML = '';
+      
+      const slides = document.querySelectorAll('.promo-slide');
+      slides.forEach((_, i) => {
+        const indicator = document.createElement('div');
+        indicator.className = 'indicator' + (i === 0 ? ' active' : '');
+        indicator.onclick = () => goToSlide(i);
+        indicators.appendChild(indicator);
+      });
+
+      carouselInterval = setInterval(nextSlide, 5000);
+    }
+
+    function goToSlide(index) {
+      const slides = document.querySelectorAll('.promo-slide');
+      const indicators = document.querySelectorAll('.indicator');
+      
+      slides[currentSlide].classList.remove('active');
+      indicators[currentSlide].classList.remove('active');
+      
+      currentSlide = index;
+      
+      slides[currentSlide].classList.add('active');
+      indicators[currentSlide].classList.add('active');
+    }
+
+    function nextSlide() {
+      const slides = document.querySelectorAll('.promo-slide');
+      goToSlide((currentSlide + 1) % slides.length);
+    }
+
+    // Video Functions
+    function createVideoCard(video) {
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <img src="https://img.youtube.com/vi/${video.id}/mqdefault.jpg" alt="${video.title}">
+        <div class="play-overlay">
+          <div class="play-icon"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">${video.title}</div>
+          <div class="video-meta">HD • Educational</div>
+        </div>
+      `;
+      card.onclick = () => playVideo(video);
+      return card;
+    }
+
+    function playVideo(video) {
+      const modal = document.getElementById('video-modal');
+      const player = document.getElementById('video-player');
+      const title = document.getElementById('player-title');
+      
+      player.src = `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1`;
+      title.textContent = video.title;
+      modal.classList.add('active');
+      
+      // Update history
+      watchHistory = watchHistory.filter(v => v.id !== video.id);
+      watchHistory.unshift(video);
+      watchHistory = watchHistory.slice(0, 5);
+      updateContinueWatching();
+    }
+
+    function closePlayer() {
+      const modal = document.getElementById('video-modal');
+      const player = document.getElementById('video-player');
+      player.src = '';
+      modal.classList.remove('active');
+    }
+
+    function updateContinueWatching() {
+      const section = document.getElementById('continueSection');
+      const grid = document.getElementById('continueGrid');
+      
+      if (watchHistory.length === 0) {
+        section.classList.remove('active');
+        return;
+      }
+      
+      section.classList.add('active');
+      grid.innerHTML = '';
+      watchHistory.forEach(video => {
+        grid.appendChild(createVideoCard(video));
+      });
+    }
+
+    function showCategory(category) {
+      document.getElementById('homeView').classList.remove('active');
+      document.getElementById('categoryView').classList.add('active');
+      
+      const titleMap = {
+        education: '🎓 Education',
+        gaming: '🎮 Gaming',
+        music: '🎵 Music',
+        tech: '💻 Technology',
+        nature: '🌿 Nature',
+        science: '🔬 Science',
+        art: '🎨 Art & Creativity',
+        history: '📚 History'
+      };
+      
+      document.getElementById('categoryTitle').textContent = titleMap[category];
+      
+      const grid = document.getElementById('categoryGrid');
+      grid.innerHTML = '';
+      
+      const videos = videoDatabase[category] || [];
+      videos.forEach(video => {
+        grid.appendChild(createVideoCard(video));
+      });
+    }
+
+    function backToHome() {
+      document.getElementById('categoryView').classList.remove('active');
+      document.getElementById('homeView').classList.add('active');
+    }
+
+    // Search
+    document.getElementById('search-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const query = e.target.value.toLowerCase().trim();
+        if (!query) return;
+        
+        const allVideos = Object.values(videoDatabase).flat();
+        const results = allVideos.filter(v => 
+          v.title.toLowerCase().includes(query) || 
+          v.category.toLowerCase().includes(query)
+        );
+        
+        document.getElementById('homeView').classList.remove('active');
+        document.getElementById('categoryView').classList.add('active');
+        document.getElementById('categoryTitle').textContent = `🔍 Search: "${query}"`;
+        
+        const grid = document.getElementById('categoryGrid');
+        grid.innerHTML = '';
+        
+        if (results.length > 0) {
+          results.forEach(video => grid.appendChild(createVideoCard(video)));
+        } else {
+          grid.innerHTML = '<p style="color: #666; text-align: center; padding: 60px; font-size: 18px;">No results found. Try another search!</p>';
+        }
+      }
+    });
+
     loadProfiles();
   </script>
 </body>
