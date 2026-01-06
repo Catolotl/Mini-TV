@@ -3,22 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini TV - Stream Free Educational Content</title>
+  <title>Mini TV Premium - Stream Free Educational Content</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     :root {
       --bg: #000000;
-      --card-bg: #1a1a1a;
+      --card-bg: #0a0a0a;
       --accent: #fff;
       --text: #ffffff;
-      --text-secondary: #a1a1a6;
-      --hover: #2a2a2e;
+      --text-secondary: #888;
+      --hover: #1a1a1a;
       --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
       --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
       --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
     }
+    
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #000;
@@ -26,87 +28,124 @@
       overflow-x: hidden;
     }
     
-    /* Login Screen - BLACK THEME */
+    /* ========== LOGIN SCREEN ========== */
     #loginScreen {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       background: #000;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 4998;
+      z-index: 5000;
+      opacity: 1;
+      transition: opacity 0.6s ease;
     }
+    
+    #loginScreen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
     #loginScreen h1 {
-      font-size: 4rem;
+      font-size: 5rem;
       font-weight: 900;
-      background: linear-gradient(135deg, #fff, #888);
+      background: linear-gradient(135deg, #fff, #aaa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin: 0 0 20px;
-      letter-spacing: -2px;
+      margin: 0 0 30px;
+      letter-spacing: -3px;
+      animation: glow 3s ease-in-out infinite;
     }
+    
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(255,255,255,0.3)); }
+      50% { filter: drop-shadow(0 0 40px rgba(255,255,255,0.6)); }
+    }
+    
     #loginScreen .chip-icon {
-      font-size: 5rem;
-      margin-bottom: 30px;
-      animation: float 3s ease-in-out infinite;
+      font-size: 6rem;
+      margin-bottom: 40px;
+      animation: float 4s ease-in-out infinite;
     }
+    
     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-25px) rotate(5deg); }
     }
+    
     #loginScreen .instruction {
-      font-size: 1.3rem;
-      line-height: 1.8;
-      opacity: 0.9;
-      max-width: 550px;
+      font-size: 1.4rem;
+      line-height: 2;
+      opacity: 0.85;
+      max-width: 600px;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
+    
     #loginScreen .status {
-      margin-top: 28px;
-      font-size: 1.15rem;
-      min-height: 32px;
-      font-weight: 500;
+      margin-top: 35px;
+      font-size: 1.2rem;
+      min-height: 35px;
+      font-weight: 600;
+      color: #0f9;
     }
+    
     #loginScreen .btn {
-      margin-top: 40px;
-      padding: 18px 60px;
-      font-size: 1.25rem;
-      font-weight: 700;
+      margin-top: 50px;
+      padding: 20px 70px;
+      font-size: 1.3rem;
+      font-weight: 800;
       background: #fff;
       color: #000;
       border: none;
-      border-radius: 50px;
+      border-radius: 60px;
       cursor: pointer;
-      transition: all 0.4s ease;
-      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 15px 50px rgba(255, 255, 255, 0.25);
+      position: relative;
+      overflow: hidden;
     }
+    
+    #loginScreen .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: translateX(-100%);
+      transition: 0.6s;
+    }
+    
+    #loginScreen .btn:hover::before {
+      transform: translateX(100%);
+    }
+    
     #loginScreen .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 20px 60px rgba(255, 255, 255, 0.4);
     }
+    
     .scan-glow {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 4999;
-      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+      z-index: 5001;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
       opacity: 0;
       display: none;
     }
+    
     body.scanning .scan-glow {
       opacity: 1;
       display: block;
-      animation: whitePulse 1.8s infinite;
+      animation: whitePulse 2s infinite;
     }
+    
     @keyframes whitePulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.6; }
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.1); }
     }
+    
     #passwordStage {
       position: fixed;
       inset: 0;
@@ -117,37 +156,39 @@
       justify-content: center;
       opacity: 0;
       visibility: hidden;
-      z-index: 4998;
+      z-index: 5000;
       transition: opacity 0.8s ease;
     }
+    
     #passwordStage.visible {
       opacity: 1;
       visibility: visible;
     }
+    
     #passwordStage input {
-      padding: 22px 30px;
-      font-size: 2.2rem;
-      letter-spacing: 14px;
+      padding: 25px 35px;
+      font-size: 2.5rem;
+      letter-spacing: 16px;
       text-align: center;
-      background: #1a1a1a;
+      background: #0a0a0a;
       color: #fff;
-      border: 3px solid #333;
-      border-radius: 16px;
-      width: 380px;
+      border: 3px solid #222;
+      border-radius: 20px;
+      width: 420px;
+      transition: all 0.3s ease;
     }
+    
     #passwordStage input:focus {
       outline: none;
       border-color: #fff;
-      box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+      transform: scale(1.02);
     }
-
-    /* Profile Screen */
+    
+    /* ========== PROFILE SCREEN ========== */
     #profileScreen {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       background: #000;
       display: none;
       flex-direction: column;
@@ -156,315 +197,472 @@
       z-index: 5000;
       padding: 40px;
     }
+    
     #profileScreen.active { display: flex; }
+    
     #profileScreen h2 {
-      font-size: 3.5rem;
-      margin-bottom: 70px;
-      font-weight: 800;
+      font-size: 4rem;
+      margin-bottom: 80px;
+      font-weight: 900;
       color: #fff;
+      letter-spacing: -2px;
     }
+    
     .profiles-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
-      gap: 50px;
-      margin-bottom: 50px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 220px));
+      gap: 60px;
+      margin-bottom: 60px;
     }
+    
     .profile-card {
-      width: 200px;
+      width: 220px;
       text-align: center;
       cursor: pointer;
-      transition: 0.4s;
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .profile-card:hover { transform: scale(1.15); }
+    
+    .profile-card:hover { 
+      transform: scale(1.2) translateY(-10px); 
+    }
+    
     .profile-avatar {
-      width: 200px;
-      height: 200px;
-      border-radius: 20px;
+      width: 220px;
+      height: 220px;
+      border-radius: 25px;
       background: var(--gradient-1);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 80px;
-      margin-bottom: 20px;
-      border: 5px solid transparent;
-      transition: 0.4s;
+      font-size: 90px;
+      margin-bottom: 25px;
+      border: 6px solid transparent;
+      transition: all 0.5s ease;
       position: relative;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
     }
+    
     .profile-card:hover .profile-avatar {
       border-color: white;
-      box-shadow: 0 15px 50px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 25px 80px rgba(255, 255, 255, 0.3);
+      transform: rotate(-5deg);
     }
+    
     .profile-name {
-      font-size: 20px;
-      font-weight: 600;
+      font-size: 22px;
+      font-weight: 700;
       color: var(--text-secondary);
       transition: 0.3s;
     }
-    .profile-card:hover .profile-name { color: white; }
-
-    /* Main TV Header */
+    
+    .profile-card:hover .profile-name { 
+      color: white; 
+      transform: scale(1.1);
+    }
+    
+    /* ========== MAIN HEADER ========== */
     header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 80px;
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      height: 90px;
+      background: rgba(0, 0, 0, 0.98);
+      backdrop-filter: blur(30px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 50px;
+      padding: 0 60px;
       z-index: 1000;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.8);
     }
+    
     .logo {
-      font-size: 32px;
-      font-weight: 800;
+      font-size: 36px;
+      font-weight: 900;
       color: #fff;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+      letter-spacing: -1px;
     }
+    
+    .logo:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+    }
+    
     .search-bar {
       position: relative;
       flex: 1;
-      max-width: 500px;
-      margin: 0 40px;
+      max-width: 600px;
+      margin: 0 50px;
     }
+    
     .search-bar input {
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50px;
-      padding: 12px 24px 12px 50px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      border-radius: 60px;
+      padding: 14px 26px 14px 55px;
       color: white;
       width: 100%;
-      font-size: 15px;
-      transition: 0.3s;
+      font-size: 16px;
+      transition: all 0.3s ease;
     }
+    
+    .search-bar input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+    
     .search-bar input:focus {
       outline: none;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.12);
       border-color: #fff;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+      transform: scale(1.02);
     }
+    
     .search-bar i {
       position: absolute;
-      left: 20px;
+      left: 22px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-secondary);
-      font-size: 16px;
+      font-size: 18px;
     }
-    .profile-icon {
+    
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .icon-btn {
       width: 50px;
       height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 20px;
+      border: 2px solid transparent;
+    }
+    
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.15);
+    }
+    
+    .profile-icon {
+      width: 55px;
+      height: 55px;
       border-radius: 50%;
       background: var(--gradient-1);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: 0.3s;
-      font-size: 24px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      font-size: 26px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+      border: 3px solid rgba(255, 255, 255, 0.2);
     }
+    
     .profile-icon:hover {
-      transform: scale(1.15);
-      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+      transform: scale(1.2) rotate(5deg);
+      box-shadow: 0 10px 40px rgba(255, 255, 255, 0.4);
     }
-
-    /* Promotional Carousel */
-    .promo-carousel {
-      margin-top: 80px;
-      height: 400px;
+    
+    /* ========== HERO SECTION ========== */
+    .hero-section {
+      margin-top: 90px;
+      height: 600px;
       position: relative;
       overflow: hidden;
     }
-    .promo-slide {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      transition: opacity 1s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 60px;
-    }
-    .promo-slide.active { opacity: 1; }
-    .promo-content {
-      max-width: 800px;
-      text-align: center;
-    }
-    .promo-content h2 {
-      font-size: 3.5rem;
-      font-weight: 900;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.8);
-    }
-    .promo-content p {
-      font-size: 1.5rem;
-      opacity: 0.9;
-      margin-bottom: 30px;
-    }
-    .promo-indicators {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 12px;
-    }
-    .indicator {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .indicator.active {
-      background: white;
-      width: 40px;
-      border-radius: 6px;
-    }
-
-    /* Category Menu */
-    .category-menu {
-      padding: 60px 50px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      max-width: 1600px;
-      margin: 0 auto;
-    }
-    .category-btn {
-      height: 200px;
-      border-radius: 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      cursor: pointer;
-      transition: 0.4s;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      position: relative;
-      overflow: hidden;
-      background: #1a1a1a;
-    }
-    .category-btn::before {
-      content: '';
+    
+    .hero-slide {
       position: absolute;
       inset: 0;
       opacity: 0;
-      transition: 0.4s;
+      transition: opacity 1.5s ease;
+      display: flex;
+      align-items: center;
+      padding: 0 80px;
     }
-    .category-btn:nth-child(1)::before { background: var(--gradient-1); }
-    .category-btn:nth-child(2)::before { background: var(--gradient-2); }
-    .category-btn:nth-child(3)::before { background: var(--gradient-3); }
-    .category-btn:nth-child(4)::before { background: var(--gradient-4); }
-    .category-btn:nth-child(5)::before { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-    .category-btn:nth-child(6)::before { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
-    .category-btn:nth-child(7)::before { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
-    .category-btn:nth-child(8)::before { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
     
-    .category-btn:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 60px rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.5);
+    .hero-slide.active { opacity: 1; }
+    
+    .hero-content {
+      max-width: 700px;
+      z-index: 10;
     }
-    .category-btn:hover::before { opacity: 0.9; }
-    .category-icon {
-      font-size: 60px;
-      position: relative;
-      z-index: 1;
+    
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    .category-title {
-      font-size: 28px;
-      font-weight: 800;
-      position: relative;
-      z-index: 1;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    
+    .hero-content h1 {
+      font-size: 4.5rem;
+      font-weight: 900;
+      margin-bottom: 25px;
+      line-height: 1.1;
+      letter-spacing: -2px;
+      text-shadow: 2px 2px 30px rgba(0, 0, 0, 0.9);
     }
-    .category-count {
-      font-size: 16px;
+    
+    .hero-content p {
+      font-size: 1.6rem;
       opacity: 0.9;
-      position: relative;
-      z-index: 1;
+      margin-bottom: 35px;
+      line-height: 1.6;
+      text-shadow: 1px 1px 20px rgba(0, 0, 0, 0.8);
     }
-
-    /* Video Section */
-    #mainTV { display: none; }
-    #mainTV.active { display: block; }
     
-    .video-section {
-      padding: 60px 50px;
-      min-height: 100vh;
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
     }
+    
+    .hero-btn {
+      padding: 16px 40px;
+      font-size: 18px;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .hero-btn-primary {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
+    }
+    
+    .hero-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 50px rgba(255, 255, 255, 0.5);
+    }
+    
+    .hero-btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .hero-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+    }
+    
+    .hero-indicators {
+      position: absolute;
+      bottom: 40px;
+      left: 80px;
+      display: flex;
+      gap: 15px;
+      z-index: 10;
+    }
+    
+    .hero-indicator {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .hero-indicator.active {
+      background: white;
+      width: 50px;
+      border-radius: 7px;
+    }
+    
+    /* ========== SECTION STYLES ========== */
+    .section {
+      padding: 70px 60px;
+    }
+    
     .section-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 40px;
     }
+    
     .section-title {
-      font-size: 40px;
-      font-weight: 800;
+      font-size: 2.5rem;
+      font-weight: 900;
       color: #fff;
+      letter-spacing: -1px;
     }
-    .back-btn {
-      padding: 12px 28px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50px;
-      color: white;
+    
+    .view-all {
+      color: var(--text-secondary);
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       transition: 0.3s;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
-    .back-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: white;
-      transform: translateX(-5px);
+    
+    .view-all:hover {
+      color: white;
+      transform: translateX(5px);
     }
-    .video-grid {
+    
+    /* ========== CATEGORY GRID ========== */
+    .category-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 35px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
     }
-    .video-card {
-      background: var(--card-bg);
+    
+    .category-card {
+      height: 180px;
       border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+      background: var(--card-bg);
+    }
+    
+    .category-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: 0.4s;
+    }
+    
+    .category-card:nth-child(1)::before { background: var(--gradient-1); }
+    .category-card:nth-child(2)::before { background: var(--gradient-2); }
+    .category-card:nth-child(3)::before { background: var(--gradient-3); }
+    .category-card:nth-child(4)::before { background: var(--gradient-4); }
+    .category-card:nth-child(5)::before { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+    .category-card:nth-child(6)::before { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+    .category-card:nth-child(7)::before { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .category-card:nth-child(8)::before { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+    
+    .category-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 25px 70px rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    
+    .category-card:hover::before { opacity: 0.95; }
+    
+    .category-icon {
+      font-size: 70px;
+      position: relative;
+      z-index: 1;
+      transition: 0.3s;
+    }
+    
+    .category-card:hover .category-icon {
+      transform: scale(1.15) rotate(-5deg);
+    }
+    
+    .category-title {
+      font-size: 26px;
+      font-weight: 800;
+      position: relative;
+      z-index: 1;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    }
+    
+    .category-count {
+      font-size: 15px;
+      opacity: 0.95;
+      position: relative;
+      z-index: 1;
+      font-weight: 600;
+    }
+    
+    /* ========== VIDEO CAROUSEL ========== */
+    .video-carousel-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    .video-carousel {
+      display: flex;
+      gap: 25px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 5px;
+      scrollbar-width: none;
+    }
+    
+    .video-carousel::-webkit-scrollbar { display: none; }
+    
+    .video-card {
+      min-width: 380px;
+      background: var(--card-bg);
+      border-radius: 18px;
       overflow: hidden;
       cursor: pointer;
-      transition: 0.4s;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       border: 2px solid rgba(255, 255, 255, 0.05);
       position: relative;
     }
+    
     .video-card:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 20px 60px rgba(255, 255, 255, 0.15);
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: 0 25px 70px rgba(255, 255, 255, 0.2);
       border-color: rgba(255, 255, 255, 0.3);
     }
-    .video-card img {
+    
+    .video-thumbnail {
       width: 100%;
-      height: 200px;
+      height: 214px;
       object-fit: cover;
+      transition: 0.5s;
     }
+    
+    .video-card:hover .video-thumbnail {
+      transform: scale(1.1);
+    }
+    
     .video-info {
       padding: 20px;
     }
+    
     .video-title {
       font-size: 17px;
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
@@ -473,18 +671,23 @@
       line-height: 1.5;
       min-height: 51px;
     }
+    
     .video-meta {
       color: var(--text-secondary);
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
+    
     .play-overlay {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      bottom: 50%;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
+      height: 214px;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -492,119 +695,207 @@
       transition: 0.4s;
       pointer-events: none;
     }
+    
     .video-card:hover .play-overlay { opacity: 1; }
+    
     .play-icon {
-      width: 80px;
-      height: 80px;
+      width: 90px;
+      height: 90px;
       background: white;
       color: black;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
-      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
-      transform: scale(0.8);
+      font-size: 36px;
+      padding-left: 5px;
+      box-shadow: 0 15px 50px rgba(255, 255, 255, 0.4);
+      transform: scale(0.7);
       transition: 0.3s;
     }
-    .video-card:hover .play-icon { transform: scale(1); }
-
-    /* Video Modal */
+    
+    .video-card:hover .play-icon { 
+      transform: scale(1);
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 15px 50px rgba(255, 255, 255, 0.4); }
+      50% { box-shadow: 0 15px 70px rgba(255, 255, 255, 0.7); }
+    }
+    
+    /* ========== VIDEO MODAL ========== */
     .modal {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.97);
-      backdrop-filter: blur(15px);
+      inset: 0;
+      background: rgba(0, 0, 0, 0.98);
+      backdrop-filter: blur(20px);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 3000;
       padding: 40px;
+      animation: fadeIn 0.3s ease;
     }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
     .modal.active { display: flex; }
+    
     .modal-content {
       width: 100%;
-      max-width: 1400px;
+      max-width: 1600px;
       background: var(--card-bg);
-      border-radius: 24px;
+      border-radius: 30px;
       overflow: hidden;
-      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9);
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.9);
       position: relative;
       border: 2px solid rgba(255, 255, 255, 0.1);
+      animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
+    
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
     .modal-close {
       position: absolute;
-      top: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      background: rgba(0, 0, 0, 0.9);
+      top: 35px;
+      right: 35px;
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.95);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       z-index: 10;
-      transition: 0.3s;
+      transition: all 0.3s ease;
       border: 2px solid rgba(255, 255, 255, 0.2);
+      font-size: 24px;
     }
+    
     .modal-close:hover {
       background: rgba(255, 255, 255, 0.2);
-      transform: rotate(90deg);
+      transform: rotate(90deg) scale(1.1);
+      border-color: white;
     }
+    
     .video-player {
       width: 100%;
       aspect-ratio: 16/9;
       background: black;
     }
+    
     .video-details {
-      padding: 35px;
+      padding: 40px;
     }
+    
     .video-details h2 {
-      font-size: 32px;
-      margin-bottom: 15px;
-      font-weight: 800;
+      font-size: 36px;
+      margin-bottom: 18px;
+      font-weight: 900;
+      letter-spacing: -1px;
     }
+    
     .video-details p {
       color: var(--text-secondary);
       line-height: 1.8;
-      font-size: 16px;
+      font-size: 17px;
     }
-
-    /* Continue Watching */
-    .continue-section {
-      padding: 40px 50px;
+    
+    /* ========== VIEWS ========== */
+    .view {
       display: none;
     }
-    .continue-section.active { display: block; }
-    .continue-title {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 25px;
-      color: var(--text-secondary);
+    
+    .view.active {
+      display: block;
     }
-
-    .home-view { display: none; }
-    .home-view.active { display: block; }
-    .category-view { display: none; }
-    .category-view.active { display: block; }
-
+    
+    #mainTV {
+      display: none;
+    }
+    
+    #mainTV.active {
+      display: block;
+    }
+    
+    .category-view {
+      padding-top: 90px;
+      min-height: 100vh;
+    }
+    
+    .category-view .section-header {
+      padding: 40px 60px 20px;
+    }
+    
+    .back-btn {
+      padding: 14px 32px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 60px;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: white;
+      transform: translateX(-8px);
+    }
+    
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 30px;
+      padding: 0 60px 60px;
+    }
+    
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1200px) {
+      .hero-content h1 { font-size: 3.5rem; }
+      .category-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+    }
+    
     @media (max-width: 768px) {
-      .category-menu {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        padding: 40px 20px;
-      }
-      .category-btn { height: 160px; }
-      .video-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 25px;
-      }
-      .promo-content h2 { font-size: 2.5rem; }
-      .promo-content p { font-size: 1.2rem; }
+      header { padding: 0 30px; height: 80px; }
+      .logo { font-size: 28px; }
+      .search-bar { margin: 0 20px; max-width: 400px; }
+      .hero-section { height: 500px; margin-top: 80px; }
+      .hero-slide { padding: 0 40px; }
+      .hero-content h1 { font-size: 2.8rem; }
+      .hero-content p { font-size: 1.3rem; }
+      .section { padding: 50px 30px; }
+      .section-title { font-size: 2rem; }
+      .category-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+      .category-card { height: 160px; }
+      .video-card { min-width: 300px; }
+      .video-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); padding: 0 30px 50px; }
+      .hero-buttons { flex-direction: column; }
+      .hero-btn { width: 100%; justify-content: center; }
+    }
+    
+    @media (max-width: 480px) {
+      #loginScreen h1 { font-size: 3.5rem; }
+      #passwordStage input { width: 90%; font-size: 2rem; }
+      .profiles-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 160px)); gap: 40px; }
+      .profile-avatar { width: 160px; height: 160px; font-size: 60px; }
+      .hero-content h1 { font-size: 2.2rem; }
+      .hero-content p { font-size: 1.1rem; }
+      .category-grid { grid-template-columns: 1fr; }
+      .video-card { min-width: 100%; }
     }
   </style>
 </head>
@@ -615,7 +906,7 @@
     <h1>MINI TV</h1>
     <div class="chip-icon">📺</div>
     <div class="instruction">
-      Welcome to Mini TV - Your Educational Streaming Platform<br>
+      Welcome to Mini TV Premium - Your Educational Streaming Platform<br>
       Hold your Mini TV Card near your device to get started
     </div>
     <div class="status" id="status"></div>
@@ -626,7 +917,7 @@
 
   <div id="passwordStage">
     <input type="text" maxlength="20" placeholder="••••" autocomplete="off" id="codeInput">
-    <p style="margin-top:20px;opacity:0.7;font-size:1rem;">Enter your access code</p>
+    <p style="margin-top:25px;opacity:0.7;font-size:1.1rem;">Enter your access code</p>
   </div>
 
   <!-- Profile Selection Screen -->
@@ -638,131 +929,180 @@
   <!-- Main TV Interface -->
   <div id="mainTV">
     <header>
-      <div class="logo">
+      <div class="logo" onclick="backToHome()">
         <span>📺</span>
         <span>Mini TV</span>
       </div>
       <div class="search-bar">
         <i class="fas fa-search"></i>
-        <input type="text" id="search-input" placeholder="Search videos..." />
+        <input type="text" id="searchInput" placeholder="Search videos..." />
       </div>
-      <div class="profile-icon" onclick="switchProfile()" id="currentProfileIcon">
-        <i class="fas fa-user"></i>
+      <div class="header-actions">
+        <div class="profile-icon" onclick="switchProfile()" id="currentProfileIcon">
+          <i class="fas fa-user"></i>
+        </div>
       </div>
     </header>
 
     <!-- Home View -->
-    <div class="home-view active" id="homeView">
-      <!-- Promotional Carousel -->
-      <div class="promo-carousel" id="promoCarousel">
-        <div class="promo-slide active" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-          <div class="promo-content">
-            <h2>🎓 Learn Something New Today</h2>
+    <div class="view active" id="homeView">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <div class="hero-slide active" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+          <div class="hero-content">
+            <div class="hero-badge">✨ NEW CONTENT</div>
+            <h1>Learn Something Amazing Today</h1>
             <p>Explore thousands of educational videos across science, history, math and more</p>
+            <div class="hero-buttons">
+              <button class="hero-btn hero-btn-primary" onclick="scrollToCategories()">
+                <i class="fas fa-play"></i> Start Watching
+              </button>
+              <button class="hero-btn hero-btn-secondary" onclick="scrollToCategories()">
+                <i class="fas fa-th"></i> Browse Categories
+              </button>
+            </div>
           </div>
         </div>
-        <div class="promo-slide" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-          <div class="promo-content">
-            <h2>🎮 Gaming & Technology</h2>
-            <p>Discover gaming tutorials, tech reviews, and coding lessons</p>
+        
+        <div class="hero-slide" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+          <div class="hero-content">
+            <div class="hero-badge">🎮 TRENDING</div>
+            <h1>Gaming & Technology</h1>
+            <p>Discover gaming tutorials, tech reviews, and coding lessons from experts</p>
+            <div class="hero-buttons">
+              <button class="hero-btn hero-btn-primary" onclick="showCategory('gaming')">
+                <i class="fas fa-play"></i> Explore Gaming
+              </button>
+              <button class="hero-btn hero-btn-secondary" onclick="showCategory('tech')">
+                <i class="fas fa-laptop"></i> View Tech
+              </button>
+            </div>
           </div>
         </div>
-        <div class="promo-slide" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-          <div class="promo-content">
-            <h2>🌍 Explore Nature</h2>
-            <p>Journey through wildlife documentaries and environmental content</p>
+        
+        <div class="hero-slide" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+          <div class="hero-content">
+            <div class="hero-badge">🌍 FEATURED</div>
+            <h1>Explore Our Planet</h1>
+            <p>Journey through stunning wildlife documentaries and environmental content</p>
+            <div class="hero-buttons">
+              <button class="hero-btn hero-btn-primary" onclick="showCategory('nature')">
+                <i class="fas fa-play"></i> Watch Nature
+              </button>
+              <button class="hero-btn hero-btn-secondary" onclick="showCategory('science')">
+                <i class="fas fa-flask"></i> View Science
+              </button>
+            </div>
           </div>
         </div>
-        <div class="promo-slide" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-          <div class="promo-content">
-            <h2>🎵 Music & Arts</h2>
+        
+        <div class="hero-slide" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+          <div class="hero-content">
+            <div class="hero-badge">🎵 POPULAR</div>
+            <h1>Music & Creative Arts</h1>
             <p>Experience music education, performances, and creative inspiration</p>
+            <div class="hero-buttons">
+              <button class="hero-btn hero-btn-primary" onclick="showCategory('music')">
+                <i class="fas fa-play"></i> Listen Now
+              </button>
+              <button class="hero-btn hero-btn-secondary" onclick="showCategory('art')">
+                <i class="fas fa-palette"></i> View Art
+              </button>
+            </div>
           </div>
         </div>
-        <div class="promo-indicators" id="promoIndicators"></div>
+        
+        <div class="hero-indicators" id="heroIndicators"></div>
       </div>
 
-      <!-- Continue Watching -->
-      <div class="continue-section" id="continueSection">
-        <h3 class="continue-title">Continue Watching</h3>
-        <div class="video-grid" id="continueGrid"></div>
+      <!-- Continue Watching Section -->
+      <div class="section" id="continueSection" style="display: none;">
+        <div class="section-header">
+          <h2 class="section-title">Continue Watching</h2>
+        </div>
+        <div class="video-carousel-wrapper">
+          <div class="video-carousel" id="continueCarousel"></div>
+        </div>
       </div>
 
-      <!-- Category Menu -->
-      <div class="category-menu">
-        <div class="category-btn" onclick="showCategory('education')">
-          <div class="category-icon">🎓</div>
-          <div class="category-title">Education</div>
-          <div class="category-count">50+ videos</div>
+      <!-- Categories Section -->
+      <div class="section" id="categoriesSection">
+        <div class="section-header">
+          <h2 class="section-title">Browse by Category</h2>
         </div>
-        <div class="category-btn" onclick="showCategory('gaming')">
-          <div class="category-icon">🎮</div>
-          <div class="category-title">Gaming</div>
-          <div class="category-count">35+ videos</div>
-        </div>
-        <div class="category-btn" onclick="showCategory('music')">
-          <div class="category-icon">🎵</div>
-          <div class="category-title">Music</div>
-          <div class="category-count">40+ videos</div>
-        </div>
-        <div class="category-btn" onclick="showCategory('tech')">
-          <div class="category-icon">💻</div>
-          <div class="category-title">Technology</div>
-          <div class="category-count">25+ videos</div>
-        </div>
-        <div class="category-btn" onclick="showCategory('nature')">
-          <div class="category-icon">🌿</div>
-          <div class="category-title">Nature</div>
-          <div class="category-count">30+ videos</div>
-        </div>
-        <div class="category-btn" onclick="showCategory('science')">
-          <div class="category-icon">🔬</div>
-          <div class="category-title">Science</div>
-          <div class="category-count">40+ videos</div>
-        </div>
-        <div class="category-btn" onclick="showCategory('art')">
-          <div class="category-icon">🎨</div>
-          <div class="category-title">Art & Creativity</div>
-          <div class="category-count">25+ videos</div>
-        </div>
-        <div class="category-btn" onclick="showCategory('history')">
-          <div class="category-icon">📚</div>
-          <div class="category-title">History</div>
-          <div class="category-count">30+ videos</div>
+        <div class="category-grid">
+          <div class="category-card" onclick="showCategory('education')">
+            <div class="category-icon">🎓</div>
+            <div class="category-title">Education</div>
+            <div class="category-count">50+ videos</div>
+          </div>
+          <div class="category-card" onclick="showCategory('gaming')">
+            <div class="category-icon">🎮</div>
+            <div class="category-title">Gaming</div>
+            <div class="category-count">35+ videos</div>
+          </div>
+          <div class="category-card" onclick="showCategory('music')">
+            <div class="category-icon">🎵</div>
+            <div class="category-title">Music</div>
+            <div class="category-count">40+ videos</div>
+          </div>
+          <div class="category-card" onclick="showCategory('tech')">
+            <div class="category-icon">💻</div>
+            <div class="category-title">Technology</div>
+            <div class="category-count">25+ videos</div>
+          </div>
+          <div class="category-card" onclick="showCategory('nature')">
+            <div class="category-icon">🌿</div>
+            <div class="category-title">Nature</div>
+            <div class="category-count">30+ videos</div>
+          </div>
+          <div class="category-card" onclick="showCategory('science')">
+            <div class="category-icon">🔬</div>
+            <div class="category-title">Science</div>
+            <div class="category-count">40+ videos</div>
+          </div>
+          <div class="category-card" onclick="showCategory('art')">
+            <div class="category-icon">🎨</div>
+            <div class="category-title">Art & Creativity</div>
+            <div class="category-count">25+ videos</div>
+          </div>
+          <div class="category-card" onclick="showCategory('history')">
+            <div class="category-icon">📚</div>
+            <div class="category-title">History</div>
+            <div class="category-count">30+ videos</div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Category View -->
-    <div class="category-view" id="categoryView">
-      <div class="video-section">
-        <div class="section-header">
-          <h2 class="section-title" id="categoryTitle">Videos</h2>
-          <button class="back-btn" onclick="backToHome()">
-            <i class="fas fa-arrow-left"></i> Back to Home
-          </button>
-        </div>
-        <div class="video-grid" id="categoryGrid"></div>
+    <div class="view category-view" id="categoryView">
+      <div class="section-header">
+        <h2 class="section-title" id="categoryTitle">Videos</h2>
+        <button class="back-btn" onclick="backToHome()">
+          <i class="fas fa-arrow-left"></i> Back to Home
+        </button>
       </div>
+      <div class="video-grid" id="categoryGrid"></div>
     </div>
 
     <!-- Video Modal -->
-    <div class="modal" id="video-modal">
+    <div class="modal" id="videoModal">
       <div class="modal-content">
         <div class="modal-close" onclick="closePlayer()">
           <i class="fas fa-times"></i>
         </div>
-        <iframe id="video-player" class="video-player" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+        <iframe id="videoPlayer" class="video-player" frameborder="0" allowfullscreen allow="autoplay"></iframe>
         <div class="video-details">
-          <h2 id="player-title">Video Title</h2>
-          <p id="player-description">Educational content from YouTube</p>
+          <h2 id="playerTitle">Video Title</h2>
+          <p id="playerDescription">Educational content from YouTube</p>
         </div>
       </div>
     </div>
   </div>
   
   <script>
-    // Enhanced Video Database - School-Safe Content Only (200+ WORKING VIDEOS)
+    // Video Database
     const videoDatabase = {
       education: [
         { id: "aircAruvnKk", title: "But what is a neural network? | Deep Learning", category: "education"},
@@ -877,11 +1217,13 @@
       ]
     };
 
-    // Watch history
+    // State
     let watchHistory = [];
     let currentProfile = null;
+    let currentHeroSlide = 0;
+    let heroInterval = null;
 
-    // Two-Step Login
+    // Login Flow
     const VALID_CODES = ["minitv", "stream", "video", "watch", "school", "learn", "study"];
     
     const status = document.getElementById('status');
@@ -895,7 +1237,7 @@
       document.body.classList.add('scanning');
       tapBtn.disabled = true;
       status.textContent = "Reading card…";
-      status.style.color = "#ccc";
+      status.style.color = "#888";
 
       setTimeout(() => {
         status.textContent = "Card recognized ✓";
@@ -913,7 +1255,7 @@
     codeInput.addEventListener('input', () => {
       if (VALID_CODES.includes(codeInput.value.trim().toLowerCase())) {
         setTimeout(() => {
-          loginScreen.style.display = 'none';
+          loginScreen.classList.add('hidden');
           passwordStage.style.display = 'none';
           loadProfiles();
           profileScreen.classList.add('active');
@@ -922,8 +1264,9 @@
     });
 
     // Profile System
-    const AVATAR_EMOJIS = ['👤', '🎮', '🎬', '🎵', '🎨', '🚀', '🌟', '💎', '🔥', '⚡'];
-    let profiles = [{id: 1, name: 'User 1', avatar: '👤'}];
+    const profiles = [
+      {id: 1, name: 'User 1', avatar: '👤', gradient: 'linear-gradient(135deg, #667eea, #764ba2)'}
+    ];
 
     function loadProfiles() {
       const grid = document.getElementById('profilesGrid');
@@ -933,7 +1276,7 @@
         const card = document.createElement('div');
         card.className = 'profile-card';
         card.innerHTML = `
-          <div class="profile-avatar" style="background: ${getRandomGradient()}">
+          <div class="profile-avatar" style="background: ${profile.gradient}">
             ${profile.avatar}
           </div>
           <div class="profile-name">${profile.name}</div>
@@ -943,65 +1286,57 @@
       });
     }
 
-    function getRandomGradient() {
-      const gradients = [
-        'linear-gradient(135deg, #667eea, #764ba2)',
-        'linear-gradient(135deg, #f093fb, #f5576c)',
-        'linear-gradient(135deg, #4facfe, #00f2fe)',
-        'linear-gradient(135deg, #43e97b, #38f9d7)'
-      ];
-      return gradients[Math.floor(Math.random() * gradients.length)];
-    }
-
     function selectProfile(profile) {
       currentProfile = profile;
       profileScreen.classList.remove('active');
       document.getElementById('mainTV').classList.add('active');
       document.getElementById('currentProfileIcon').textContent = profile.avatar;
-      initCarousel();
+      initHeroCarousel();
       updateContinueWatching();
     }
 
     function switchProfile() {
       document.getElementById('mainTV').classList.remove('active');
       profileScreen.classList.add('active');
+      if (heroInterval) clearInterval(heroInterval);
     }
 
-    // Promotional Carousel
-    let currentSlide = 0;
-    let carouselInterval;
-
-    function initCarousel() {
-      const indicators = document.getElementById('promoIndicators');
+    // Hero Carousel
+    function initHeroCarousel() {
+      const indicators = document.getElementById('heroIndicators');
       indicators.innerHTML = '';
       
-      const slides = document.querySelectorAll('.promo-slide');
+      const slides = document.querySelectorAll('.hero-slide');
       slides.forEach((_, i) => {
         const indicator = document.createElement('div');
-        indicator.className = 'indicator' + (i === 0 ? ' active' : '');
-        indicator.onclick = () => goToSlide(i);
+        indicator.className = 'hero-indicator' + (i === 0 ? ' active' : '');
+        indicator.onclick = () => goToHeroSlide(i);
         indicators.appendChild(indicator);
       });
 
-      carouselInterval = setInterval(nextSlide, 5000);
+      heroInterval = setInterval(nextHeroSlide, 6000);
     }
 
-    function goToSlide(index) {
-      const slides = document.querySelectorAll('.promo-slide');
-      const indicators = document.querySelectorAll('.indicator');
+    function goToHeroSlide(index) {
+      const slides = document.querySelectorAll('.hero-slide');
+      const indicators = document.querySelectorAll('.hero-indicator');
       
-      slides[currentSlide].classList.remove('active');
-      indicators[currentSlide].classList.remove('active');
+      slides[currentHeroSlide].classList.remove('active');
+      indicators[currentHeroSlide].classList.remove('active');
       
-      currentSlide = index;
+      currentHeroSlide = index;
       
-      slides[currentSlide].classList.add('active');
-      indicators[currentSlide].classList.add('active');
+      slides[currentHeroSlide].classList.add('active');
+      indicators[currentHeroSlide].classList.add('active');
     }
 
-    function nextSlide() {
-      const slides = document.querySelectorAll('.promo-slide');
-      goToSlide((currentSlide + 1) % slides.length);
+    function nextHeroSlide() {
+      const slides = document.querySelectorAll('.hero-slide');
+      goToHeroSlide((currentHeroSlide + 1) % slides.length);
+    }
+
+    function scrollToCategories() {
+      document.getElementById('categoriesSection').scrollIntoView({ behavior: 'smooth' });
     }
 
     // Video Functions
@@ -1009,13 +1344,15 @@
       const card = document.createElement('div');
       card.className = 'video-card';
       card.innerHTML = `
-        <img src="https://img.youtube.com/vi/${video.id}/mqdefault.jpg" alt="${video.title}">
+        <img class="video-thumbnail" src="https://img.youtube.com/vi/${video.id}/mqdefault.jpg" alt="${video.title}">
         <div class="play-overlay">
           <div class="play-icon"><i class="fas fa-play"></i></div>
         </div>
         <div class="video-info">
           <div class="video-title">${video.title}</div>
-          <div class="video-meta">HD • Educational</div>
+          <div class="video-meta">
+            <i class="fas fa-hd-video"></i> HD • Educational
+          </div>
         </div>
       `;
       card.onclick = () => playVideo(video);
@@ -1023,9 +1360,9 @@
     }
 
     function playVideo(video) {
-      const modal = document.getElementById('video-modal');
-      const player = document.getElementById('video-player');
-      const title = document.getElementById('player-title');
+      const modal = document.getElementById('videoModal');
+      const player = document.getElementById('videoPlayer');
+      const title = document.getElementById('playerTitle');
       
       player.src = `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1`;
       title.textContent = video.title;
@@ -1039,25 +1376,25 @@
     }
 
     function closePlayer() {
-      const modal = document.getElementById('video-modal');
-      const player = document.getElementById('video-player');
+      const modal = document.getElementById('videoModal');
+      const player = document.getElementById('videoPlayer');
       player.src = '';
       modal.classList.remove('active');
     }
 
     function updateContinueWatching() {
       const section = document.getElementById('continueSection');
-      const grid = document.getElementById('continueGrid');
+      const carousel = document.getElementById('continueCarousel');
       
       if (watchHistory.length === 0) {
-        section.classList.remove('active');
+        section.style.display = 'none';
         return;
       }
       
-      section.classList.add('active');
-      grid.innerHTML = '';
+      section.style.display = 'block';
+      carousel.innerHTML = '';
       watchHistory.forEach(video => {
-        grid.appendChild(createVideoCard(video));
+        carousel.appendChild(createVideoCard(video));
       });
     }
 
@@ -1093,7 +1430,7 @@
     }
 
     // Search
-    document.getElementById('search-input').addEventListener('keypress', (e) => {
+    document.getElementById('searchInput').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         const query = e.target.value.toLowerCase().trim();
         if (!query) return;
@@ -1114,11 +1451,12 @@
         if (results.length > 0) {
           results.forEach(video => grid.appendChild(createVideoCard(video)));
         } else {
-          grid.innerHTML = '<p style="color: #666; text-align: center; padding: 60px; font-size: 18px;">No results found. Try another search!</p>';
+          grid.innerHTML = '<p style="color: #888; text-align: center; padding: 60px; font-size: 18px;">No results found. Try another search!</p>';
         }
       }
     });
 
+    // Initialize
     loadProfiles();
   </script>
 </body>
