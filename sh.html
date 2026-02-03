@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Private Notes</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f0f1a;
+      color: #e0e0ff;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #setup-screen, #lock-screen, #main {
+      width: 100%;
+      max-width: 600px;
+      background: #1a1a2e;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+    h1 {
+      text-align: center;
+      color: #a5b4fc;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid #4b5563;
+      border-radius: 6px;
+      background: #111827;
+      color: white;
+      font-size: 16px;
+    }
+    button {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 8px;
+    }
+    button:hover {
+      background: #4f46e5;
+    }
+    #notes {
+      white-space: pre-wrap;
+      background: #111827;
+      padding: 16px;
+      border-radius: 8px;
+      min-height: 200px;
+      margin-top: 20px;
+      border: 1px solid #374151;
+    }
+    a {
+      color: #a5b4fc;
+      text-decoration: underline;
+    }
+    .hidden { display: none; }
+    #status, #setupStatus {
+      color: #f87171;
+      text-align: center;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- First-time setup screen -->
+  <div id="setup-screen" class="hidden">
+    <h1>Set Your Code</h1>
+    <p>Create a code to protect your notes (4+ characters recommended)</p>
+    <input type="password" id="newPin1" placeholder="Enter your code" autocomplete="off">
+    <input type="password" id="newPin2" placeholder="Confirm your code" autocomplete="off">
+    <div>
+      <button onclick="setPin()">Save & Continue</button>
+    </div>
+    <div id="setupStatus"></div>
+  </div>
+
+  <!-- Normal lock screen -->
+  <div id="lock-screen" class="hidden">
+    <h1>Locked</h1>
+    <p>Enter your code</p>
+    <input type="password" id="pinInput" placeholder="••••" autocomplete="off">
+    <div>
+      <button onclick="checkPin()">Unlock</button>
+    </div>
+    <div id="status"></div>
+  </div>
+
+  <!-- Main content -->
+  <div id="main" class="hidden">
+    <h1>Private Notes & Links</h1>
+    
+    <textarea id="notesArea" rows="12" placeholder="Write notes here... Paste links too! They become clickable when saved."></textarea>
+    
+    <div>
+      <button onclick="saveNotes()">Save Notes</button>
+      <button onclick="logout()">Lock / Log out</button>
+    </div>
+    
+    <h3>Your saved notes:</h3>
+    <div id="notes"></div>
+  </div>
+
+  <script>
+    const PIN_KEY = 'myPrivatePin';
+    const NOTES_KEY = 'myPrivateNotes';
+
+    window.onload = function() {
+      const savedPin = localStorage.getItem(PIN_KEY);
+      
+      if (!savedPin) {
+        // First time: show setup screen
+        document.getElementById('setup-screen').classList.remove('hidden');
+      } else {
+        // Normal loads: show lock screen
+        document.getElementById('lock-screen').classList.remove('hidden');
+        document.getElementById('pinInput').focus();
+      }
+    };
+
+    function setPin() {
+      const pin1 = document.getElementById('newPin1').value.trim();
+      const pin2 = document.getElementById('newPin2').value.trim();
+      const status = document.getElementById('setupStatus');
+
+      if (!pin1 || pin1.length < 4) {
+        status.textContent = 'Code must be at least 4 characters.';
+        return;
+      }
+      if (pin1 !== pin2) {
+        status.textContent = 'Codes do not match. Try again.';
+        return;
+      }
+
+      localStorage.setItem(PIN_KEY, pin1);
+      alert('Code set successfully! Remember it — you will need it every time.');
+      document.getElementById('setup-screen').classList.add('hidden');
+      document.getElementById('lock-screen').classList.remove('hidden');
+      document.getElementById('pinInput').focus();
+      status.textContent = '';
+    }
+
+    function checkPin() {
+      const input = document.getElementById('pinInput').value.trim();
+      const realPin = localStorage.getItem(PIN_KEY);
+      const status = document.getElementById('status');
+
+      if (input === realPin) {
+        loadNotes();
+        document.getElementById('lock-screen').classList.add('hidden');
+        document.getElementById('main').classList.remove('hidden');
+        status.textContent = '';
+      } else {
+        status.textContent = 'Wrong code. Try again.';
+        document.getElementById('pinInput').value = '';
+        document.getElementById('pinInput').focus();
+      }
+    }
+
+    function loadNotes() {
+      const saved = localStorage.getItem(NOTES_KEY) || '';
+      document.getElementById('notesArea').value = saved;
+      updateRenderedNotes(saved);
+    }
+
+    function saveNotes() {
+      const text = document.getElementById('notesArea').value;
+      localStorage.setItem(NOTES_KEY, text);
+      updateRenderedNotes(text);
+      alert('Notes saved!');
+    }
+
+    function updateRenderedNotes(text) {
+      const withLinks = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+      document.getElementById('notes').innerHTML = withLinks.replace(/\n/g, '<br>');
+    }
+
+    function logout() {
+      document.getElementById('main').classList.add('hidden');
+      document.getElementById('lock-screen').classList.remove('hidden');
+      document.getElementById('pinInput').value = '';
+      document.getElementById('status').textContent = '';
+      document.getElementById('pinInput').focus();
+    }
+
+    // Enter key support for both setup and lock
+    document.getElementById('newPin2').addEventListener('keypress', e => { if (e.key === 'Enter') setPin(); });
+    document.getElementById('pinInput').addEventListener('keypress', e => { if (e.key === 'Enter') checkPin(); });
+  </script>
+</body>
+</html>
