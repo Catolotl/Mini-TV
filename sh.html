@@ -1,202 +1,719 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Private Notes</title>
-  <style>
-    body {
-      font-family: system-ui, sans-serif;
-      background: #0f0f1a;
-      color: #e0e0ff;
-      margin: 0;
-      padding: 20px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    #setup-screen, #lock-screen, #main {
-      width: 100%;
-      max-width: 600px;
-      background: #1a1a2e;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    }
-    h1 {
-      text-align: center;
-      color: #a5b4fc;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 12px 0;
-      border: 1px solid #4b5563;
-      border-radius: 6px;
-      background: #111827;
-      color: white;
-      font-size: 16px;
-    }
-    button {
-      background: #6366f1;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      margin: 8px;
-    }
-    button:hover {
-      background: #4f46e5;
-    }
-    #notes {
-      white-space: pre-wrap;
-      background: #111827;
-      padding: 16px;
-      border-radius: 8px;
-      min-height: 200px;
-      margin-top: 20px;
-      border: 1px solid #374151;
-    }
-    a {
-      color: #a5b4fc;
-      text-decoration: underline;
-    }
-    .hidden { display: none; }
-    #status, #setupStatus {
-      color: #f87171;
-      text-align: center;
-      margin: 10px 0;
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vault</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink:#1a1a24; --ink2:#2c2c3a; --ink3:#3e3e50;
+  --fog:#6b6b80; --silver:#a8a8bc;
+  --paper:#f0eee8; --paper2:#e8e5de; --paper3:#dedad2; --cream:#faf8f3;
+  --gold:#c9a84c; --gold2:#e8c96a;
+  --emerald:#2d7a5e; --ruby:#c0392b; --sapphire:#2c5fad;
+  --r:10px; --r2:16px;
+  --shadow:0 2px 8px rgba(0,0,0,0.08),0 8px 32px rgba(0,0,0,0.06);
+  --shadow2:0 4px 16px rgba(0,0,0,0.12),0 16px 48px rgba(0,0,0,0.1);
+}
+html{font-size:16px}
+body{
+  font-family:'DM Sans',sans-serif; background:var(--paper); color:var(--ink);
+  min-height:100vh; display:flex; flex-direction:column; align-items:center;
+  padding:32px 16px 60px;
+  background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8c3b8' fill-opacity='0.18'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.screen{width:100%;max-width:480px}
+#main{width:100%;max-width:720px}
+.hidden{display:none!important}
+
+/* MASTHEAD */
+.masthead{text-align:center;margin-bottom:32px}
+.masthead-seal{
+  width:64px;height:64px;background:var(--ink);border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-bottom:14px;box-shadow:0 4px 20px rgba(26,26,36,0.25);
+  position:relative;overflow:hidden;
+}
+.masthead-seal::after{content:'';position:absolute;inset:4px;border-radius:50%;border:1px solid rgba(201,168,76,0.4)}
+.seal-icon{font-size:26px}
+.masthead h1{
+  font-family:'DM Serif Display',serif;font-size:32px;
+  letter-spacing:6px;text-transform:uppercase;color:var(--ink);
+}
+.masthead p{font-size:11px;font-family:'DM Mono',monospace;color:var(--fog);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
+
+/* CARD */
+.card{
+  background:var(--cream);border:1px solid var(--paper3);border-radius:var(--r2);
+  padding:36px;box-shadow:var(--shadow2);position:relative;overflow:hidden;
+}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold))}
+.card-eyebrow{font-size:10px;font-family:'DM Mono',monospace;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.card-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--ink);margin-bottom:8px;line-height:1.2}
+.card-body{font-size:13px;color:var(--fog);line-height:1.7;margin-bottom:24px}
+
+/* FIELDS */
+.field{margin-bottom:18px}
+.field label{display:block;font-size:10px;font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;color:var(--fog);margin-bottom:7px}
+.input-wrap{position:relative}
+input[type=password],input[type=text],textarea{
+  width:100%;background:white;border:1.5px solid var(--paper3);border-radius:var(--r);
+  color:var(--ink);font-size:14px;font-family:'DM Mono',monospace;
+  padding:11px 42px 11px 14px;outline:none;
+  transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;
+}
+textarea{padding:12px 14px;resize:vertical;min-height:150px;line-height:1.65;font-family:'DM Sans',sans-serif;font-size:14px}
+input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.12)}
+.eye-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--silver);font-size:15px;line-height:1;padding:2px}
+.eye-btn:hover{color:var(--fog)}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:.3px;
+  border:none;border-radius:var(--r);padding:12px 22px;cursor:pointer;transition:all .15s;text-decoration:none;
+}
+.btn-primary{background:var(--ink);color:white;box-shadow:0 2px 8px rgba(26,26,36,.2)}
+.btn-primary:hover{background:var(--ink2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(26,26,36,.25)}
+.btn-gold{background:var(--gold);color:white;box-shadow:0 2px 10px rgba(201,168,76,.3)}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--fog);border:1.5px solid var(--paper3)}
+.btn-ghost:hover{border-color:var(--ink3);color:var(--ink);background:var(--paper2)}
+.btn-danger{background:transparent;color:var(--ruby);border:1.5px solid rgba(192,57,43,.25)}
+.btn-danger:hover{background:rgba(192,57,43,.06);border-color:var(--ruby)}
+.btn.full{width:100%}
+.btn.sm{padding:8px 14px;font-size:12px}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
+
+/* STATUS */
+.status{margin-top:14px;padding:10px 14px;border-radius:8px;font-size:12px;font-family:'DM Mono',monospace;line-height:1.5;display:none;border-left:3px solid}
+.status.error{background:rgba(192,57,43,.06);border-color:var(--ruby);color:var(--ruby);display:block}
+.status.success{background:rgba(45,122,94,.06);border-color:var(--emerald);color:var(--emerald);display:block}
+.status.warn{background:rgba(201,168,76,.08);border-color:var(--gold);color:#8b6914;display:block}
+
+/* STRENGTH */
+.strength-bar{height:3px;background:var(--paper3);border-radius:2px;margin-top:8px;overflow:hidden}
+.strength-fill{height:100%;border-radius:2px;transition:width .3s,background .3s;width:0%}
+.strength-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--fog);margin-top:4px}
+
+/* PILLS */
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.pill{font-size:10px;font-family:'DM Mono',monospace;color:var(--fog);letter-spacing:.5px;background:white;border:1px solid var(--paper3);border-radius:100px;padding:4px 10px;display:flex;align-items:center;gap:5px}
+.pill-dot{width:5px;height:5px;border-radius:50%}
+.pill-dot.green{background:var(--emerald)}
+.pill-dot.amber{background:var(--gold)}
+
+/* LOCK SCREEN */
+.lock-icon-wrap{text-align:center;margin-bottom:24px}
+.lock-ring{width:72px;height:72px;border-radius:50%;background:var(--ink);display:inline-flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 4px 20px rgba(26,26,36,.2)}
+.attempts-row{display:flex;gap:6px;justify-content:center;margin:14px 0 0}
+.attempt-dot{width:7px;height:7px;border-radius:50%;background:var(--paper3);transition:background .2s}
+.attempt-dot.used{background:var(--ruby)}
+
+/* MIGRATION */
+.migrate-banner{
+  background:linear-gradient(135deg,#fffbf0,#fff8e6);
+  border:1.5px solid var(--gold);border-radius:var(--r);
+  padding:16px 18px;margin-bottom:22px;font-size:13px;line-height:1.6;
+}
+.migrate-banner strong{color:var(--ink)}
+.migrate-banner .tag{
+  display:inline-block;background:var(--gold);color:white;
+  font-size:9px;font-family:'DM Mono',monospace;letter-spacing:1px;text-transform:uppercase;
+  padding:2px 7px;border-radius:100px;margin-bottom:6px;
+}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--silver);font-size:11px;font-family:'DM Mono',monospace}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--paper3)}
+
+/* TIMER */
+.timer-pill{font-size:11px;font-family:'DM Mono',monospace;background:white;border:1px solid var(--paper3);border-radius:100px;padding:4px 12px;color:var(--fog);transition:all .3s}
+.timer-pill.warn{color:#8b6914;border-color:var(--gold);background:#fffbf0}
+
+/* APP HEADER */
+.app-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px}
+.app-brand{display:flex;align-items:center;gap:10px}
+.app-brand-logo{width:34px;height:34px;border-radius:8px;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:15px}
+.app-brand-name{font-family:'DM Serif Display',serif;font-size:18px;letter-spacing:3px;text-transform:uppercase;color:var(--ink)}
+.app-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.toolbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.note-count{font-size:11px;font-family:'DM Mono',monospace;color:var(--fog)}
+
+/* SEARCH */
+.search-row{margin-bottom:20px;position:relative}
+.search-row input[type=text]{padding-left:38px}
+.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--silver);font-size:14px;pointer-events:none}
+.search-clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--silver);font-size:14px;padding:2px 6px;border-radius:4px}
+.search-clear:hover{color:var(--fog);background:var(--paper2)}
+
+/* NOTE CARDS */
+.notes-list{display:flex;flex-direction:column;gap:10px}
+.note-card{background:var(--cream);border:1px solid var(--paper3);border-radius:var(--r2);overflow:hidden;transition:border-color .15s,box-shadow .15s;box-shadow:var(--shadow);animation:slideIn .2s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.note-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.note-card.open{border-color:var(--gold)}
+.note-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;user-select:none;gap:12px}
+.note-header-left{display:flex;align-items:center;gap:12px;min-width:0}
+.note-num{width:28px;height:28px;border-radius:7px;background:var(--paper2);display:flex;align-items:center;justify-content:center;font-size:11px;font-family:'DM Mono',monospace;color:var(--fog);flex-shrink:0}
+.note-title{font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.note-meta{font-size:11px;font-family:'DM Mono',monospace;color:var(--silver);margin-top:2px}
+.note-header-right{display:flex;gap:5px;flex-shrink:0}
+.note-act-btn{background:none;border:none;cursor:pointer;color:var(--silver);font-size:13px;padding:5px 7px;border-radius:6px;transition:all .15s}
+.note-act-btn:hover{background:var(--paper2);color:var(--fog)}
+.note-body{padding:0 18px 18px;display:none;border-top:1px solid var(--paper3)}
+.note-body.open{display:block}
+.note-body .field:first-child{margin-top:18px}
+.note-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--paper3)}
+.note-stats{font-size:11px;font-family:'DM Mono',monospace;color:var(--silver)}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:56px 20px;color:var(--fog)}
+.empty-state .empty-icon{font-size:48px;margin-bottom:12px;opacity:.5}
+.empty-state h3{font-family:'DM Serif Display',serif;font-size:20px;color:var(--ink2);margin-bottom:6px}
+.empty-state p{font-size:13px}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(26,26,36,.55);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
+.overlay.open{display:flex}
+.modal{background:var(--cream);border:1px solid var(--paper3);border-radius:var(--r2);padding:32px;max-width:440px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.2);position:relative;overflow:hidden}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold))}
+.modal h2{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:6px}
+.modal p{font-size:13px;color:var(--fog);margin-bottom:18px;line-height:1.6}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+
+/* TOAST */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:white;padding:10px 20px;border-radius:100px;font-size:12px;font-family:'DM Mono',monospace;z-index:999;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* SPINNER */
+.spinner{width:13px;height:13px;border-radius:50%;border:2px solid rgba(255,255,255,.25);border-top-color:white;animation:spin .6s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* STEPS */
+.steps{display:flex;gap:4px;margin-bottom:24px;justify-content:center}
+.step-dot{width:24px;height:4px;border-radius:2px;background:var(--paper3);transition:background .3s}
+.step-dot.active{background:var(--gold)}
+.step-dot.done{background:var(--emerald)}
+</style>
 </head>
 <body>
 
-  <!-- First-time setup screen -->
-  <div id="setup-screen" class="hidden">
-    <h1>Set Your Code</h1>
-    <p>Create a code to protect your notes (4+ characters recommended)</p>
-    <input type="password" id="newPin1" placeholder="Enter your code" autocomplete="off">
-    <input type="password" id="newPin2" placeholder="Confirm your code" autocomplete="off">
-    <div>
-      <button onclick="setPin()">Save & Continue</button>
-    </div>
-    <div id="setupStatus"></div>
+<!-- SETUP SCREEN -->
+<div id="setup-screen" class="screen hidden">
+  <div class="masthead">
+    <div class="masthead-seal"><span class="seal-icon">🔐</span></div>
+    <h1>Vault</h1>
+    <p>AES-256-GCM · PBKDF2 · Zero Knowledge</p>
   </div>
-
-  <!-- Normal lock screen -->
-  <div id="lock-screen" class="hidden">
-    <h1>Locked</h1>
-    <p>Enter your code</p>
-    <input type="password" id="pinInput" placeholder="••••" autocomplete="off">
-    <div>
-      <button onclick="checkPin()">Unlock</button>
+  <div class="card">
+    <div class="card-eyebrow">First time setup</div>
+    <div class="card-title">Create your master passphrase</div>
+    <div class="card-body">Your passphrase derives an AES-256 encryption key and is <em>never stored</em>. If you lose it, your notes cannot be recovered.</div>
+    <div class="pills">
+      <span class="pill"><span class="pill-dot green"></span>AES-256-GCM</span>
+      <span class="pill"><span class="pill-dot green"></span>PBKDF2 310k rounds</span>
+      <span class="pill"><span class="pill-dot green"></span>Random salt + IV</span>
+      <span class="pill"><span class="pill-dot amber"></span>Local only</span>
     </div>
-    <div id="status"></div>
-  </div>
-
-  <!-- Main content -->
-  <div id="main" class="hidden">
-    <h1>Private Notes & Links</h1>
-    
-    <textarea id="notesArea" rows="12" placeholder="Write notes here... Paste links too! They become clickable when saved."></textarea>
-    
-    <div>
-      <button onclick="saveNotes()">Save Notes</button>
-      <button onclick="logout()">Lock / Log out</button>
+    <div class="field"><label>Passphrase</label>
+      <div class="input-wrap">
+        <input type="password" id="s1" placeholder="Choose a strong passphrase" autocomplete="new-password">
+        <button class="eye-btn" onclick="eye('s1',this)" tabindex="-1">👁</button>
+      </div>
+      <div class="strength-bar"><div class="strength-fill" id="sFill"></div></div>
+      <div class="strength-label" id="sLabel">—</div>
     </div>
-    
-    <h3>Your saved notes:</h3>
-    <div id="notes"></div>
+    <div class="field"><label>Confirm passphrase</label>
+      <div class="input-wrap">
+        <input type="password" id="s2" placeholder="Re-enter passphrase" autocomplete="new-password">
+        <button class="eye-btn" onclick="eye('s2',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+    <button class="btn btn-primary full" id="setupBtn" onclick="setupVault()">Create Vault</button>
+    <div class="status" id="setupSt"></div>
   </div>
+</div>
 
-  <script>
-    const PIN_KEY = 'myPrivatePin';
-    const NOTES_KEY = 'myPrivateNotes';
+<!-- LOCK SCREEN -->
+<div id="lock-screen" class="screen hidden">
+  <div class="masthead">
+    <div class="masthead-seal"><span class="seal-icon">🔐</span></div>
+    <h1>Vault</h1>
+    <p>AES-256-GCM · PBKDF2 · Zero Knowledge</p>
+  </div>
+  <div class="card">
+    <div class="lock-icon-wrap"><div class="lock-ring">🔒</div></div>
+    <div class="card-eyebrow" style="text-align:center">Encrypted vault</div>
+    <div class="card-title" style="text-align:center;margin-bottom:4px">Vault is locked</div>
+    <div class="card-body" style="text-align:center;margin-bottom:20px">Enter your passphrase to decrypt</div>
+    <div class="field"><label>Master Passphrase</label>
+      <div class="input-wrap">
+        <input type="password" id="lockPass" placeholder="Your passphrase" autocomplete="current-password">
+        <button class="eye-btn" onclick="eye('lockPass',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+    <button class="btn btn-primary full" id="unlockBtn" onclick="unlock()">Unlock Vault</button>
+    <div class="attempts-row" id="dotsRow"></div>
+    <div class="status" id="lockSt"></div>
+    <div class="divider">options</div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-ghost sm" onclick="openOv('importOv')">📥 Import Backup</button>
+      <button class="btn btn-danger sm" onclick="openOv('wipeOv')">🗑 Wipe Vault</button>
+    </div>
+  </div>
+</div>
 
-    window.onload = function() {
-      const savedPin = localStorage.getItem(PIN_KEY);
-      
-      if (!savedPin) {
-        // First time: show setup screen
-        document.getElementById('setup-screen').classList.remove('hidden');
-      } else {
-        // Normal loads: show lock screen
-        document.getElementById('lock-screen').classList.remove('hidden');
-        document.getElementById('pinInput').focus();
-      }
-    };
+<!-- MIGRATION SCREEN -->
+<div id="migrate-screen" class="screen hidden">
+  <div class="masthead">
+    <div class="masthead-seal"><span class="seal-icon">✨</span></div>
+    <h1>Vault</h1>
+    <p>Upgrading your notes</p>
+  </div>
+  <div class="card">
+    <div class="steps">
+      <div class="step-dot active" id="mDot1"></div>
+      <div class="step-dot" id="mDot2"></div>
+      <div class="step-dot" id="mDot3"></div>
+    </div>
 
-    function setPin() {
-      const pin1 = document.getElementById('newPin1').value.trim();
-      const pin2 = document.getElementById('newPin2').value.trim();
-      const status = document.getElementById('setupStatus');
+    <div id="mS1">
+      <div class="migrate-banner">
+        <span class="tag">Migration available</span><br>
+        <strong>We found your existing notes!</strong><br>
+        Your previous app stored notes without encryption. We'll migrate them to AES-256 encrypted storage — your old PIN will no longer be used after this.
+      </div>
+      <button class="btn btn-gold full" onclick="mStep2()">Migrate my notes →</button>
+      <div class="divider">or</div>
+      <button class="btn btn-ghost full" onclick="mSkip()">Start fresh (discard old notes)</button>
+    </div>
 
-      if (!pin1 || pin1.length < 4) {
-        status.textContent = 'Code must be at least 4 characters.';
-        return;
-      }
-      if (pin1 !== pin2) {
-        status.textContent = 'Codes do not match. Try again.';
-        return;
-      }
+    <div id="mS2" class="hidden">
+      <div class="card-eyebrow">Step 2 of 3</div>
+      <div class="card-title">Verify your old PIN</div>
+      <div class="card-body">Enter your old PIN to confirm ownership and read your existing notes.</div>
+      <div class="field"><label>Old PIN / password</label>
+        <div class="input-wrap">
+          <input type="password" id="oldPin" placeholder="Your old PIN">
+          <button class="eye-btn" onclick="eye('oldPin',this)" tabindex="-1">👁</button>
+        </div>
+      </div>
+      <button class="btn btn-primary full" onclick="mVerify()">Verify &amp; Continue →</button>
+      <div class="status" id="mSt2"></div>
+    </div>
 
-      localStorage.setItem(PIN_KEY, pin1);
-      alert('Code set successfully! Remember it — you will need it every time.');
-      document.getElementById('setup-screen').classList.add('hidden');
-      document.getElementById('lock-screen').classList.remove('hidden');
-      document.getElementById('pinInput').focus();
-      status.textContent = '';
+    <div id="mS3" class="hidden">
+      <div class="card-eyebrow">Step 3 of 3</div>
+      <div class="card-title">Set your new passphrase</div>
+      <div class="card-body">Choose a strong passphrase. Your notes will be encrypted with AES-256 — your old PIN is no longer used.</div>
+      <div class="field"><label>New passphrase</label>
+        <div class="input-wrap">
+          <input type="password" id="mP1" placeholder="Choose a strong passphrase" autocomplete="new-password">
+          <button class="eye-btn" onclick="eye('mP1',this)" tabindex="-1">👁</button>
+        </div>
+        <div class="strength-bar"><div class="strength-fill" id="mFill"></div></div>
+        <div class="strength-label" id="mLabel">—</div>
+      </div>
+      <div class="field"><label>Confirm passphrase</label>
+        <div class="input-wrap">
+          <input type="password" id="mP2" placeholder="Re-enter passphrase" autocomplete="new-password">
+          <button class="eye-btn" onclick="eye('mP2',this)" tabindex="-1">👁</button>
+        </div>
+      </div>
+      <button class="btn btn-gold full" id="mFinBtn" onclick="mFinish()">Encrypt &amp; Migrate →</button>
+      <div class="status" id="mSt3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="main" class="hidden">
+  <div class="app-header">
+    <div class="app-brand">
+      <div class="app-brand-logo">🔐</div>
+      <span class="app-brand-name">Vault</span>
+      <span class="timer-pill" id="timerPill">⏱ 10:00</span>
+    </div>
+    <div class="app-actions">
+      <button class="btn btn-ghost sm" onclick="exportBackup()">📤 Export</button>
+      <button class="btn btn-ghost sm" onclick="openOv('cpOv')">🔑 Passphrase</button>
+      <button class="btn btn-primary sm" onclick="lockVault()">🔒 Lock</button>
+    </div>
+  </div>
+  <div class="toolbar">
+    <button class="btn btn-gold sm" onclick="newNote()">＋ New Note</button>
+    <button class="btn btn-ghost sm" onclick="saveAll()">💾 Save All</button>
+    <div class="toolbar-right"><span class="note-count" id="nCount"></span></div>
+  </div>
+  <div class="search-row">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchQ" placeholder="Search notes…" oninput="render()">
+    <button class="search-clear" onclick="clearQ()">✕</button>
+  </div>
+  <div class="notes-list" id="notesList"></div>
+  <div class="empty-state hidden" id="emptyState">
+    <div class="empty-icon">📭</div>
+    <h3>No notes yet</h3>
+    <p>Click <strong>＋ New Note</strong> to get started.</p>
+  </div>
+</div>
+
+<!-- CHANGE PASSPHRASE MODAL -->
+<div class="overlay" id="cpOv">
+  <div class="modal">
+    <h2>Change Passphrase</h2>
+    <p>Your notes will be fully re-encrypted with the new passphrase.</p>
+    <div class="field"><label>Current passphrase</label>
+      <div class="input-wrap"><input type="password" id="cpOld" placeholder="Current passphrase">
+      <button class="eye-btn" onclick="eye('cpOld',this)" tabindex="-1">👁</button></div></div>
+    <div class="field"><label>New passphrase</label>
+      <div class="input-wrap"><input type="password" id="cpNew" placeholder="New passphrase">
+      <button class="eye-btn" onclick="eye('cpNew',this)" tabindex="-1">👁</button></div></div>
+    <div class="field"><label>Confirm new</label>
+      <div class="input-wrap"><input type="password" id="cpNew2" placeholder="Confirm new passphrase">
+      <button class="eye-btn" onclick="eye('cpNew2',this)" tabindex="-1">👁</button></div></div>
+    <div class="status" id="cpSt"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost sm" onclick="closeOv('cpOv')">Cancel</button>
+      <button class="btn btn-primary sm" onclick="doChangePass()">Update</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="overlay" id="importOv">
+  <div class="modal">
+    <h2>Import Backup</h2>
+    <p>Paste your encrypted backup JSON and the passphrase used when it was exported.</p>
+    <div class="field"><label>Backup JSON</label>
+      <textarea id="importJson" placeholder='{"vault":"…"}' style="min-height:80px;font-size:12px;font-family:'DM Mono',monospace"></textarea></div>
+    <div class="field"><label>Backup passphrase</label>
+      <div class="input-wrap"><input type="password" id="importPass" placeholder="Passphrase">
+      <button class="eye-btn" onclick="eye('importPass',this)" tabindex="-1">👁</button></div></div>
+    <div class="status" id="importSt"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost sm" onclick="closeOv('importOv')">Cancel</button>
+      <button class="btn btn-primary sm" onclick="doImport()">Import</button>
+    </div>
+  </div>
+</div>
+
+<!-- WIPE MODAL -->
+<div class="overlay" id="wipeOv">
+  <div class="modal">
+    <h2>⚠️ Wipe Vault</h2>
+    <p>This permanently deletes all notes and configuration. There is no undo. Type <strong>DELETE</strong> to confirm.</p>
+    <div class="field"><input type="text" id="wipeConf" placeholder="Type DELETE"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost sm" onclick="closeOv('wipeOv')">Cancel</button>
+      <button class="btn btn-danger sm" onclick="doWipe()">Wipe Everything</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// CRYPTO
+const ITERS=310000,SALT_LEN=32,IV_LEN=12;
+const KS='v_salt',KV='v_verify',KN='v_notes',KL='v_lockout';
+const LP='myPrivatePin',LN='myPrivateNotes'; // legacy keys
+
+const ab2hex=b=>Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
+const hex2ab=h=>{const u=new Uint8Array(h.length/2);for(let i=0;i<h.length;i+=2)u[i/2]=parseInt(h.substr(i,2),16);return u.buffer};
+const ab2b64=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
+const b642ab=s=>{const b=atob(s);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u.buffer};
+
+async function deriveKey(pass,saltHex){
+  const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt:new Uint8Array(hex2ab(saltHex)),iterations:ITERS,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+}
+async function encData(pt,key){
+  const iv=crypto.getRandomValues(new Uint8Array(IV_LEN));
+  const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(pt));
+  return ab2hex(iv.buffer)+':'+ab2b64(ct);
+}
+async function decData(packed,key){
+  const[ivH,ctB]=packed.split(':');
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(hex2ab(ivH))},key,b642ab(ctB));
+  return new TextDecoder().decode(pt);
+}
+const VT='__vault_v2_ok__';
+async function mkVer(key){return encData(VT,key)}
+async function chkVer(tok,key){try{return(await decData(tok,key))===VT}catch{return false}}
+
+// STATE
+let SK=null,notes=[],fails=0;
+const MAX_FAILS=8;
+let tRem=600,tInt=null;
+let mNotes=null;
+
+// BOOT
+window.onload=()=>{
+  const hasSalt=!!localStorage.getItem(KS);
+  const hasLeg=!!localStorage.getItem(LP);
+  if(!hasSalt&&hasLeg){show('migrate-screen')}
+  else if(!hasSalt){show('setup-screen')}
+  else{show('lock-screen');loadFails();renderDots();checkLockout();document.getElementById('lockPass').focus()}
+
+  document.getElementById('lockPass').addEventListener('keydown',e=>{if(e.key==='Enter')unlock()});
+  document.getElementById('s2').addEventListener('keydown',e=>{if(e.key==='Enter')setupVault()});
+  document.getElementById('s1').addEventListener('input',()=>strength('s1','sFill','sLabel'));
+  document.getElementById('mP1').addEventListener('input',()=>strength('mP1','mFill','mLabel'));
+  document.getElementById('oldPin').addEventListener('keydown',e=>{if(e.key==='Enter')mVerify()});
+};
+function show(id){['setup-screen','lock-screen','main','migrate-screen'].forEach(s=>document.getElementById(s).classList.add('hidden'));document.getElementById(id).classList.remove('hidden')}
+
+// MIGRATION
+function mStep2(){
+  document.getElementById('mS1').classList.add('hidden');
+  document.getElementById('mS2').classList.remove('hidden');
+  document.getElementById('mDot1').className='step-dot done';
+  document.getElementById('mDot2').className='step-dot active';
+  document.getElementById('oldPin').focus();
+}
+function mVerify(){
+  const pin=document.getElementById('oldPin').value;
+  const real=localStorage.getItem(LP);
+  const st=document.getElementById('mSt2');
+  if(pin!==real){setSt(st,'Incorrect PIN. Please try again.','error');document.getElementById('oldPin').value='';document.getElementById('oldPin').focus();return}
+  const oldText=localStorage.getItem(LN)||'';
+  mNotes=[];
+  if(oldText.trim()){
+    mNotes.push({id:Date.now().toString(36)+'m',title:'Imported Notes',body:oldText,created:new Date().toISOString(),modified:new Date().toISOString()});
+  }
+  document.getElementById('mS2').classList.add('hidden');
+  document.getElementById('mS3').classList.remove('hidden');
+  document.getElementById('mDot2').className='step-dot done';
+  document.getElementById('mDot3').className='step-dot active';
+  document.getElementById('mP1').focus();
+}
+async function mFinish(){
+  const p1=document.getElementById('mP1').value,p2=document.getElementById('mP2').value;
+  const st=document.getElementById('mSt3');setSt(st,'');
+  if(p1.length<6)return setSt(st,'Passphrase must be at least 6 characters.','error');
+  if(p1!==p2)return setSt(st,'Passphrases do not match.','error');
+  const btn=document.getElementById('mFinBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Encrypting…';
+  try{
+    const salt=ab2hex(crypto.getRandomValues(new Uint8Array(SALT_LEN)).buffer);
+    const key=await deriveKey(p1,salt);
+    const ver=await mkVer(key);
+    const ne=await encData(JSON.stringify(mNotes),key);
+    localStorage.setItem(KS,salt);localStorage.setItem(KV,ver);localStorage.setItem(KN,ne);
+    localStorage.removeItem(LP);localStorage.removeItem(LN);
+    SK=key;notes=mNotes;mNotes=null;
+    toast(`✓ Migrated ${notes.length} note${notes.length!==1?'s':''}. Old PIN removed.`);
+    openApp();
+  }catch(e){setSt(st,'Error: '+e.message,'error');btn.disabled=false;btn.innerHTML='Encrypt & Migrate →'}
+}
+function mSkip(){if(!confirm('This will permanently discard your old notes. Are you sure?'))return;localStorage.removeItem(LP);localStorage.removeItem(LN);show('setup-screen');document.getElementById('s1').focus()}
+
+// SETUP
+async function setupVault(){
+  const p1=document.getElementById('s1').value,p2=document.getElementById('s2').value;
+  const st=document.getElementById('setupSt');setSt(st,'');
+  if(p1.length<6)return setSt(st,'Passphrase must be at least 6 characters.','error');
+  if(p1!==p2)return setSt(st,'Passphrases do not match.','error');
+  const btn=document.getElementById('setupBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Generating key…';
+  try{
+    const salt=ab2hex(crypto.getRandomValues(new Uint8Array(SALT_LEN)).buffer);
+    const key=await deriveKey(p1,salt);
+    const ver=await mkVer(key);
+    const ne=await encData('[]',key);
+    localStorage.setItem(KS,salt);localStorage.setItem(KV,ver);localStorage.setItem(KN,ne);
+    SK=key;notes=[];openApp();
+  }catch(e){setSt(st,'Error: '+e.message,'error')}
+  btn.disabled=false;btn.innerHTML='Create Vault';
+}
+
+// UNLOCK
+async function unlock(){
+  const pass=document.getElementById('lockPass').value,st=document.getElementById('lockSt');setSt(st,'');
+  if(!pass)return;
+  if(isLockedOut())return setSt(st,`Too many failures. Wait ${lockLeft()}s.`,'error');
+  const btn=document.getElementById('unlockBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Decrypting…';
+  try{
+    const key=await deriveKey(pass,localStorage.getItem(KS));
+    const ok=await chkVer(localStorage.getItem(KV),key);
+    if(!ok){
+      fails++;saveFails();renderDots();
+      if(fails>=MAX_FAILS){trigLock();setSt(st,'Too many failures. Vault locked for 5 minutes.','error')}
+      else setSt(st,`Wrong passphrase. ${MAX_FAILS-fails} attempts left.`,'error');
+      document.getElementById('lockPass').value='';
+    }else{
+      fails=0;saveFails();
+      notes=JSON.parse(await decData(localStorage.getItem(KN),key))||[];
+      SK=key;document.getElementById('lockPass').value='';openApp();
     }
+  }catch(e){setSt(st,'Decryption error.','error')}
+  btn.disabled=false;btn.innerHTML='Unlock Vault';
+}
 
-    function checkPin() {
-      const input = document.getElementById('pinInput').value.trim();
-      const realPin = localStorage.getItem(PIN_KEY);
-      const status = document.getElementById('status');
+// APP
+function openApp(){show('main');startTimer();render()}
+function lockVault(){clearInterval(tInt);SK=null;notes=[];show('lock-screen');renderDots();document.getElementById('lockPass').value='';setSt(document.getElementById('lockSt'),'');document.getElementById('lockPass').focus()}
 
-      if (input === realPin) {
-        loadNotes();
-        document.getElementById('lock-screen').classList.add('hidden');
-        document.getElementById('main').classList.remove('hidden');
-        status.textContent = '';
-      } else {
-        status.textContent = 'Wrong code. Try again.';
-        document.getElementById('pinInput').value = '';
-        document.getElementById('pinInput').focus();
-      }
-    }
+// TIMER
+function startTimer(){tRem=600;clearInterval(tInt);updateTimer();tInt=setInterval(()=>{tRem--;updateTimer();if(tRem<=0)lockVault()},1000)}
+function resetTimer(){tRem=600}
+function updateTimer(){
+  const m=Math.floor(tRem/60).toString().padStart(2,'0'),s=(tRem%60).toString().padStart(2,'0');
+  const el=document.getElementById('timerPill');el.textContent=`⏱ ${m}:${s}`;
+  el.className='timer-pill'+(tRem<=60?' warn':'');
+}
+document.addEventListener('keydown',resetTimer);
+document.addEventListener('mousedown',resetTimer);
 
-    function loadNotes() {
-      const saved = localStorage.getItem(NOTES_KEY) || '';
-      document.getElementById('notesArea').value = saved;
-      updateRenderedNotes(saved);
-    }
+// LOCKOUT
+function saveFails(){localStorage.setItem(KL,JSON.stringify({fails,until:0}))}
+function loadFails(){try{const d=JSON.parse(localStorage.getItem(KL)||'{}');fails=d.fails||0}catch{fails=0}}
+function trigLock(){localStorage.setItem(KL,JSON.stringify({fails,until:Date.now()+300000}))}
+function isLockedOut(){try{const d=JSON.parse(localStorage.getItem(KL)||'{}');return d.until&&Date.now()<d.until}catch{return false}}
+function lockLeft(){try{const d=JSON.parse(localStorage.getItem(KL)||'{}');return Math.ceil((d.until-Date.now())/1000)}catch{return 0}}
+function checkLockout(){
+  if(isLockedOut()){setSt(document.getElementById('lockSt'),`Locked. Wait ${lockLeft()}s.`,'error');document.getElementById('unlockBtn').disabled=true;setTimeout(checkLockout,4000)}
+  else document.getElementById('unlockBtn').disabled=false;
+}
+function renderDots(){const r=document.getElementById('dotsRow');r.innerHTML=fails===0?'':Array.from({length:MAX_FAILS},(_,i)=>`<div class="attempt-dot${i<fails?' used':''}"></div>`).join('')}
 
-    function saveNotes() {
-      const text = document.getElementById('notesArea').value;
-      localStorage.setItem(NOTES_KEY, text);
-      updateRenderedNotes(text);
-      alert('Notes saved!');
-    }
+// NOTES
+function newNote(){
+  const id=Date.now().toString(36)+Math.random().toString(36).slice(2),now=new Date().toISOString();
+  notes.unshift({id,title:'New Note',body:'',created:now,modified:now});
+  render();setTimeout(()=>{openBody(id);document.getElementById('title_'+id)?.focus()},60);
+}
+function openBody(id){
+  document.querySelectorAll('.note-body.open').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.note-card.open').forEach(b=>b.classList.remove('open'));
+  const b=document.getElementById('nb_'+id),c=document.getElementById('nc_'+id);
+  if(b){b.classList.toggle('open');c.classList.toggle('open')}
+}
+function deleteNote(id){if(!confirm('Delete this note permanently?'))return;notes=notes.filter(n=>n.id!==id);render();saveAll()}
+function copyNote(id){const n=notes.find(n=>n.id===id);if(n)navigator.clipboard.writeText(n.body).then(()=>toast('📋 Copied to clipboard'))}
+function collectEdits(){notes.forEach(n=>{const t=document.getElementById('title_'+n.id),b=document.getElementById('body_'+n.id);if(t)n.title=t.value;if(b){n.body=b.value;n.modified=new Date().toISOString()}})}
+async function saveAll(){
+  if(!SK)return;collectEdits();
+  try{localStorage.setItem(KN,await encData(JSON.stringify(notes),SK));toast('✓ Saved & encrypted');render()}
+  catch(e){toast('Save error: '+e.message,true)}
+}
 
-    function updateRenderedNotes(text) {
-      const withLinks = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
-      document.getElementById('notes').innerHTML = withLinks.replace(/\n/g, '<br>');
-    }
+// RENDER
+function render(){
+  const q=(document.getElementById('searchQ').value||'').toLowerCase().trim();
+  const list=document.getElementById('notesList'),empty=document.getElementById('emptyState'),nc=document.getElementById('nCount');
+  const filtered=q?notes.filter(n=>n.title.toLowerCase().includes(q)||n.body.toLowerCase().includes(q)):notes;
+  nc.textContent=`${filtered.length} note${filtered.length!==1?'s':''}`;
+  if(!filtered.length){list.innerHTML='';empty.classList.remove('hidden');return}
+  empty.classList.add('hidden');
+  list.innerHTML=filtered.map((n,i)=>{
+    const words=n.body.trim().split(/\s+/).filter(Boolean).length;
+    const preview=n.body.slice(0,80).replace(/\n/g,' ').trim();
+    const mod=new Date(n.modified).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    return`<div class="note-card" id="nc_${n.id}">
+      <div class="note-header" onclick="openBody('${n.id}')">
+        <div class="note-header-left">
+          <div class="note-num">${(i+1).toString().padStart(2,'0')}</div>
+          <div>
+            <div class="note-title">${esc(n.title)||'(untitled)'}</div>
+            <div class="note-meta">${mod} · ${words}w${preview?' · '+esc(preview.slice(0,55))+'…':''}</div>
+          </div>
+        </div>
+        <div class="note-header-right" onclick="event.stopPropagation()">
+          <button class="note-act-btn" onclick="copyNote('${n.id}')" title="Copy body">📋</button>
+          <button class="note-act-btn" onclick="deleteNote('${n.id}')" title="Delete">🗑</button>
+        </div>
+      </div>
+      <div class="note-body" id="nb_${n.id}">
+        <div class="field"><label>Title</label>
+          <input type="text" id="title_${n.id}" value="${escA(n.title)}" placeholder="Note title" oninput="liveT('${n.id}',this.value)">
+        </div>
+        <div class="field"><label>Content</label>
+          <textarea id="body_${n.id}" placeholder="Write anything…">${esc(n.body)}</textarea>
+        </div>
+        <div class="note-footer">
+          <span class="note-stats">${n.body.length} chars · ${words} words</span>
+          <button class="btn btn-primary sm" onclick="saveAll()">💾 Save</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function liveT(id,v){const n=notes.find(n=>n.id===id);if(n){n.title=v;const e=document.querySelector(`#nc_${id} .note-title`);if(e)e.textContent=v||'(untitled)'}}
+function clearQ(){document.getElementById('searchQ').value='';render()}
 
-    function logout() {
-      document.getElementById('main').classList.add('hidden');
-      document.getElementById('lock-screen').classList.remove('hidden');
-      document.getElementById('pinInput').value = '';
-      document.getElementById('status').textContent = '';
-      document.getElementById('pinInput').focus();
-    }
+// EXPORT/IMPORT
+async function exportBackup(){
+  if(!SK)return;collectEdits();
+  try{
+    const blob=new Blob([JSON.stringify({vault:await encData(JSON.stringify(notes),SK),salt:localStorage.getItem(KS),verify:localStorage.getItem(KV),exported:new Date().toISOString()},null,2)],{type:'application/json'});
+    const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:`vault-backup-${Date.now()}.json`});
+    a.click();URL.revokeObjectURL(a.href);
+  }catch(e){toast('Export failed',true)}
+}
+async function doImport(){
+  const json=document.getElementById('importJson').value.trim(),pass=document.getElementById('importPass').value,st=document.getElementById('importSt');setSt(st,'');
+  try{
+    const data=JSON.parse(json);
+    if(!data.vault||!data.salt)return setSt(st,'Invalid backup.','error');
+    const key=await deriveKey(pass,data.salt);
+    if(!await chkVer(data.verify,key))return setSt(st,'Wrong passphrase for this backup.','error');
+    const imp=JSON.parse(await decData(data.vault,key));
+    const ids=new Set(notes.map(n=>n.id));let added=0;
+    imp.forEach(n=>{if(!ids.has(n.id)){notes.push(n);added++}});
+    await saveAll();render();closeOv('importOv');toast(`✓ Imported ${added} note${added!==1?'s':''}`);
+  }catch(e){setSt(st,'Error: '+e.message,'error')}
+}
 
-    // Enter key support for both setup and lock
-    document.getElementById('newPin2').addEventListener('keypress', e => { if (e.key === 'Enter') setPin(); });
-    document.getElementById('pinInput').addEventListener('keypress', e => { if (e.key === 'Enter') checkPin(); });
-  </script>
+// CHANGE PASS
+async function doChangePass(){
+  const oP=document.getElementById('cpOld').value,nP=document.getElementById('cpNew').value,nP2=document.getElementById('cpNew2').value,st=document.getElementById('cpSt');setSt(st,'');
+  if(nP.length<6)return setSt(st,'New passphrase must be at least 6 characters.','error');
+  if(nP!==nP2)return setSt(st,'Passphrases do not match.','error');
+  try{
+    const oKey=await deriveKey(oP,localStorage.getItem(KS));
+    if(!await chkVer(localStorage.getItem(KV),oKey))return setSt(st,'Current passphrase incorrect.','error');
+    collectEdits();
+    const nSalt=ab2hex(crypto.getRandomValues(new Uint8Array(SALT_LEN)).buffer);
+    const nKey=await deriveKey(nP,nSalt);
+    localStorage.setItem(KS,nSalt);localStorage.setItem(KV,await mkVer(nKey));localStorage.setItem(KN,await encData(JSON.stringify(notes),nKey));
+    SK=nKey;['cpOld','cpNew','cpNew2'].forEach(id=>document.getElementById(id).value='');
+    closeOv('cpOv');toast('✓ Passphrase changed & vault re-encrypted');
+  }catch(e){setSt(st,'Error: '+e.message,'error')}
+}
+
+// WIPE
+function doWipe(){
+  if(document.getElementById('wipeConf').value!=='DELETE')return alert('Type DELETE exactly.');
+  [KS,KV,KN,KL,LP,LN].forEach(k=>localStorage.removeItem(k));
+  closeOv('wipeOv');location.reload();
+}
+
+// STRENGTH
+function strength(inp,fill,lbl){
+  const v=document.getElementById(inp).value;let s=0;
+  if(v.length>=6)s++;if(v.length>=12)s++;
+  if(/[A-Z]/.test(v)&&/[a-z]/.test(v))s++;if(/\d/.test(v))s++;if(/[^a-zA-Z0-9]/.test(v))s++;
+  const L=[{p:0,c:'transparent',t:'—'},{p:20,c:'#c0392b',t:'Very weak'},{p:40,c:'#e67e22',t:'Weak'},{p:60,c:'#f59e0b',t:'Fair'},{p:80,c:'#27ae60',t:'Strong'},{p:100,c:'#1a9e6e',t:'Very strong'}][s];
+  const f=document.getElementById(fill),l=document.getElementById(lbl);
+  f.style.width=L.p+'%';f.style.background=L.c;l.textContent=L.t;l.style.color=L.c;
+}
+
+// HELPERS
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function escA(s){return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function setSt(el,msg,type){el.textContent=msg;el.className='status'+(type?' '+type:'')}
+function eye(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈'}
+function openOv(id){document.getElementById(id).classList.add('open')}
+function closeOv(id){document.getElementById(id).classList.remove('open')}
+document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)closeOv(el.id)}));
+let tT;function toast(msg,isErr){const t=document.getElementById('toast');t.textContent=msg;t.style.background=isErr?'#c0392b':'#1a1a24';t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2600)}
+</script>
 </body>
 </html>
